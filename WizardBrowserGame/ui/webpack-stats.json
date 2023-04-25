@@ -1,0 +1,31 @@
+{
+  "status": "done",
+  "assets": {
+    "favicon.ico": {
+      "name": "favicon.ico",
+      "path": "C:\\Users\\brahi\\Desktop\\browserGame\\WizardBrowserGame\\ui\\dist\\favicon.ico",
+      "publicPath": "http://192.168.1.148:8080/favicon.ico"
+    },
+    "index.html": {
+      "name": "index.html",
+      "path": "C:\\Users\\brahi\\Desktop\\browserGame\\WizardBrowserGame\\ui\\dist\\index.html",
+      "publicPath": "http://192.168.1.148:8080/index.html"
+    },
+    "js/main.js": {
+      "name": "js/main.js",
+      "path": "C:\\Users\\brahi\\Desktop\\browserGame\\WizardBrowserGame\\ui\\dist\\js\\main.js",
+      "publicPath": "http://192.168.1.148:8080/js/main.js"
+    },
+    "main.html": {
+      "name": "main.html",
+      "path": "C:\\Users\\brahi\\Desktop\\browserGame\\WizardBrowserGame\\ui\\dist\\main.html",
+      "publicPath": "http://192.168.1.148:8080/main.html"
+    }
+  },
+  "chunks": {
+    "main": [
+      "js/main.js"
+    ]
+  },
+  "publicPath": "http://192.168.1.148:8080/"
+}
