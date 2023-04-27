@@ -1,3 +1,58 @@
 from django.db import models
 
-# Create your models here.
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import MaxValueValidator, MinValueValidator
+
+class User(AbstractUser):
+    life = models.IntegerField(default=10)
+    mana = models.IntegerField(default=10)
+    level = models.IntegerField(default=1)
+    exp = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    def __str__(self):
+        return self.username
+
+class log(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    log_level = models.IntegerField()
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=1000)
+    route = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.title
+
+
+
+class Action(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=100)
+    cost = models.IntegerField()
+    # 1 Attack, 2 Defend, 3 Meditate
+    action_type = models.IntegerField(        
+        validators=[
+            MaxValueValidator(3),
+            MinValueValidator(1)
+        ]
+    )
+    points = models.IntegerField()
+    success_rate = models.IntegerField()
+    exp_given = models.IntegerField()
+    exp_extra = models.IntegerField(blank=True, null=True)
+    def __str__(self):
+        return self.name
+
+class EventHistoy(models.Model):
+    action = models.ForeignKey(Action, on_delete=models.CASCADE)
+    user_transmitter = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_receiver = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    succeed = models.BooleanField()
+    def __str__(self):
+        return "{} {} to {}".format(self.user_transmitter, self.action.name, self.user_receiver)
+    
+class game_option():
+    game_datetime_start = models.DateTimeField()
+    game_datetime_end = models.DateTimeField()
+    datetime_last_turn_executed = models.DateTimeField()
+    time_between_turns = models.DateTimeField()

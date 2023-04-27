@@ -155,3 +155,5 @@ WEBPACK_LOADER = {
         'LOADER_CLASS': 'webpack_loader.loader.WebpackLoader',
     }
 }
+
+AUTH_USER_MODEL = 'game.User'
