@@ -1,0 +1,33 @@
+{
+  "status": "compile",
+  "assets": {
+    "favicon.ico": {
+      "name": "favicon.ico",
+      "path": "/home/oscar/Documents/GitHub/browserGame/WizardBrowserGame/ui/dist/favicon.ico",
+      "publicPath": "http://localhost:8080/favicon.ico"
+    },
+    "index.html": {
+      "name": "index.html",
+      "path": "/home/oscar/Documents/GitHub/browserGame/WizardBrowserGame/ui/dist/index.html",
+      "publicPath": "http://localhost:8080/index.html"
+    },
+    "js/main.js": {
+      "name": "js/main.js",
+      "path": "/home/oscar/Documents/GitHub/browserGame/WizardBrowserGame/ui/dist/js/main.js",
+      "publicPath": "http://localhost:8080/js/main.js"
+    },
+    "main.html": {
+      "name": "main.html",
+      "path": "/home/oscar/Documents/GitHub/browserGame/WizardBrowserGame/ui/dist/main.html",
+      "publicPath": "http://localhost:8080/main.html"
+    }
+  },
+  "chunks": {
+    "main": [
+      "js/main.js"
+    ]
+  },
+  "publicPath": "http://localhost:8080/",
+  "error": "ModuleNotFoundError",
+  "message": "Module not found: Error: Can't resolve '/home/oscar/Documents/GitHub/browserGame/WizardBrowserGame/ui/src/main.js' in '/home/oscar/Documents/GitHub/browserGame/WizardBrowserGame/ui'"
+}
