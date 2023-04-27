@@ -1,5 +1,5 @@
 {
-  "status": "compile",
+  "status": "error",
   "assets": {
     "favicon.ico": {
       "name": "favicon.ico",
