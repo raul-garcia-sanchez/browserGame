@@ -1,5 +1,5 @@
 {
-  "status": "error",
+  "status": "done",
   "assets": {
     "favicon.ico": {
       "name": "favicon.ico",
@@ -16,6 +16,16 @@
       "path": "/home/oscar/Documents/GitHub/browserGame/WizardBrowserGame/ui/dist/js/main.js",
       "publicPath": "http://localhost:8080/js/main.js"
     },
+    "main.d37d21e12651a9d6.hot-update.js": {
+      "name": "main.d37d21e12651a9d6.hot-update.js",
+      "path": "/home/oscar/Documents/GitHub/browserGame/WizardBrowserGame/ui/dist/main.d37d21e12651a9d6.hot-update.js",
+      "publicPath": "http://localhost:8080/main.d37d21e12651a9d6.hot-update.js"
+    },
+    "main.d37d21e12651a9d6.hot-update.json": {
+      "name": "main.d37d21e12651a9d6.hot-update.json",
+      "path": "/home/oscar/Documents/GitHub/browserGame/WizardBrowserGame/ui/dist/main.d37d21e12651a9d6.hot-update.json",
+      "publicPath": "http://localhost:8080/main.d37d21e12651a9d6.hot-update.json"
+    },
     "main.html": {
       "name": "main.html",
       "path": "/home/oscar/Documents/GitHub/browserGame/WizardBrowserGame/ui/dist/main.html",
@@ -24,7 +34,8 @@
   },
   "chunks": {
     "main": [
-      "js/main.js"
+      "js/main.js",
+      "main.d37d21e12651a9d6.hot-update.js"
     ]
   },
   "publicPath": "http://localhost:8080/",
