@@ -5,6 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from .models import *
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 # Decorator para refrescar el mana de los usuarios
 #( poner: @RefreshResources encima de las vistas en las que se puedan recargar )
@@ -21,6 +22,7 @@ def login(request):
 def logout(request):
     return render(request,"registration/logout.html")
 
+#@login_required
 def changePassword(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -28,7 +30,7 @@ def changePassword(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
+            #return redirect('change_password')
         else:
             messages.error(request, 'Please correct the error below.')
     else:
@@ -39,7 +41,6 @@ def changePassword(request):
 
 def cron(request):
     context = {}
-
     return render(request, 'index/cron.html', context)
 
 def play_action(request):
