@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registre | WizardGame</title>
+</head>
+<body>
+    {% block content %}            
+        <form class="form-signup" action="/accounts/sign_up/" method="post">{% csrf_token %}
+            <h2>Crea tu cuenta</h2>
+            <div class="fieldWrapper">    
+                {{ form.email.errors }}            
+                <label>E-mail</label><br>
+                {{ form.email }}
+            </div>    
+            <br>
+            <div class="fieldWrapper">
+            {{form.errors.values.0}}                
+                <label>Nombre de Usuario</label><br>
+                {{ form.username }}
+            </div>
+            <br>
+            <div class="fieldWrapper">        
+                {{form.errors.values.1}}            
+                <label>Contraseña</label><br>                    
+                {{ form.password1 }}
+            </div>
+            <br>
+            <div class="fieldWrapper">           
+                <label>Contraseña de nuevo</label><br>
+                {{ form.password2 }}
+            </div>            
+            <br></br>
+            <input type="submit" name="submit" class="btn btn-primary" value="Crear cuenta">
+        </form>
+    {% endblock %}
+</body>
+</html>
