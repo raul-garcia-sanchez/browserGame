@@ -2,18 +2,19 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils import timezone
+
 
 class User(AbstractUser):
     life = models.IntegerField(default=10)
     mana = models.IntegerField(default=10)
     level = models.IntegerField(default=1)
     exp = models.IntegerField(default=0)
-    is_active = models.BooleanField(default=True)
-    last_update = models.DateTimeField(auto_now_add=True)
+    last_update = models.DateTimeField(default=timezone.now, blank=True)
     def __str__(self):
         return self.username
 
-class log(models.Model):
+class Log(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     log_level = models.IntegerField()
     title = models.CharField(max_length=100)
@@ -52,8 +53,6 @@ class EventHistoy(models.Model):
     def __str__(self):
         return "{} {} to {}".format(self.user_transmitter, self.action.name, self.user_receiver)
     
-class game_option():
+class GameOption(models.Model):
     game_datetime_start = models.DateTimeField()
     game_datetime_end = models.DateTimeField()
-    datetime_last_turn_executed = models.DateTimeField()
-    time_between_turns = models.DateTimeField()
