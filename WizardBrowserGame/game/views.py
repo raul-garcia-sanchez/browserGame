@@ -36,7 +36,6 @@ def changePassword(request):
     return render(request, "registration/changePassword.html", {
         'form': form
     })
-    return render(request, 'index/index.html', context)
 
 def cron(request):
     context = {}
@@ -45,7 +44,6 @@ def cron(request):
 
 def play_action(request):
     context = {}
-
     return render(request, 'index/play_action.html', context)
 
 def messages(request):
