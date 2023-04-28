@@ -9,6 +9,7 @@ class User(AbstractUser):
     level = models.IntegerField(default=1)
     exp = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
+    last_update = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.username
 
