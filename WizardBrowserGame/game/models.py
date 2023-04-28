@@ -44,8 +44,8 @@ class Action(models.Model):
 
 class EventHistoy(models.Model):
     action = models.ForeignKey(Action, on_delete=models.CASCADE)
-    user_transmitter = models.ForeignKey(User, on_delete=models.CASCADE)
-    user_receiver = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_transmitter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='transmitter')
+    user_receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
     date = models.DateTimeField(auto_now_add=True)
     succeed = models.BooleanField()
     def __str__(self):
