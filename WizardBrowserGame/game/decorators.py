@@ -27,12 +27,13 @@ def RefreshResources(refresh):
         if start_date <= current_date <= end_date:
             usuarios = User.objects.all()
             for usuario in usuarios:
-                turnsToRefresh = getTurnsToRefresh(usuario)
-                
-                if turnsToRefresh > 0:
-                    usuario.mana = usuario.mana + (usuario.level * turnsToRefresh)
-                    usuario.last_update = timezone.now()
-                    usuario.save()
+                if usuario.level > 0:
+                    turnsToRefresh = getTurnsToRefresh(usuario)
+                    
+                    if turnsToRefresh > 0:
+                        usuario.mana = usuario.mana + (usuario.level * turnsToRefresh)
+                        usuario.last_update = timezone.now()
+                        usuario.save()
 
         return refresh(request, usuario, *args, **kwargs)
 
