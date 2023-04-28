@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
-from django.contrib import admin
-from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from game.views import *
 
@@ -27,5 +27,11 @@ urlpatterns = [
     
     path('', include('game.urls')),
 
+    path("accounts/logout/", logout, name="logout"),
+    path("accounts/password_change/", changePassword, name="changePassword"),
+
     path("accounts/", include("django.contrib.auth.urls")),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

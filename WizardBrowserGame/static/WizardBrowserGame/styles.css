@@ -1,0 +1,78 @@
+/*COLOR VARIABLES*/
+
+:root {
+    --purple: #800f85;
+    --grey: #595959;
+    --garnet: #6B0F1A;
+    --strongGarnet: #31081F;
+    --lightGrey: #DCE0D9;
+}
+
+/* BACKGROUND CLASES*/
+
+.backgroundPurple {
+    background-color: var(--purple);
+}
+
+.backgroundGrey {
+    background-color: var(--grey);
+}
+
+.backgroundGarnet {
+    background-color: var(--garnet);
+}
+
+.backgroundStrongGarnet {
+    background-color: var(--strongGarnet) !important;
+}
+
+.backgroundLightGrey {
+    background-color: var(--lightGrey);
+}
+
+/* COLOR VARIABLES*/
+
+.colorPurple {
+    color: var(--purple);
+}
+
+.colorGrey {
+    color: var(--grey);
+}
+
+.colorGarnet {
+    color: var(--garnet);
+}
+
+.colorStrongGarnet {
+    color: var(--strongGarnet);
+}
+
+.colorLightGrey {
+    color: var(--lightGrey);
+}
+
+/* CHANGE PASSWORD*/
+
+.changePassword {
+    display: block;
+    color: #4B5563;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.changePassword input {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    color: #4a5568;
+    line-height: 1.25;
+    outline: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

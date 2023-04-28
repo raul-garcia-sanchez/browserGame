@@ -1,50 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}">
+    <title>Login | WizardGame</title>
 
-<script src="https://cdn.tailwindcss.com"></script>
-<h1 class="flex justify-center items-center p-8">Hola</h1>
-<div class="flex justify-center items-center h-screen">
-  <form class="w-full max-w-lg shadow-md rounded px-8 pt-6 pb-6  h-auto" method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    {% if form.errors %}
-      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
-        <p class="font-bold">Error:</p>
-        <ul>
-            <li>Your username and password didn't match. Please try again.</li>
-        </ul>
-      </div>
-    {% endif %}
-    {% if next %}
-      {% if user.is_authenticated %}
-        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
-          <p>Please login with an account that has access.</p>
-        </div>
-      {% else %}
-        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
-          <p>Please login to see this page.</p>
-        </div>
-      {% endif %}
-    {% endif %}
-    <div class="bg-white px-8 pt-8 pb-8">
-      <div class="mb-4">
-        <label class="block text-gray-700 font-bold mb-2" for="{{ form.username.id_for_label }}">
-          {{ form.username.label }}
-        </label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="{{ form.username.id_for_label }}" type="{{ form.username.field.widget.input_type }}" name="{{ form.username.name }}">
-      </div>
-      <div class="mb-6">
-        <label class="block text-gray-700 font-bold mb-2" for="{{ form.password.id_for_label }}">
-          {{ form.password.label }}
-        </label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="{{ form.password.id_for_label }}" type="{{ form.password.field.widget.input_type }}" name="{{ form.password.name }}" value="">
-      </div>
-      <div class="flex items-center justify-between">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-          Login
-        </button>
-        <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="{% url 'password_reset' %}">
-          Forgot password?
-        </a>
-      </div>
+</head>
+
+<body class="backgroundGarnet">
+
+    <h1 class="flex justify-center items-center absolute top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">LOGIN
+    </h1>
+    <div class="flex justify-center items-center h-screen">
+        <form class="backgroundLightGrey w-full max-w-lg shadow-md rounded px-8 pt-6 pb-6  h-auto" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+                <p class="font-bold">Error:</p>
+                <ul>
+                    <li>Your username and password didn't match. Please try again.</li>
+                </ul>
+            </div>
+            {% endif %}
+            {% if next %}
+            {% if user.is_authenticated %}
+            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
+                <p>Please log in with an account that has access.</p>
+            </div>
+            {% else %}
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+                <p>Please log in to see this page.</p>
+            </div>
+            {% endif %}
+            {% endif %}
+            <div class="backgroundLightGrey px-8 pt-8 pb-8">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="{{ form.username.id_for_label }}">
+                        {{ form.username.label }}
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="{{ form.username.id_for_label }}" type="{{ form.username.field.widget.input_type }}"
+                        name="{{ form.username.name }}">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-bold mb-2" for="{{ form.password.id_for_label }}">
+                        {{ form.password.label }}
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="{{ form.password.id_for_label }}" type="{{ form.password.field.widget.input_type }}"
+                        name="{{ form.password.name }}" value="">
+                </div>
+                <div class="flex items-center justify-between">
+                    <button
+                        class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded"
+                        type="submit">
+                        Log in
+                    </button>
+                    <a class="colorStrongGarnet inline-block align-baseline font-bold text-sm"
+                        href="{% url 'password_reset' %}">
+                        Forgot password?
+                    </a>
+                </div>
+            </div>
+        </form>
     </div>
-  </form>
-</div>
+
+
+</body>
+
+</html>
