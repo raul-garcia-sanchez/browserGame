@@ -40,8 +40,9 @@ def changePasswordDone(request):
     return render(request, "registration/changePasswordDone.html")
 
 def dashboard(request):
-    print(request.user)
-    return render(request, "game/dashboard.html")
+    datesGame= GameOption.objects.get(pk=1)
+    
+    return render(request, "game/dashboard.html", {"datesGame": datesGame})
 
 
 def cron(request):
