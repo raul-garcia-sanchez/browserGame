@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 
 <head>
     <meta charset="UTF-8">
@@ -8,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}">
-    <title>Login | WizardGame</title>
+    <title>Iniciar sessió | WizardGame</title>
 
 </head>
 
 <body class="backgroundGarnet">
 
-    <h1 class="flex justify-center items-center absolute top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">LOGIN
+    <h1 class="flex justify-center items-center absolute top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">INICIAR SESSIÓ
     </h1>
     <div class="flex justify-center items-center h-screen">
         <form class="backgroundLightGrey w-full max-w-lg shadow-md rounded px-8 pt-6 pb-6  h-auto" method="post" action="{% url 'login' %}">
@@ -23,18 +23,18 @@
             <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
                 <p class="font-bold">Error:</p>
                 <ul>
-                    <li>Your username and password didn't match. Please try again.</li>
+                    <li>El vostre nom d'usuari i contrasenya no coincideixen. Siusplau torna-ho a provar.</li>
                 </ul>
             </div>
             {% endif %}
             {% if next %}
             {% if user.is_authenticated %}
             <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
-                <p>Please log in with an account that has access.</p>
+                <p>Inicieu sessió amb un compte que tingui accés.</p>
             </div>
             {% else %}
             <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
-                <p>Please log in to see this page.</p>
+                <p>Si us plau, inicieu sessió per veure aquesta pàgina.</p>
             </div>
             {% endif %}
             {% endif %}
@@ -61,11 +61,11 @@
                     <button
                         class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded"
                         type="submit">
-                        Log in
+                        Iniciar sessió
                     </button>
                     <a class="colorStrongGarnet inline-block align-baseline font-bold text-sm"
                         href="{% url 'password_reset' %}">
-                        Forgot password?
+                        Has oblidat la teva contrasenya?
                     </a>
                 </div>
             </div>
