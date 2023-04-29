@@ -14,7 +14,7 @@ from game.decorators import RefreshResources
 # Create your views here.
 def index(request, *args, **kwargs):
     context = {}
-    return render(request, 'index/index.html', context)
+    return render(request, 'game/index.html', context)
 
 def login(request):
     return render(request,"registration/login.html")
@@ -39,24 +39,27 @@ def changePassword(request):
 def changePasswordDone(request):
     return render(request, "registration/changePasswordDone.html")
 
+def dashboard(request):
+    print(request.user)
+    return render(request, "game/dashboard.html")
+
 
 def cron(request):
     context = {}
-    return render(request, 'index/cron.html', context)
+    return render(request, 'game/cron.html', context)
 
 def play_action(request):
     context = {}
-    return render(request, 'index/play_action.html', context)
+    return render(request, 'game/play_action.html', context)
 
 def messages(request):
     context = {}
 
-    return render(request, 'index/messages.html', context)
+    return render(request, 'game/messages.html', context)
 
 def ranking(request):
     context = {}
-
-    return render(request, 'index/ranking.html', context)
+    return render(request, 'game/ranking.html', context)
 
 
 # Funcion logs

@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}">
+    <title>Dashboard | WizardGame</title>
+</head>
+
+<body class="backgroundGarnet">
+
+    {% if user.username %}
+    <h1 class="flex justify-center items-center absolute top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
+        INFORMACIÓ SOBRE EL MEU MAG
+    </h1>
+    <div class="flex justify-center items-center h-screen max-w-5xl m-auto">
+        <div class="backgroundLightGrey px-8 pt-8 pb-8">
+
+            <div class="mb-6">
+                <p class="p-2">Ens alegrem de veure't {{user}}!</p>
+                <p class="p-2"> En aquest apartat podràs veure les estadístiques sobre el teu mag i tota la informació
+                    sobre les últimes accions relacionades amb el teu mag.
+                </p>
+            </div>
+
+            <div class="flex items-center justify-center">
+                <table class=" border-2 w-3/6 border-black">
+                    <tr>
+                        <td class="border-2 border-black px-4 py-2">Nivell</td>
+                        <td class="border-2 border-black px-4 py-2">1</td>
+                    </tr>
+                    <tr>
+                        <td class="border-2 border-black px-4 py-2">Vida</td>
+                        <td class="border-2 border-black px-4 py-2">2</td>
+                    </tr>
+                    <tr>
+                        <td class="border-2 border-black px-4 py-2">Mana</td>
+                        <td class="border-2 border-black px-4 py-2">Test</td>
+                    </tr>
+                    <tr>
+                        <td class="border-2 border-black px-4 py-2">Experiencia</td>
+                        <td class="border-2 border-black px-4 py-2">Test</td>
+                    </tr>
+                    <tr>
+                        <td class="border-2 border-black px-4 py-2">Posició ranking</td>
+                        <td class="border-2 border-black px-4 py-2">Test</td>
+                    </tr>
+                </table>
+            </div>
+
+            <button id="buttonCollapsable" type="button" class="collapsible mt-4 font-bold">Veure últimes
+                accions</button>
+            <div class="content mt-2">
+                <p>AQUI ULTIMAS ACCIONES BDD</p>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <h1 class="flex justify-center items-center absolute top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
+        INFORMACIÓ SOBRE EL JOC
+    </h1>
+    <div class="flex justify-center items-center h-screen max-w-5xl m-auto">
+        <div class="backgroundLightGrey px-8 pt-8 pb-8">
+
+            <div class="mb-6">
+                <p class="p-2">El joc de mags és un joc en línia en què els jugadors controlen un mag en una sorra de
+                    batalla. Els jugadors poden atacar i defensar-se d'altres mags a la sorra, i també tenen la
+                    capacitat de regenerar el seu poder màgic o “mana” cada cert temps.</p>
+                <p class="p-2"> L'objectiu principal del joc és vèncer altres mags a la sorra de batalla per guanyar
+                    punts i avançar en la classificació. Els jugadors poden millorar les seves habilitats màgiques a
+                    mesura que avancen en el joc, cosa que els permet llançar encanteris més poderosos i resistir atacs
+                    enemics.
+
+                </p>
+            </div>
+
+            <div class="flex items-center justify-center">
+                <table class=" border-2 w-3/6 border-black">
+                    <tr>
+                        <td class="border-2 border-black px-4 py-2">Data d'inici</td>
+                        <td class="border-2 border-black px-4 py-2">1</td>
+                    </tr>
+                    <tr>
+                        <td class="border-2 border-black px-4 py-2">Data final</td>
+                        <td class="border-2 border-black px-4 py-2">2</td>
+                    </tr>
+                    <tr>
+                        <td class="border-2 border-black px-4 py-2">Següent torn</td>
+                        <td class="border-2 border-black px-4 py-2">Test</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="flex items-center justify-center pt-10">
+
+                <a class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded" href="{% url 'login' %}">
+                    Incia sessió per començar a jugar
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+
+
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var buttonCollapasable = document.getElementById("buttonCollapsable")
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                    buttonCollapasable.innerHTML = "Veure últimes accions"
+                } else {
+                    content.style.display = "block";
+                    buttonCollapasable.innerHTML = "Ocultar últimes accions"
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

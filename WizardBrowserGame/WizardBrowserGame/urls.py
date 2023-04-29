@@ -30,6 +30,7 @@ urlpatterns = [
     path("accounts/logout/", logout, name="logout"),
     path("accounts/password_change/", changePassword, name="changePassword"),
     path("accounts/password_change/done/", changePasswordDone, name="changePasswordDone"),
+    path("accounts/profile/", dashboard, name="dashboard"),
 
     path("accounts/", include("django.contrib.auth.urls")),
 ]
