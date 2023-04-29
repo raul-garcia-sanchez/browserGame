@@ -22,20 +22,23 @@ def login(request):
 def logout(request):
     return render(request,"registration/logout.html")
 
-#@login_required
+@login_required
 def changePassword(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            return redirect('change_password')
-        #canviar mensajes de error
+            update_session_auth_hash(request, user) 
+            return redirect('/accounts/password_change/done')
     else:
         form = PasswordChangeForm(request.user)
     return render(request, "registration/changePassword.html", {
         'form': form
     })
+
+def changePasswordDone(request):
+    return render(request, "registration/changePasswordDone.html")
+
 
 def cron(request):
     context = {}
