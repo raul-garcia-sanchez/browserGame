@@ -43,7 +43,7 @@ class Action(models.Model):
     def __str__(self):
         return self.name
 
-class EventHistoy(models.Model):
+class EventHistory(models.Model):
     action = models.ForeignKey(Action, on_delete=models.CASCADE)
     user_transmitter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='transmitter')
     user_receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')

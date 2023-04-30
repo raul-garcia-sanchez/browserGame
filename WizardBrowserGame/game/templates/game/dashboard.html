@@ -21,7 +21,7 @@
         <div class="backgroundLightGrey px-8 pt-8 pb-8">
 
             <div class="mb-6">
-                <p class="p-2">Ens alegrem de veure't {{user}}!</p>
+                <p class="p-2">Ens alegrem de veure't <b>{{user}}</b>!</p>
                 <p class="p-2"> En aquest apartat podràs veure les estadístiques sobre el teu mag i tota la informació
                     sobre les últimes accions relacionades amb el teu mag.
                 </p>
@@ -31,23 +31,23 @@
                 <table class=" border-2 w-3/6 border-black">
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Nivell</td>
-                        <td class="border-2 border-black px-4 py-2">1</td>
+                        <td class="border-2 border-black px-4 py-2">{{user.level}}</td>
                     </tr>
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Vida</td>
-                        <td class="border-2 border-black px-4 py-2">2</td>
+                        <td class="border-2 border-black px-4 py-2">{{user.life}}</td>
                     </tr>
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Mana</td>
-                        <td class="border-2 border-black px-4 py-2">Test</td>
+                        <td class="border-2 border-black px-4 py-2">{{user.mana}}</td>
                     </tr>
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Experiencia</td>
-                        <td class="border-2 border-black px-4 py-2">Test</td>
+                        <td class="border-2 border-black px-4 py-2">{{user.exp}}</td>
                     </tr>
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Posició ranking</td>
-                        <td class="border-2 border-black px-4 py-2">Test</td>
+                        <td class="border-2 border-black px-4 py-2">{{position}}</td>
                     </tr>
                 </table>
             </div>
@@ -55,7 +55,13 @@
             <button id="buttonCollapsable" type="button" class="collapsible mt-4 font-bold">Veure últimes
                 accions</button>
             <div class="content mt-2">
-                <p>AQUI ULTIMAS ACCIONES BDD</p>
+                {% for action in actions %}
+                {%if action.user_transmitter.username == user.username %}
+                    <p>Has executat l'acció de {{action.action}} contra el jugador <b>{{action.user_receiver}}</b> el dia {{action.date}}</p>
+                {% else %}
+                    <p>Has rebut l'acció de {{action.action}} del jugador <b>{{action.user_transmitter}}</b> el dia {{action.date}}</p>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>

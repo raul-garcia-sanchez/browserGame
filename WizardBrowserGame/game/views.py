@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 
 # Decorator para refrescar el mana de los usuarios
 #( poner: @RefreshResources encima de las vistas en las que se puedan recargar )
@@ -36,14 +37,32 @@ def changePassword(request):
         'form': form
     })
 
+@login_required
 def changePasswordDone(request):
     return render(request, "registration/changePasswordDone.html")
 
 def dashboard(request):
     datesGame= GameOption.objects.get(pk=1)
-    
-    return render(request, "game/dashboard.html", {"datesGame": datesGame})
+    if(request.user.username):
+        position = getPositionRankingUser(request.user)
+        actions = actionsUser(request.user)
+        return render(request, "game/dashboard.html", {"position": position, "actions": actions})
+    else:
+        return render(request, "game/dashboard.html", {"datesGame": datesGame})
 
+#RANKING USERS ORDER BY EXP
+def getPositionRankingUser(user):
+    ordered_users = User.objects.order_by('-exp')
+    position = list(ordered_users).index(user) + 1
+    return position
+
+def actionsUser(user):
+    actions_transmitted = EventHistory.objects.filter(user_transmitter=user, succeed=True)
+    actions_received = EventHistory.objects.filter(user_receiver=user, succeed=True)
+    history = list(actions_transmitted) + list(actions_received)
+    ordered_history = sorted(history, key=lambda evento: evento.date)
+    return ordered_history
+    
 
 def cron(request):
     context = {}
@@ -61,7 +80,6 @@ def messages(request):
 def ranking(request):
     context = {}
     return render(request, 'game/ranking.html', context)
-
 
 # Funcion logs
 # Level 1:INFO, 2:SUCCESS , 3:WARNING, 4:ERROR

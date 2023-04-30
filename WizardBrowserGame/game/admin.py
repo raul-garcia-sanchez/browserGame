@@ -4,3 +4,5 @@ from .models import *
 
 admin.site.register(User, UserAdmin)
 admin.site.register(GameOption)
+admin.site.register(EventHistory)
+admin.site.register(Action)
