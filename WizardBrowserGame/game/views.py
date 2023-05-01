@@ -1,7 +1,8 @@
+from django import forms
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm,PasswordResetForm
 from django.shortcuts import render, redirect
 from .models import *
 from django.utils import timezone
@@ -36,6 +37,72 @@ def changePassword(request):
     return render(request, "registration/changePassword.html", {
         'form': form
     })
+
+def passwordReset(request):
+    if request.method == "POST":
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            user_email = request.POST["email"]
+            user = User.objects.get("email", user_email)
+            print("Email:",user)
+            if not user:
+                return redirect("done/")
+            else:
+                #Funcion enviar email
+                return redirect("done/")
+
+            print("User:",request.POST["email"])
+            # form.save()
+    else:
+        form = PasswordResetForm()
+    return render(request,"registration/passwordReset.html",{'form':form})
+
+def passwordResetDone(request):
+    return render(request,"registration/passwordResetDone.html")
+
+def resetDone(request):
+    return render(request,"registration/resetDone.html")
+
+def register(request):
+    error_msg = ""
+    if request.method == "POST":
+        email = request.POST["email"]
+        username = request.POST["username"]
+        password = request.POST["password"]
+        confirm_password = request.POST["confirm_password"]
+
+        print("email:",email)
+        print("username:",username)
+        print("password:",password)
+        print("confirm_password:",confirm_password)
+
+        if password == confirm_password:
+            user_research_email = User.objects.filter(email=email)
+            if user_research_email:
+                error_msg = "Ja existeix un compte amb aquest email"
+            else:
+                user_research_username = User.objects.filter(username=username)
+
+                if user_research_username:
+                    error_msg = "Ja existeix un compte amb aquest nom d'usuari"
+                else:
+                    # new_user = User()
+                    # new_user.email = email
+                    # new_user.username = username
+                    # new_user.password = password
+                    # new_user.save()
+                    return redirect("done/")
+
+        else:
+            print("Passwords diferentes")
+            error_msg = "Les contrasenyes han de coincidir"
+
+    print("Error:",error_msg)
+    return render(request,"registration/register.html",{"error_msg":error_msg})
+
+
+def registerDone(request):
+    return render(request,"registration/registerDone.html")
 
 def cron(request):
     context = {}

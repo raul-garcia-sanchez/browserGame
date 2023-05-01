@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}">
+    <title>Restablir contrasenya Completat | WizardGame</title>
+</head>
+
+<body class="backgroundGarnet">
+    {% load i18n static %}
+
+    <h1 class="flex justify-center items-center absolute top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
+        RESTABLIR CONTRASENYA
+    </h1>
+    <div class="flex justify-center items-center h-screen">
+
+        <div class="backgroundLightGrey w-full max-w-lg shadow-md rounded px-8 pt-6 pb-6 h-auto">
+            <h5 class="text-center font-bold text-2xl">Restabliment de contrasenya completat</h5>
+            <br>
+            <p class="block text-gray-700 font-bold mb-2 text-center">
+                La vostra contrasenya ha sigut restablerta,<br>
+                podeu continuar i iniciar sessió.
+            </p>
+            <br>
+            <div class="flex items-center justify-center">
+                <a class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded" href="/accounts/login/">
+                    Tornar al login
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

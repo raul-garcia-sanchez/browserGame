@@ -30,6 +30,15 @@ urlpatterns = [
     path("accounts/logout/", logout, name="logout"),
     path("accounts/password_change/", changePassword, name="changePassword"),
 
+    path('accounts/password_reset/', passwordReset, name='password_reset'),
+    path('accounts/password_reset/done/', passwordResetDone, name='password_reset_done'),
+    # path('reset/<uidb64>/<token>/', passwordResetDone, name='reset'),
+    path('accounts/reset/done/', resetDone, name='reset_done'),
+
+    path('accounts/register/', register, name='register'),
+    path('accounts/register/done/', registerDone, name='register_done'),
+
+
     path("accounts/", include("django.contrib.auth.urls")),
 ]
 
