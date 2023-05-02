@@ -33,6 +33,19 @@ urlpatterns = [
     path("accounts/password_change/done/", changePasswordDone, name="changePasswordDone"),
     path("accounts/profile/", goHome, name="goHome"),
 
+    path('accounts/password_reset/', passwordReset, name='password_reset'),
+    path('accounts/password_reset/done/', passwordResetDone, name='password_reset_done'),
+
+    path('accounts/reset/<uidb64>/set-password/', resetCheck, name='reset'),
+    path('accounts/reset/done/', resetDone, name='reset_done'),
+    path('accounts/reset/<uidb64>/<token>/', resetNotValid, name='reset'),
+
+
+    path('accounts/register/', register, name='register'),
+    path('accounts/register/<uidb64>/<token>/', checkRegister, name='register_check'),
+    path('accounts/register/done/', registerDone, name='register_done'),
+
+
     path("accounts/", include("django.contrib.auth.urls")),
 ]
 
