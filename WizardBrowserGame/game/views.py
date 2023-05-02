@@ -43,15 +43,15 @@ def passwordReset(request):
         form = PasswordResetForm(request.POST)
         if form.is_valid():
             user_email = request.POST["email"]
-            user = User.objects.get("email", user_email)
-            print("Email:",user)
+            user = User.objects.get(email=user_email)
+
             if not user:
                 return redirect("done/")
             else:
-                #Funcion enviar email
+                #Funcion enviar emailget
                 return redirect("done/")
 
-            print("User:",request.POST["email"])
+            # print("User:",request.POST["email"])
             # form.save()
     else:
         form = PasswordResetForm()
@@ -71,11 +71,6 @@ def register(request):
         password = request.POST["password"]
         confirm_password = request.POST["confirm_password"]
 
-        print("email:",email)
-        print("username:",username)
-        print("password:",password)
-        print("confirm_password:",confirm_password)
-
         if password == confirm_password:
             user_research_email = User.objects.filter(email=email)
             if user_research_email:
@@ -86,6 +81,8 @@ def register(request):
                 if user_research_username:
                     error_msg = "Ja existeix un compte amb aquest nom d'usuari"
                 else:
+                    #ENVIAR CORREO DE VERIFICACION
+
                     # new_user = User()
                     # new_user.email = email
                     # new_user.username = username
