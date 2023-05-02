@@ -1,13 +1,11 @@
 from django.shortcuts import render
-from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from .models import *
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
-
+from datetime import datetime
 # Decorator para refrescar el mana de los usuarios
 #( poner: @RefreshResources encima de las vistas en las que se puedan recargar )
 from game.decorators import RefreshResources 
@@ -43,12 +41,22 @@ def changePasswordDone(request):
 
 def dashboard(request):
     datesGame= GameOption.objects.get(pk=1)
+    dateEndChangeFormat = datetime.fromisoformat(datesGame.game_datetime_end[:-6])
+    dateEnd = dateEndChangeFormat.timestamp()
+    dateStartChangeFormat = datetime.fromisoformat(datesGame.game_datetime_start[:-6])
+    dateStart = dateStartChangeFormat.timestamp()
+    dateNowTime = datetime.datetime.now().timestamp()
+    dateNow = datetime.datetime.now()
+    print("dateNow -> ", dateNow)
+    print("dateEnd -> ", datesGame.game_datetime_end)
+    print("dateEnd mas pequeño que ahora -> ",dateEnd <= dateNowTime)
+    minutesToTurn = 60 - dateNow.minute
     if(request.user.username):
         position = getPositionRankingUser(request.user)
         actions = actionsUser(request.user)
         return render(request, "game/dashboard.html", {"position": position, "actions": actions})
     else:
-        return render(request, "game/dashboard.html", {"datesGame": datesGame})
+        return render(request, "game/dashboard.html", {"datesGame": datesGame, "minutesToTurn": minutesToTurn, "dateNow": dateNow, "dateEnd": dateEnd, "dateStart": dateStart, "dateNowTime": dateNowTime})
 
 #RANKING USERS ORDER BY EXP
 def getPositionRankingUser(user):

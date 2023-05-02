@@ -14,9 +14,12 @@
 
 <body class="backgroundGarnet">
 
-    <h1 class="flex justify-center items-center absolute top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">INICIAR SESSIÓ
-    </h1>
-    <div class="flex justify-center items-center h-screen">
+    <div class="my-12">
+        <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
+            INICIAR SESSIÓ
+        </h1>
+    </div>
+    <div class="flex justify-center items-center">
         <form class="backgroundLightGrey w-full max-w-lg shadow-md rounded px-8 pt-6 pb-6  h-auto" method="post" action="{% url 'login' %}">
             {% csrf_token %}
             {% if form.errors %}
