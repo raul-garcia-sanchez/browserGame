@@ -8,40 +8,28 @@ from .models import *
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.core.exceptions import PermissionDenied,BadRequest
+from django.contrib.auth.hashers import make_password
+
 
 # Decorator para refrescar el mana de los usuarios
 #( poner: @RefreshResources encima de las vistas en las que se puedan recargar )
 from game.decorators import RefreshResources 
+
+#Email imports
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
-# EXAMPLE OF EMAIL
-# email = EmailMessage(
-#     'Asunto del correo electrónico', # Asunto
-#     'Este es el cuerpo del correo electrónico.', # Cuerpo del correo electrónico
-#     settings.EMAIL_HOST_USER, # E-mail del usuario
-#     ['brahianmonsalve412@gmail.com'], # Lista de direcciones de correo electrónico de los destinatarios
-# )
-# email.send() #PARA ENVIAR EMAIL
+
+#Token imports
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
+from django.urls import reverse
+from django.utils.encoding import force_bytes
+
 
 def index(request, *args, **kwargs):
-    context = {}
-    print("********************************************************")
-    user  = User.objects.get(pk=1)
-    template = get_template('mails/register.html')
-    context = {'user':user, 'urlToGo':'localhost:8000/register/done'}
-    content = template.render(context)
-
-    email = EmailMultiAlternatives(
-        'Correo test',
-        'Test de registro',
-        settings.EMAIL_HOST_USER,
-        ['brahianmonsalve412@gmail.com']
-    )
-    email.attach_alternative(content, 'text/html')
-    email.send()
-
-    return render(request, 'index/index.html', context)
+    return render(request, 'index/index.html')
 
 def login(request):
     return render(request,"registration/login.html")
@@ -74,11 +62,27 @@ def passwordReset(request):
             if not user:
                 return redirect("done/")
             else:
-                #Funcion enviar emailget
-                return redirect("done/")
+                #Funcion enviar email
+                context = {}
 
-            # print("User:",request.POST["email"])
-            # form.save()
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                token = default_token_generator.make_token(user)
+
+                confirmation_url = "http://localhost:8000/accounts/reset/" + uidb64 + "/" + token + "/"
+                context = {'user':user, 'urlToGo':confirmation_url}
+
+                template = get_template('mails/reset.html')
+                content = template.render(context)
+
+                email = EmailMultiAlternatives(
+                    'Correu de confirmació de registre',
+                    "Confirmació de l'usuari: "+user.username,
+                    settings.EMAIL_HOST_USER,
+                    [user.email]
+                )
+                email.attach_alternative(content, 'text/html')
+                email.send()
+                return redirect("done/")
     else:
         form = PasswordResetForm()
     return render(request,"registration/passwordReset.html",{'form':form})
@@ -86,8 +90,44 @@ def passwordReset(request):
 def passwordResetDone(request):
     return render(request,"registration/passwordResetDone.html")
 
+def resetCheck(request,uidb64):
+    error_msg = ""
+    try:
+        uid = urlsafe_base64_decode(uidb64)
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    
+    if user is not None:
+        if request.method == "POST":
+            password = request.POST["password"]
+            confirm_password = request.POST["confirm_password"]
+            if (password and confirm_password and password == confirm_password):
+                user.password = make_password(password)
+                user.save()
+                return render(request, 'registration/resetDone.html')
+
+            else:
+                error_msg = "Les contrasenyes han de coincidir"
+
+        return render(request, 'registration/reset.html',{"error_msg":error_msg})
+
+    raise BadRequest("Paràmetres no vàlids")
+
 def resetDone(request):
     return render(request,"registration/resetDone.html")
+
+def resetNotValid(request,uidb64,token):
+    try:
+        uid = urlsafe_base64_decode(uidb64)
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        return redirect("/accounts/reset/"+uidb64+"/set-password/")
+
+    return render(request,"registration/resetNotValid.html")
 
 def register(request):
     error_msg = ""
@@ -107,22 +147,53 @@ def register(request):
                 if user_research_username:
                     error_msg = "Ja existeix un compte amb aquest nom d'usuari"
                 else:
-                    #ENVIAR CORREO DE VERIFICACION
+                    #Creacio de correu amb user not activated
+                    new_user = User()
+                    new_user.email = email
+                    new_user.username = username
+                    new_user.password = make_password(password)
+                    new_user.save()
 
-                    # new_user = User()
-                    # new_user.email = email
-                    # new_user.username = username
-                    # new_user.password = password
-                    # new_user.save()
+                    #ENVIAR CORREO DE VERIFICACION
+                    context = {}
+
+                    uidb64 = urlsafe_base64_encode(force_bytes(new_user.pk))
+                    token = default_token_generator.make_token(new_user)
+
+                    confirmation_url = "http://localhost:8000/accounts/register/" + uidb64 + "/" + token + "/"
+                    context = {'user':new_user, 'urlToGo':confirmation_url}
+
+                    template = get_template('mails/register.html')
+                    content = template.render(context)
+
+                    email = EmailMultiAlternatives(
+                        'Correu de confirmació de registre',
+                        "Confirmació de l'usuari: "+new_user.username,
+                        settings.EMAIL_HOST_USER,
+                        ['brahianmonsalve412@gmail.com']
+                    )
+                    email.attach_alternative(content, 'text/html')
+                    email.send()
                     return redirect("done/")
 
         else:
-            print("Passwords diferentes")
             error_msg = "Les contrasenyes han de coincidir"
 
-    print("Error:",error_msg)
     return render(request,"registration/register.html",{"error_msg":error_msg})
 
+def checkRegister(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64)
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.activated = True
+        user.save()
+        return render(request, 'registration/registerDone.html')
+
+    raise BadRequest("Paràmetres no vàlids")
 
 def registerDone(request):
     return render(request,"registration/registerDone.html")
