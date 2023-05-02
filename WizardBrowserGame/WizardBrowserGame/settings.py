@@ -32,7 +32,7 @@ DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = list(env.list('ALLOWED_HOSTS'))
 
-LOGOUT_REDIRECT_URL = ""
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -111,9 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ca'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
@@ -172,3 +172,4 @@ EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
 
+LOGOUT_REDIRECT_URL = "/"
