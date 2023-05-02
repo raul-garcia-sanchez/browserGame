@@ -1,14 +1,39 @@
 from django.shortcuts import render
 from .models import *
 from django.utils import timezone
+from django.conf import settings
 
 # Decorator para refrescar el mana de los usuarios
 #( poner: @RefreshResources encima de las vistas en las que se puedan recargar )
 from game.decorators import RefreshResources 
+from django.core.mail import EmailMessage
+from django.template.loader import get_template
+from django.core.mail import EmailMultiAlternatives
+# EXAMPLE OF EMAIL
+# email = EmailMessage(
+#     'Asunto del correo electrónico', # Asunto
+#     'Este es el cuerpo del correo electrónico.', # Cuerpo del correo electrónico
+#     settings.EMAIL_HOST_USER, # E-mail del usuario
+#     ['brahianmonsalve412@gmail.com'], # Lista de direcciones de correo electrónico de los destinatarios
+# )
+# email.send() #PARA ENVIAR EMAIL
 
-# Create your views here.
 def index(request, *args, **kwargs):
     context = {}
+    print("********************************************************")
+    user  = User.objects.get(pk=1)
+    template = get_template('mails/register.html')
+    context = {'user':user, 'urlToGo':'localhost:8000/register/done'}
+    content = template.render(context)
+
+    email = EmailMultiAlternatives(
+        'Correo test',
+        'Test de registro',
+        settings.EMAIL_HOST_USER,
+        ['brahianmonsalve412@gmail.com']
+    )
+    email.attach_alternative(content, 'text/html')
+    email.send()
 
     return render(request, 'index/index.html', context)
 
