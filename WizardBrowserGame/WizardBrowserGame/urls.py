@@ -23,14 +23,15 @@ from django.conf.urls.static import static
 from game.views import *
 
 urlpatterns = [
+ 
     path('admin/', admin.site.urls),
-    
+
     path('', include('game.urls')),
 
     path("accounts/logout/", logout, name="logout"),
     path("accounts/password_change/", changePassword, name="changePassword"),
     path("accounts/password_change/done/", changePasswordDone, name="changePasswordDone"),
-    path("accounts/profile/", dashboard, name="dashboard"),
+    path("accounts/profile/", goHome, name="goHome"),
 
     path("accounts/", include("django.contrib.auth.urls")),
 ]

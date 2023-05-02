@@ -32,7 +32,7 @@ DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = list(env.list('ALLOWED_HOSTS'))
 
-LOGOUT_REDIRECT_URL = ""
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -161,3 +161,5 @@ WEBPACK_LOADER = {
 }
 
 AUTH_USER_MODEL = 'game.User'
+
+LOGOUT_REDIRECT_URL = "/"

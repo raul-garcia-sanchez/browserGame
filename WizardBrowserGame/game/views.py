@@ -10,13 +10,14 @@ from datetime import datetime
 #( poner: @RefreshResources encima de las vistas en las que se puedan recargar )
 from game.decorators import RefreshResources 
 
-# Create your views here.
-def index(request, *args, **kwargs):
-    context = {}
-    return render(request, 'game/index.html', context)
+from django.shortcuts import redirect
+from django.shortcuts import redirect
+
+def goHome(request):
+    return redirect("/")
 
 def login(request):
-    return render(request,"registration/login.html")
+    return render(request, "registration/login.html")
 
 def logout(request):
     return render(request,"registration/logout.html")
@@ -39,24 +40,23 @@ def changePassword(request):
 def changePasswordDone(request):
     return render(request, "registration/changePasswordDone.html")
 
-def dashboard(request):
+def index(request):
     datesGame= GameOption.objects.get(pk=1)
-    dateEndChangeFormat = datetime.fromisoformat(datesGame.game_datetime_end[:-6])
-    dateEnd = dateEndChangeFormat.timestamp()
-    dateStartChangeFormat = datetime.fromisoformat(datesGame.game_datetime_start[:-6])
-    dateStart = dateStartChangeFormat.timestamp()
-    dateNowTime = datetime.datetime.now().timestamp()
-    dateNow = datetime.datetime.now()
+    dateEnd = timezone.localtime(datesGame.game_datetime_end).timestamp()
+    dateStart = timezone.localtime(datesGame.game_datetime_start).timestamp()
+    dateNowTime = datetime.now().timestamp()
+    dateNow =  datetime.now()
     print("dateNow -> ", dateNow)
-    print("dateEnd -> ", datesGame.game_datetime_end)
+    print("dateEnd -> ", dateEnd)
+    print("dateNowTIme",dateNowTime)
     print("dateEnd mas pequeño que ahora -> ",dateEnd <= dateNowTime)
     minutesToTurn = 60 - dateNow.minute
     if(request.user.username):
         position = getPositionRankingUser(request.user)
         actions = actionsUser(request.user)
-        return render(request, "game/dashboard.html", {"position": position, "actions": actions})
+        return render(request, "game/index.html", {"position": position, "actions": actions})
     else:
-        return render(request, "game/dashboard.html", {"datesGame": datesGame, "minutesToTurn": minutesToTurn, "dateNow": dateNow, "dateEnd": dateEnd, "dateStart": dateStart, "dateNowTime": dateNowTime})
+        return render(request, "game/index.html", {"datesGame": datesGame, "minutesToTurn": minutesToTurn, "dateNow": dateNow, "dateEnd": dateEnd, "dateStart": dateStart, "dateNowTime": dateNowTime})
 
 #RANKING USERS ORDER BY EXP
 def getPositionRankingUser(user):
@@ -71,7 +71,6 @@ def actionsUser(user):
     ordered_history = sorted(history, key=lambda evento: evento.date)
     return ordered_history
     
-
 def cron(request):
     context = {}
     return render(request, 'game/cron.html', context)
