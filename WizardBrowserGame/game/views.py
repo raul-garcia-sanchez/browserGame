@@ -30,10 +30,6 @@ from django.utils.encoding import force_bytes
 
 def index(request, *args, **kwargs):
     return render(request, 'index/index.html')
-from django.shortcuts import redirect
-
-def goHome(request):
-    return redirect("/")
 
 def login(request):
     return render(request, "registration/login.html")
@@ -78,7 +74,7 @@ def passwordReset(request):
                 content = template.render(context)
 
                 email = EmailMultiAlternatives(
-                    'Correu de confirmació de registre',
+                    'Correu de recuperació de contrasenya',
                     "Confirmació de l'usuari: "+user.username,
                     settings.EMAIL_HOST_USER,
                     [user.email]
@@ -173,7 +169,7 @@ def register(request):
                         'Correu de confirmació de registre',
                         "Confirmació de l'usuari: "+new_user.username,
                         settings.EMAIL_HOST_USER,
-                        ['brahianmonsalve412@gmail.com']
+                        [new_user.email]
                     )
                     email.attach_alternative(content, 'text/html')
                     email.send()
@@ -225,7 +221,7 @@ def index(request):
 
 #RANKING USERS ORDER BY EXP
 def getPositionRankingUser(user):
-    ordered_users = User.objects.order_by('-exp')
+    ordered_users = User.objects.order_by('-level','-exp')
     position = list(ordered_users).index(user) + 1
     return position
 

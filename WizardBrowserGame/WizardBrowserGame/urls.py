@@ -31,7 +31,6 @@ urlpatterns = [
     path("accounts/logout/", logout, name="logout"),
     path("accounts/password_change/", changePassword, name="changePassword"),
     path("accounts/password_change/done/", changePasswordDone, name="changePasswordDone"),
-    path("accounts/profile/", goHome, name="goHome"),
 
     path('accounts/password_reset/', passwordReset, name='password_reset'),
     path('accounts/password_reset/done/', passwordResetDone, name='password_reset_done'),
