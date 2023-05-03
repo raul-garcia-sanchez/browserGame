@@ -41,6 +41,7 @@ urlpatterns = [
 
 
     path('accounts/register/', register, name='register'),
+    path('accounts/register/emailSent/', registerSent, name='register_done'),
     path('accounts/register/<uidb64>/<token>/', checkRegister, name='register_check'),
     path('accounts/register/done/', registerDone, name='register_done'),
 
