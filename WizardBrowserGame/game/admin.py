@@ -54,7 +54,15 @@ class UserAdmin(admin.ModelAdmin):
     list_per_page_options = [10, 25, 50, 100]
     list_max_show_all = 100
 
+
+class EventHistoryAdmin(admin.ModelAdmin):
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name in ['user_transmitter', 'user_receiver']:
+            kwargs['queryset'] = User.objects.filter(is_staff=False)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 admin.site.register(User, UserAdmin)
 admin.site.register(GameOption)
-admin.site.register(EventHistory)
+admin.site.register(EventHistory,EventHistoryAdmin)
 admin.site.register(Action)

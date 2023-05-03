@@ -27,23 +27,26 @@ from django.contrib.auth.tokens import default_token_generator
 from django.urls import reverse
 from django.utils.encoding import force_bytes
 
-def index(request, *args, **kwargs):
-    return render(request, 'index/index.html')
-
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+
+def index(request, *args, **kwargs):
+    return render(request, 'index/index.html')
 
 def newLogin(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
-        print(request)
         if form.is_valid():
-            # Check if user is active and has activated field set to True
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             if user is not None and user.is_active:
                 login(request, user)
-                return redirect("/")
+                if user.is_staff:
+                    return redirect("/admin")
+                else:
+                    return redirect("/")
         else:
             try:
                 userActive = User.objects.get(username=request.POST["username"])
@@ -127,11 +130,16 @@ def resetCheck(request,uidb64):
         if request.method == "POST":
             password = request.POST["password"]
             confirm_password = request.POST["confirm_password"]
-            if (password and confirm_password and password == confirm_password):
-                user.password = make_password(password)
-                user.save()
-                return render(request, 'registration/resetDone.html')
 
+            if (password and confirm_password and password == confirm_password):
+                try:
+                    validate_password(password)
+                except ValidationError as error:
+                    error_msg = ' | '.join(error.messages)
+                else:
+                    user.password = make_password(password)
+                    user.save()
+                    return render(request, 'registration/resetDone.html')
             else:
                 error_msg = "Les contrasenyes han de coincidir"
 
@@ -163,44 +171,50 @@ def register(request):
         confirm_password = request.POST["confirm_password"]
 
         if password == confirm_password:
-            user_research_email = User.objects.filter(email=email)
-            if user_research_email:
-                error_msg = "Ja existeix un compte amb aquest email"
+            try:
+                validate_password(password)
+            except ValidationError as error:
+                error_msg = ' | '.join(error.messages)
             else:
-                user_research_username = User.objects.filter(username=username)
-
-                if user_research_username:
-                    error_msg = "Ja existeix un compte amb aquest nom d'usuari"
+                user_research_email = User.objects.filter(email=email)
+                if user_research_email:
+                    error_msg = "Ja existeix un compte amb aquest email"
                 else:
-                    #Creacio de correu amb user not activated
-                    new_user = User()
-                    new_user.email = email
-                    new_user.username = username
-                    new_user.password = make_password(password)
-                    new_user.is_active = False
-                    new_user.save()
+                    user_research_username = User.objects.filter(username=username)
 
-                    #ENVIAR CORREO DE VERIFICACION
-                    context = {}
+                    if user_research_username:
+                        error_msg = "Ja existeix un compte amb aquest nom d'usuari"
+                    else:
+                        
+                        #Creacio de correu amb user not activated
+                        new_user = User()
+                        new_user.email = email
+                        new_user.username = username
+                        new_user.password = make_password(password)
+                        new_user.is_active = False
+                        new_user.save()
 
-                    uidb64 = urlsafe_base64_encode(force_bytes(new_user.pk))
-                    token = default_token_generator.make_token(new_user)
+                        #ENVIAR CORREO DE VERIFICACION
+                        context = {}
 
-                    confirmation_url = "http://localhost:8000/accounts/register/" + uidb64 + "/" + token + "/"
-                    context = {'user':new_user, 'urlToGo':confirmation_url}
+                        uidb64 = urlsafe_base64_encode(force_bytes(new_user.pk))
+                        token = default_token_generator.make_token(new_user)
 
-                    template = get_template('mails/register.html')
-                    content = template.render(context)
+                        confirmation_url = "http://localhost:8000/accounts/register/" + uidb64 + "/" + token + "/"
+                        context = {'user':new_user, 'urlToGo':confirmation_url}
 
-                    email = EmailMultiAlternatives(
-                        'Correu de confirmació de registre',
-                        "Confirmació de l'usuari: "+new_user.username,
-                        settings.EMAIL_HOST_USER,
-                        [new_user.email]
-                    )
-                    email.attach_alternative(content, 'text/html')
-                    email.send()
-                    return redirect("emailSent/")
+                        template = get_template('mails/register.html')
+                        content = template.render(context)
+
+                        email = EmailMultiAlternatives(
+                            'Correu de confirmació de registre',
+                            "Confirmació de l'usuari: "+new_user.username,
+                            settings.EMAIL_HOST_USER,
+                            [new_user.email]
+                        )
+                        email.attach_alternative(content, 'text/html')
+                        email.send()
+                        return redirect("emailSent/")
 
         else:
             error_msg = "Les contrasenyes han de coincidir"
@@ -232,15 +246,13 @@ def changePasswordDone(request):
     return render(request, "registration/changePasswordDone.html")
 
 def index(request):
+    if request.user.is_staff:
+        return redirect("/admin")
     datesGame= GameOption.objects.get(pk=1)
     dateEnd = timezone.localtime(datesGame.game_datetime_end).timestamp()
     dateStart = timezone.localtime(datesGame.game_datetime_start).timestamp()
     dateNowTime = datetime.now().timestamp()
     dateNow =  datetime.now()
-    print("dateNow -> ", dateNow)
-    print("dateEnd -> ", dateEnd)
-    print("dateNowTIme",dateNowTime)
-    print("dateEnd mas pequeño que ahora -> ",dateEnd <= dateNowTime)
     minutesToTurn = 60 - dateNow.minute
     if(request.user.username):
         position = getPositionRankingUser(request.user)
@@ -251,7 +263,7 @@ def index(request):
 
 #RANKING USERS ORDER BY EXP
 def getPositionRankingUser(user):
-    ordered_users = User.objects.order_by('-level','-exp')
+    ordered_users = User.objects.filter(is_staff=False).order_by('-level', '-exp')
     position = list(ordered_users).index(user) + 1
     return position
 
