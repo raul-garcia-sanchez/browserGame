@@ -27,12 +27,38 @@ from django.contrib.auth.tokens import default_token_generator
 from django.urls import reverse
 from django.utils.encoding import force_bytes
 
-
 def index(request, *args, **kwargs):
     return render(request, 'index/index.html')
 
-def login(request):
-    return render(request, "registration/login.html")
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
+
+def newLogin(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        print(request)
+        if form.is_valid():
+            # Check if user is active and has activated field set to True
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            if user is not None and user.is_active:
+                login(request, user)
+                return redirect("/")
+        else:
+            try:
+                userActive = User.objects.get(username=request.POST["username"])
+                print(userActive.is_active)
+                if userActive.is_active == False:
+                    form.errors.clear()
+                    form.add_error(None, "Has d'activar l'usuari per poder inciar sessió.")
+            except:
+                print("credenciales incorrectas")
+                form.errors.clear()
+                form.add_error(None, "Si us plau, introduïu un nom d'usuari i clau correctes. Observeu que ambdós camps poden ser sensibles a majúscules.")
+                
+    else:
+        form = AuthenticationForm(request)
+    return render(request, "registration/login.html", {'form': form})
 
 def logout(request):
     return render(request,"registration/logout.html")
