@@ -46,7 +46,7 @@ def newLogin(request):
                     SuccessLog(
                         user,
                         "Accés d'admin",
-                        "Un compte d'administrador a accedit a la web mitjançant l'accés general"
+                        "Un compte d'administrador a accedit a la web mitjançant l'accés general",
                         "/accounts/login/"
                     )
                     return redirect("/admin")
@@ -123,7 +123,7 @@ def changePassword(request):
             SuccessLog(
                 request.user,
                 "Canvi de contrasenya",
-                "Usuari renova la seva contrasenya"
+                "Usuari renova la seva contrasenya",
                 "/accounts/password_change/"
             )
             return redirect('/accounts/password_change/done')
@@ -132,7 +132,7 @@ def changePassword(request):
         InfoLog(
             request.user,
             "Entra a canvi de contrasenya",
-            "Usuari entra a canvi de contrasenya"
+            "Usuari entra a canvi de contrasenya",
             "/accounts/password_change/"
         )
     return render(request, "registration/changePassword.html", {
