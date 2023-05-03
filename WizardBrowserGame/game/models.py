@@ -15,7 +15,7 @@ class User(AbstractUser):
         return self.username
 
 class Log(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     log_level = models.IntegerField()
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)

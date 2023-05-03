@@ -79,6 +79,8 @@ class EventHistoryAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 admin.site.register(User, UserAdmin)
-admin.site.register(GameOption)
 admin.site.register(EventHistory,EventHistoryAdmin)
+
+admin.site.register(GameOption)
 admin.site.register(Action)
+admin.site.register(Log)
