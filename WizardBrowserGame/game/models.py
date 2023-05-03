@@ -11,7 +11,6 @@ class User(AbstractUser):
     level = models.IntegerField(default=1)
     exp = models.IntegerField(default=0)
     last_update = models.DateTimeField(default=timezone.now, blank=True)
-    activated = models.BooleanField(default=False)
     def __str__(self):
         return self.username
 

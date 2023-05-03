@@ -151,6 +151,7 @@ def register(request):
                     new_user.email = email
                     new_user.username = username
                     new_user.password = make_password(password)
+                    new_user.is_active = False
                     new_user.save()
 
                     #ENVIAR CORREO DE VERIFICACION
@@ -191,7 +192,7 @@ def checkRegister(request, uidb64, token):
         user = None
 
     if user is not None and default_token_generator.check_token(user, token):
-        user.activated = True
+        user.is_active = True
         user.save()
         return render(request, 'registration/registerDone.html')
 
