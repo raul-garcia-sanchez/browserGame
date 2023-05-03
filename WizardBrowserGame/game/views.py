@@ -50,12 +50,10 @@ def newLogin(request):
         else:
             try:
                 userActive = User.objects.get(username=request.POST["username"])
-                print(userActive.is_active)
                 if userActive.is_active == False:
                     form.errors.clear()
                     form.add_error(None, "Has d'activar l'usuari per poder inciar sessió.")
             except:
-                print("credenciales incorrectas")
                 form.errors.clear()
                 form.add_error(None, "Si us plau, introduïu un nom d'usuari i clau correctes. Observeu que ambdós camps poden ser sensibles a majúscules.")
                 
@@ -84,33 +82,37 @@ def passwordReset(request):
     if request.method == "POST":
         form = PasswordResetForm(request.POST)
         if form.is_valid():
-            user_email = request.POST["email"]
-            user = User.objects.get(email=user_email)
+            try:
+                user_email = request.POST["email"]
+                user = User.objects.get(email=user_email)
 
-            if not user:
+                if not user:
+                    return redirect("done/")
+                else:
+                    #Funcion enviar email
+                    context = {}
+
+                    uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                    token = default_token_generator.make_token(user)
+
+                    confirmation_url = "http://localhost:8000/accounts/reset/" + uidb64 + "/" + token + "/"
+                    context = {'user':user, 'urlToGo':confirmation_url}
+
+                    template = get_template('mails/reset.html')
+                    content = template.render(context)
+
+                    email = EmailMultiAlternatives(
+                        'Correu de recuperació de contrasenya',
+                        "Confirmació de l'usuari: "+user.username,
+                        settings.EMAIL_HOST_USER,
+                        [user.email]
+                    )
+                    email.attach_alternative(content, 'text/html')
+                    email.send()
+                    return redirect("done/")
+            except:
                 return redirect("done/")
-            else:
-                #Funcion enviar email
-                context = {}
 
-                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-                token = default_token_generator.make_token(user)
-
-                confirmation_url = "http://localhost:8000/accounts/reset/" + uidb64 + "/" + token + "/"
-                context = {'user':user, 'urlToGo':confirmation_url}
-
-                template = get_template('mails/reset.html')
-                content = template.render(context)
-
-                email = EmailMultiAlternatives(
-                    'Correu de recuperació de contrasenya',
-                    "Confirmació de l'usuari: "+user.username,
-                    settings.EMAIL_HOST_USER,
-                    [user.email]
-                )
-                email.attach_alternative(content, 'text/html')
-                email.send()
-                return redirect("done/")
     else:
         form = PasswordResetForm()
     return render(request,"registration/passwordReset.html",{'form':form})
@@ -119,7 +121,7 @@ def passwordResetDone(request):
     return render(request,"registration/passwordResetDone.html")
 
 def resetCheck(request,uidb64):
-    error_msg = ""
+    error_msg = []
     try:
         uid = urlsafe_base64_decode(uidb64)
         user = User.objects.get(pk=uid)
@@ -135,13 +137,15 @@ def resetCheck(request,uidb64):
                 try:
                     validate_password(password)
                 except ValidationError as error:
-                    error_msg = ' | '.join(error.messages)
+                    if error.messages:
+                        for i in error.messages:
+                            error_msg.append(i)
                 else:
                     user.password = make_password(password)
                     user.save()
                     return render(request, 'registration/resetDone.html')
             else:
-                error_msg = "Les contrasenyes han de coincidir"
+                error_msg.append("Les contrasenyes han de coincidir")
 
         return render(request, 'registration/reset.html',{"error_msg":error_msg})
 
@@ -163,7 +167,7 @@ def resetNotValid(request,uidb64,token):
     return render(request,"registration/resetNotValid.html")
 
 def register(request):
-    error_msg = ""
+    error_msg = []
     if request.method == "POST":
         email = request.POST["email"]
         username = request.POST["username"]
@@ -174,16 +178,20 @@ def register(request):
             try:
                 validate_password(password)
             except ValidationError as error:
-                error_msg = ' | '.join(error.messages)
+                if error.messages:
+                    for i in error.messages:
+                        error_msg.append(i)
             else:
                 user_research_email = User.objects.filter(email=email)
                 if user_research_email:
-                    error_msg = "Ja existeix un compte amb aquest email"
+                    # error_msg = "Ja existeix un compte amb aquest email"
+                    error_msg.append("Ja existeix un compte amb aquest email")
                 else:
                     user_research_username = User.objects.filter(username=username)
 
                     if user_research_username:
-                        error_msg = "Ja existeix un compte amb aquest nom d'usuari"
+                        # error_msg = "Ja existeix un compte amb aquest nom d'usuari"
+                        error_msg.append("Ja existeix un compte amb aquest nom d'usuari")
                     else:
                         
                         #Creacio de correu amb user not activated
@@ -217,8 +225,8 @@ def register(request):
                         return redirect("emailSent/")
 
         else:
-            error_msg = "Les contrasenyes han de coincidir"
-
+            # error_msg = "Les contrasenyes han de coincidir"
+            error_msg.append("Les contrasenyes han de coincidir")
     return render(request,"registration/register.html",{"error_msg":error_msg})
 
 def registerSent(request):
