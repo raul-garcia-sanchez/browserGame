@@ -30,9 +30,10 @@ class EventHistoryInlineReceptor(admin.TabularInline):
 
 
 class UserAdmin(admin.ModelAdmin):
+
     list_display = ['id','username', 'email', 'is_staff', 'level', 'exp', 'life', 'mana', 'last_update',"get_event_history"]
     inlines = [LogInline,  EventHistoryInline, EventHistoryInlineReceptor]
-
+    ordering = ('-date_joined',)
     def get_event_history(self, obj):
         event_history = EventHistory.objects.filter(
             models.Q(user_transmitter=obj) | models.Q(user_receiver=obj)
@@ -47,6 +48,11 @@ class UserAdmin(admin.ModelAdmin):
         return format_html(', '.join(event_history_links))
 
     get_event_history.short_description = 'Historial de eventos'
+
+
+    list_per_page = 25
+    list_per_page_options = [10, 25, 50, 100]
+    list_max_show_all = 100
 
 admin.site.register(User, UserAdmin)
 admin.site.register(GameOption)
