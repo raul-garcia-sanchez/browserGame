@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}">
+    <title>Registre Enviat | WizardGame</title>
+</head>
+
+<body class="backgroundGarnet">
+    {% load i18n static %}
+
+    <h1 class="flex justify-center items-center absolute top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
+        REGISTRA'T
+    </h1>
+    <div class="flex justify-center items-center h-screen">
+
+        <div class="backgroundLightGrey w-full max-w-lg shadow-md rounded px-8 pt-6 pb-6 h-auto">
+
+            <p class="block text-gray-700 font-bold mb-2 text-center">
+                T'hem enviat un correu amb instruccions per a confirmar que es el teu correu<br><br>
+                Si no reps aquest correu, si us plau verifiqui que ha colocat correctament l'adreça del seu correu electrònic i revisi la carpeta de spam.
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
