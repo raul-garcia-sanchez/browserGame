@@ -34,6 +34,8 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ['id','username', 'email', 'is_staff', 'level', 'exp', 'life', 'mana', 'last_update',"get_event_history"]
     inlines = [LogInline,  EventHistoryInline, EventHistoryInlineReceptor]
     ordering = ('-date_joined',)
+
+    # Function to return link to user
     def get_event_history(self, obj):
         event_history = EventHistory.objects.filter(
             models.Q(user_transmitter=obj) | models.Q(user_receiver=obj)
@@ -48,6 +50,20 @@ class UserAdmin(admin.ModelAdmin):
         return format_html(', '.join(event_history_links))
 
     get_event_history.short_description = 'Historial de eventos'
+
+
+    class Media:
+        js = ("js/admin_paginator_dropdown.js",)
+    
+    def changelist_view(self, request, extra_context=None):
+        # Copy the request.GET so we can modify it (no longer immutable querydict)
+        request.GET = request.GET.copy()
+        # Pop the custom non-model parameter off the request (Comes out as an array?)
+        # Force it to int
+        page_param = int(request.GET.pop('list_per_page', [100])[0])
+        # Dynamically set the django admin list size based on query parameter.
+        self.list_per_page = page_param
+        return super(UserAdmin, self).changelist_view(request, extra_context)
 
 
     list_per_page = 25
