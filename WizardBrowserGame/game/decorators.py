@@ -35,7 +35,7 @@ def RefreshResources(refresh):
                         usuario.last_update = timezone.now()
                         usuario.save()
 
-        return refresh(request, usuario, *args, **kwargs)
+        return refresh(request, *args, **kwargs)
 
 
     return RefreshResourcesFunc
