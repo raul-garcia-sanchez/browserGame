@@ -199,12 +199,15 @@ def register(request):
                     )
                     email.attach_alternative(content, 'text/html')
                     email.send()
-                    return redirect("done/")
+                    return redirect("emailSent/")
 
         else:
             error_msg = "Les contrasenyes han de coincidir"
 
     return render(request,"registration/register.html",{"error_msg":error_msg})
+
+def registerSent(request):
+    return render(request,"registration/registerSent.html")
 
 def checkRegister(request, uidb64, token):
     try:
