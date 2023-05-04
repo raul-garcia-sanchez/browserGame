@@ -1,7 +1,8 @@
 from django.db import models
 
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, ValidationError
+
 from django.utils import timezone
 
 
@@ -55,3 +56,10 @@ class EventHistory(models.Model):
 class GameOption(models.Model):
     game_datetime_start = models.DateTimeField()
     game_datetime_end = models.DateTimeField()
+    mins_between_turns = models.IntegerField()
+    
+    def save(self, *args, **kwargs):
+        # asegurarse de que solo haya un objeto de Configuracion en la base de datos
+        if not self.pk and GameOption.objects.exists():
+            raise ValidationError('Solo se puede crear una instancia de Configuracion')
+        return super().save(*args, **kwargs)

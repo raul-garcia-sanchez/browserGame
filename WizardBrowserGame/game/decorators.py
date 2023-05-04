@@ -10,18 +10,11 @@ def getTurnsToRefresh(user):
     current_date = current_date.replace(minute=0, second=0, microsecond=0)
 
     diff = current_date - last_update
-    hours = diff.total_seconds() / 3600 
+    secs_between_turns = (GameOption.objects.first().mins_between_turns) * 60
 
-    return int(hours)
+    turns = diff.total_seconds() // secs_between_turns
 
-# Function to get turns to refresh (every 2 mins) DONT USE IN PRODUCTION
-# def getTurnsToRefresh(user):
-#     last_update = user.last_update
-#     current_date = timezone.now()
-#     diff = current_date - last_update
-#     turns = diff.total_seconds() // 120
-#     return int(turns)
-
+    return int(turns)
 
 
 # Decorator to refresh resources
