@@ -14,21 +14,23 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         usersEventHistory = []
-
-        for i in range(200):
-            username = fake.user_name()
-            email = fake.email()
-            first_name = fake.first_name()
-            last_name = fake.last_name()
-            password = "test"
-            user, created = User.objects.get_or_create(username=username, email=email)
-            if created:
-                user.set_password(password)
-                user.first_name = first_name
-                user.last_name = last_name
-                user.save()
-                if i < 5:
-                    usersEventHistory.append(user)
+        try:
+            for i in range(200):
+                username = fake.user_name()
+                email = fake.email()
+                first_name = fake.first_name()
+                last_name = fake.last_name()
+                password = "test"
+                user, created = User.objects.get_or_create(username=username, email=email)
+                if created:
+                    user.set_password(password)
+                    user.first_name = first_name
+                    user.last_name = last_name
+                    user.save()
+                    if i < 5:
+                        usersEventHistory.append(user)
+        except:
+            pass
 
         userDemo, createdDemo = User.objects.get_or_create(username="brahian", email="brahianmonsalve412@gmail.com")
         if createdDemo:
