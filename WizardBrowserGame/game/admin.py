@@ -49,7 +49,7 @@ class UserAdmin(admin.ModelAdmin):
 
         return format_html(', '.join(event_history_links))
 
-    get_event_history.short_description = 'Historial de eventos'
+    get_event_history.short_description = 'Historial d\'events'
 
 
     list_per_page = 25
