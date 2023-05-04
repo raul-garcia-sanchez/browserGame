@@ -421,7 +421,7 @@ def actionsUser(user):
     actions_received = EventHistory.objects.filter(
         user_receiver=user, succeed=True)
     history = list(actions_transmitted) + list(actions_received)
-    ordered_history = sorted(history, key=lambda evento: evento.date)
+    ordered_history = sorted(history, key=lambda evento: evento.date, reverse=True)
     return ordered_history
 
 
