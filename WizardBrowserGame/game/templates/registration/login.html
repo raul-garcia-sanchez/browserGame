@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}">
+    <title>Iniciar sessió | WizardGame</title>
+    
+</head>
+
+<body class="backgroundGarnet">
+
+    <div class="my-12">
+        <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
+            INICIAR SESSIÓ
+        </h1>
+    </div>
+    <div class="flex justify-center items-center">
+        <form class="backgroundLightGrey w-full max-w-lg shadow-md rounded px-8 pt-6 pb-6  h-auto" method="post"
+            action="{% url 'login' %}">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+                <p class="font-bold">Error:</p>
+                <ul>
+
+                    {% for field, errors in form.errors.items %}
+        {% if field == '__all__' %}
+            {% for error in errors %}
+                
+                    <li> {{error}}</li>
+                
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% if next %}
+            {% if user.is_authenticated %}
+            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
+                <p>Inicieu sessió amb un compte que tingui accés.</p>
+            </div>
+            {% else %}
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+                <p>Si us plau, inicieu sessió per veure aquesta pàgina.</p>
+            </div>
+            {% endif %}
+            {% endif %}
+            <div class="backgroundLightGrey px-8 pt-8 pb-8">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="{{ form.username.id_for_label }}">
+                        {{ form.username.label }}
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="{{ form.username.id_for_label }}" type="{{ form.username.field.widget.input_type }}"
+                        name="{{ form.username.name }}">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-bold mb-2" for="{{ form.password.id_for_label }}">
+                        {{ form.password.label }}
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="{{ form.password.id_for_label }}" type="{{ form.password.field.widget.input_type }}"
+                        name="{{ form.password.name }}" value="">
+                </div>
+                <div class="flex items-center justify-between">
+                    <button class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded" type="submit">
+                        Iniciar sessió
+                    </button>
+                    <a class="colorStrongGarnet inline-block align-baseline font-bold text-sm"
+                        href="{% url 'password_reset' %}">
+                        Has oblidat la teva contrasenya?
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</body>
+
+</html>

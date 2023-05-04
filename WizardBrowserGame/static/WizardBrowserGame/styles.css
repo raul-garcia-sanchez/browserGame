@@ -1,0 +1,62 @@
+/*COLOR VARIABLES*/
+
+:root {
+    --purple: #800f85;
+    --grey: #595959;
+    --garnet: #6B0F1A;
+    --strongGarnet: #31081F;
+    --lightGrey: #DCE0D9;
+}
+
+/* BACKGROUND CLASES*/
+
+.backgroundPurple {
+    background-color: var(--purple);
+}
+
+.backgroundGrey {
+    background-color: var(--grey);
+}
+
+.backgroundGarnet {
+    background-color: var(--garnet);
+}
+
+.backgroundStrongGarnet {
+    background-color: var(--strongGarnet) !important;
+}
+
+.backgroundLightGrey {
+    background-color: var(--lightGrey);
+}
+
+/* COLOR VARIABLES*/
+
+.colorPurple {
+    color: var(--purple);
+}
+
+.colorGrey {
+    color: var(--grey);
+}
+
+.colorGarnet {
+    color: var(--garnet);
+}
+
+.colorStrongGarnet {
+    color: var(--strongGarnet);
+}
+
+.colorLightGrey {
+    color: var(--lightGrey);
+}
+
+/* CHANGE PASSWORD */
+
+.content{
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+}
+
