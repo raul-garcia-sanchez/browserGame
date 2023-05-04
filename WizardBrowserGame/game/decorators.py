@@ -2,25 +2,25 @@ from django.utils import timezone
 from .models import *
 
 # Function to get turns to refresh (every hour)
-def getTurnsToRefresh(user):
-    last_update = user.last_update
-    last_update = last_update.replace(minute=0, second=0, microsecond=0)
-
-    current_date = timezone.now()
-    current_date = current_date.replace(minute=0, second=0, microsecond=0)
-
-    diff = current_date - last_update
-    hours = diff.total_seconds() / 3600 
-
-    return int(hours)
-
-# Function to get turns to refresh (every 2 mins) DONT USE IN PRODUCTION
 # def getTurnsToRefresh(user):
 #     last_update = user.last_update
+#     last_update = last_update.replace(minute=0, second=0, microsecond=0)
+
 #     current_date = timezone.now()
+#     current_date = current_date.replace(minute=0, second=0, microsecond=0)
+
 #     diff = current_date - last_update
-#     turns = diff.total_seconds() // 120
-#     return int(turns)
+#     hours = diff.total_seconds() / 3600 
+
+#     return int(hours)
+
+# Function to get turns to refresh (every 2 mins) DONT USE IN PRODUCTION
+def getTurnsToRefresh(user):
+    last_update = user.last_update
+    current_date = timezone.now()
+    diff = current_date - last_update
+    turns = diff.total_seconds() // 120
+    return int(turns)
 
 
 
