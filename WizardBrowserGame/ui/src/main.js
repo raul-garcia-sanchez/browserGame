@@ -6,7 +6,7 @@ var app = createApp({
     data() {
         return {
             users: [],
-            elemsPage: 1,
+            elemsPage: 100,
             dataPaginate: [],
             actualPage: 1,
         }
