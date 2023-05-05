@@ -442,8 +442,7 @@ def messages(request):
 
 
 def ranking(request):
-    context = {}
-    return render(request, 'game/ranking.html', context)
+    return render(request, 'game/ranking.html')
 
 # Funcion logs
 # Level 1:INFO, 2:SUCCESS , 3:WARNING, 4:ERROR
