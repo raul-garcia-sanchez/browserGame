@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}">
     <script src="https://kit.fontawesome.com/277f72a273.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="{% static 'resources/jquery.min.js' %}"></script>
 
     <title>Àrea d'encanteris | WizardGame</title>
 </head>
@@ -23,31 +23,31 @@
     </div>
     <div class="flex justify-center items-center">
 
-        <form class="backgroundLightGrey px-8 pt-8 pb-8">
+        <form class="backgroundLightGrey px-8 pt-8 pb-8 formAction">
 
             <div class="mb-6 mt-3">
                 <label class="block text-gray-700 font-bold mb-2" for="spell">Tria un encanteri</label>
-                <select name="spell" id="spell" class="italic w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-md shadow-sm 
+                <select name="spell" id="spell" class="text-lg italic w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-md shadow-sm 
                 focus:outline-none focus:ring-2 focus:ring-red-100 focus:border-red-500">
-                    <option disabled selected value> -- Selecciona encanteri -- </option>
+                    <option class="bg-white text-gray-700" disabled selected value> -- Selecciona encanteri -- </option>
 
-                    <optgroup class="bg-red-300" id="att" label="Atac">
+                    <optgroup class="bg-red-300 text-gray-700" label="Atac">
                         {% for i in list_actions %}{% if i.action_type == 1 %}
-                        <option mana_cost="{{i.cost}}" value="{{i.id}}" class="py-3 bg-red-100">
+                        <option value="{{i.id}}" class="text-gray-700 bg-red-100">
                             {{ i.name }}
                         </option>
                         {% endif %}{% endfor %}
                     </optgroup>
-                    <optgroup class="bg-green-300" id="att" label="Defensa">
+                    <optgroup class="bg-green-300 text-gray-700" label="Defensa">
                         {% for i in list_actions %}{% if i.action_type == 2 %}
-                        <option mana_cost="{{i.cost}}" value="{{i.id}}" class="bg-green-100">
+                        <option value="{{i.id}}" class="text-gray-700 bg-green-100">
                             {{ i.name }}
                         </option>
                         {% endif %}{% endfor %}
                     </optgroup>
-                    <optgroup class="bg-blue-300" id="att" label="Neutral">
+                    <optgroup class="bg-blue-300 text-gray-700" label="Neutral">
                         {% for i in list_actions %}{% if i.action_type == 3 %}
-                        <option mana_cost="{{i.cost}}" value="{{i.id}}" class="bg-blue-100">
+                        <option value="{{i.id}}" class="text-gray-700 bg-blue-100">
                             {{ i.name }}
                         </option>
                         {% endif %}{% endfor %}
@@ -55,14 +55,19 @@
 
                 </select>
             </div>
-            <div class="mb-6 mt-3">
+
+            <div id="actionProperties" class="mb-6 mt-3 hidden">
+
+            </div>
+
+            <div id="selectorUsers" class="mb-6 mt-3 hidden">
                 <label class="block text-gray-700 font-bold mb-2" for="user_receiver">Tria un objectiu</label>
                 <select name="user_receiver" id="user_receiver" class="w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-md shadow-sm 
                 focus:outline-none focus:ring-2 focus:ring-red-100 focus:border-red-500">
-                    <option disabled selected value> -- Selecciona objectiu -- </option>
+                    <option disabled selected value="null"> -- Selecciona objectiu -- </option>
 
                     {% for i in list_users %}
-                    <option>{{ i.username}}</option>
+                    <option value="{{i.id}}">{{ i.username}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -70,13 +75,146 @@
 
 
             <div class="flex items-center justify-center">
-                <button class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded" type="submit">
+                <button disabled id="btnConfirmAction"
+                    class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+                    type="submit">
                     Confirma acció
                 </button>
             </div>
         </form>
     </div>
+    <script>
+        let user, actions;
 
+
+        $(document).ready(async () => {
+            // Onchange in spell selector
+            $("select[name='spell']").change(() => {
+                let idSpellSelected = $("select[name='spell']").val();
+                // Offensive action
+                if (actions[idSpellSelected - 1].action_type == 1) {
+                    $("#selectorUsers").removeClass("hidden")
+                    $("#btnConfirmAction").attr("disabled", true)
+                    fillProperties(actions[idSpellSelected - 1]);
+                    // User_receiver not selected
+                    if (!$("#selectorUsers select").val()) {
+                        $("#btnConfirmAction").attr("disabled", true)
+                    }
+                    // User_receiver selected
+                    else {
+                        $("#btnConfirmAction").attr("disabled", false)
+                    }
+                }
+                // Other type of action
+                else {
+                    $("#selectorUsers").addClass("hidden")
+                    $("#btnConfirmAction").attr("disabled", false)
+                    fillProperties(actions[idSpellSelected - 1]);
+                }
+            })
+
+            await $.get("/api/get_user ", function (data) {
+                user = data.user[0];
+            });
+            await $.get("/api/get_actions ", function (data) {
+                actions = data.actions;
+            });
+            disableOptionsOutOfMana(user, actions)
+        })
+
+        // Functions
+        function disableOptionsOutOfMana(user, actions) {
+            mana = user.mana;
+            actions.forEach(action => {
+                if (action.cost > mana) {
+                    dif = action.cost - mana;
+                    $("select[name='spell'] option[value=" + action.id + "]").attr("disabled", true);
+                    if (dif > 1) {
+                        $("select[name='spell'] option[value=" + action.id + "]").text($("select[name='spell'] option[value=" + action.id + "]").text() + "(et falten " + dif + " de manà)");
+                    }
+                    else {
+                        $("select[name='spell'] option[value=" + action.id + "]").text($("select[name='spell'] option[value=" + action.id + "]").text() + "(et falta " + dif + " de manà)");
+                    }
+                }
+            });
+        }
+
+        function fillProperties(action) {
+            $("#actionProperties").removeClass("hidden")
+            $("#actionProperties").empty()
+            switch (action.action_type) {
+                // Ofensiva
+                case 1:
+                    $("select[name='spell']").removeClass("defendSelect neutralSelect")
+                    $("select[name='spell']").addClass("attackSelect")
+
+
+                    $("#actionProperties").append(`
+                        <hr class="border-black mb-3">
+                        <h5 class="text-center text-gray-700 font-bold text-2xl">
+                            <i class="fa fa-gavel mr-3 text-red-600"></i>
+                            Acció ofensiva
+                            </h5>
+                        <ul>
+                            <li> <strong>Encanteri:</strong> ${action.name}</li>
+                            <li> <strong>Descripci\ò:</strong> ${action.description}</li>
+                            <li> <strong>Cost:</strong> ${action.cost} de manà</li>
+                            <li> <strong>Dany total:</strong> ${action.points}</li>
+                            <li> <strong>Percentatge d'acert:</strong> ${action.success_rate}</li>
+                        </ul>
+                        <hr class="border-black mt-3">
+
+                    `)
+                    break;
+                // Defensiva
+                case 2:
+                    $("select[name='spell']").removeClass("attackSelect neutralSelect")
+                    $("select[name='spell']").addClass("defendSelect")
+
+                    $("#actionProperties").append(`
+                        <hr class="border-black mb-3">
+                        <h5 class="text-center text-gray-700 font-bold text-2xl">
+                            <i class="fa-solid fa-shield mr-3 text-green-600"></i> 
+                            Acció defensiva
+                        </h5>
+                        <ul>
+                            <li> <strong>Encanteri:</strong> <i>${action.name}</i></li>
+                            <li> <strong>Descripci\ò:</strong> ${action.description}</li>
+                            <li> <strong>Cost:</strong> ${action.cost} de manà</li>
+                            <li> <strong>Curació total:</strong> ${action.points}</li>
+                            <li> <strong>Percentatge d'acert:</strong> ${action.success_rate}</li>
+                        </ul>
+                        <hr class="border-black mt-3">
+                    `)
+                    break;
+                // Neutral
+                case 3:
+                    $("select[name='spell']").removeClass("defendSelect attackSelect")
+                    $("select[name='spell']").addClass("neutralSelect")
+
+                    $("#actionProperties").append(`
+                        <hr class="border-black mb-3">
+                        <h5 class="text-center text-gray-700 font-bold text-2xl">
+                            <i class="fa fa-heartbeat  mr-3 text-blue-600"></i>
+                            Acció neutral
+                        </h5>
+                        <ul>
+                            <li> <strong>Encanteri:</strong> ${action.name}</li>
+                            <li> <strong>Descripci\ò:</strong> ${action.description}</li>
+                            <li> <strong>Cost:</strong> ${action.cost} de manà</li>
+                            <li> <strong>Experi\ència a guanyar:</strong> ${action.points}</li>
+                            <li> <strong>Percentatge d'acert:</strong> ${action.success_rate}</li>
+                        </ul>
+                        <hr class="border-black mt-3">
+                    `)
+                    break;
+
+            }
+
+
+
+        }
+    </script>
 </body>
 
 </html>

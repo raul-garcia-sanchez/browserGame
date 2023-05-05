@@ -15,7 +15,7 @@ def getActions(request):
     jsonData = list(Action.objects.all().order_by("action_type").values())
     return JsonResponse({
         "status": "OK",
-        "ranking": jsonData,
+        "actions": jsonData,
     }, safe=False)
 
 
@@ -25,10 +25,10 @@ def getCurrentUser(request):
     if jsonData:
         return JsonResponse({
             "status": "OK",
-            "ranking": jsonData,
+            "user": jsonData,
         }, safe=False)
     else:
         return JsonResponse({
             "status": "OK",
-            "ranking": "null",
+            "user": "null",
         }, safe=False)

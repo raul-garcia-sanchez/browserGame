@@ -59,3 +59,25 @@
     display: none;
     overflow: hidden;
 }
+
+.formAction{
+    min-width: 50%;
+}
+
+.attackSelect{
+    background-color: rgb(252 165 165 / var(--tw-bg-opacity) ) !important;
+    color: #6B0F1A !important;
+    font-weight: bold;
+}
+
+.defendSelect{
+    background-color: rgb(220 252 231 / var(--tw-bg-opacity))!important;
+    color: green !important;
+    font-weight: bold;
+}
+
+.neutralSelect{
+    background-color: rgb(219 234 254 / var(--tw-bg-opacity)) !important;
+    color: blue !important;
+    font-weight: bold;
+}
