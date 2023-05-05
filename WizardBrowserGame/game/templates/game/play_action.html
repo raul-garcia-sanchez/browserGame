@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}">
+    <script src="https://kit.fontawesome.com/277f72a273.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <title>Àrea d'encanteris | WizardGame</title>
+</head>
+
+<body class="backgroundGarnet">
+
+    <div class="my-12">
+        <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
+            ÀREA D'ENCANTERIS
+        </h1>
+    </div>
+    <div class="flex justify-center items-center">
+
+        <form class="backgroundLightGrey px-8 pt-8 pb-8">
+
+            <div class="mb-6 mt-3">
+                <label class="block text-gray-700 font-bold mb-2" for="spell">Tria un encanteri</label>
+                <select name="spell" id="spell" class="italic w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-md shadow-sm 
+                focus:outline-none focus:ring-2 focus:ring-red-100 focus:border-red-500">
+                    <option disabled selected value> -- Selecciona encanteri -- </option>
+
+                    <optgroup class="bg-red-300" id="att" label="Atac">
+                        {% for i in list_actions %}{% if i.action_type == 1 %}
+                        <option mana_cost="{{i.cost}}" value="{{i.id}}" class="py-3 bg-red-100">
+                            {{ i.name }}
+                        </option>
+                        {% endif %}{% endfor %}
+                    </optgroup>
+                    <optgroup class="bg-green-300" id="att" label="Defensa">
+                        {% for i in list_actions %}{% if i.action_type == 2 %}
+                        <option mana_cost="{{i.cost}}" value="{{i.id}}" class="bg-green-100">
+                            {{ i.name }}
+                        </option>
+                        {% endif %}{% endfor %}
+                    </optgroup>
+                    <optgroup class="bg-blue-300" id="att" label="Neutral">
+                        {% for i in list_actions %}{% if i.action_type == 3 %}
+                        <option mana_cost="{{i.cost}}" value="{{i.id}}" class="bg-blue-100">
+                            {{ i.name }}
+                        </option>
+                        {% endif %}{% endfor %}
+                    </optgroup>
+
+                </select>
+            </div>
+            <div class="mb-6 mt-3">
+                <label class="block text-gray-700 font-bold mb-2" for="user_receiver">Tria un objectiu</label>
+                <select name="user_receiver" id="user_receiver" class="w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-md shadow-sm 
+                focus:outline-none focus:ring-2 focus:ring-red-100 focus:border-red-500">
+                    <option disabled selected value> -- Selecciona objectiu -- </option>
+
+                    {% for i in list_users %}
+                    <option>{{ i.username}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+
+            <div class="flex items-center justify-center">
+                <button class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded" type="submit">
+                    Confirma acció
+                </button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>
