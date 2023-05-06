@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Taula de clasificacióc | WizardGame</title>
+    <title>Taula de clasificació | WizardGame</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -56,7 +56,7 @@
                 <td
                   class="border-2 border-black px-7 py-2 text-center font-semibold"
                 >
-                  ARREGLARRRR!!!
+                  [[item.position]]
                 </td>
                 <td class="border-2 border-black px-7 text-center">
                   [[item.username]]
@@ -84,10 +84,11 @@
               v-on:click="getDataPage(page)"
               class="page-item m-1"
             >
-            <a
-            v-bind:class="[isActive(page) ? 'bg-gray-300 text-strongGarnet' : 'backgroundStrongGarnet text-white', 'font-bold py-2 px-4 rounded']"
-            href="#"
-          >[[page]]</a>
+              <a
+                v-bind:class="[isActive(page) ? 'bg-gray-300 text-strongGarnet' : 'backgroundStrongGarnet text-white', 'font-bold py-2 px-4 rounded']"
+                href="#"
+                >[[page]]</a
+              >
             </div>
             <div class="page-item m-1" v-on:click="getNextPage()">
               <a
