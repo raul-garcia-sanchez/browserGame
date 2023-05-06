@@ -1,24 +1,57 @@
-import { createApp, ref } from 'vue'
-// Importamos el componente HelloDjango
-import HelloDjango from './components/HelloDjango'
+import { createApp } from "vue";
 
-
-// Creamos una instancia de la aplicación Vue
-const app = createApp({
-  // Elemento html donde se va ha renderizar el contenido
-  el: '#app',
-  // Cambiamos los delimiters de las variables para que sean diferentes a los de Django
-  delimiters: ['[[', ']]'],
-  // Activamos el componente dentro de la app
-  components : {
-    HelloDjango
-  },
-  // Creamos variable msg reactiva con ref
-  data () {
+var app = createApp({
+  el: "#app",
+  delimiters: ["[[", "]]"],
+  data() {
     return {
-      msg: ref('Componente de VueJS 3')
-    }
+      users: [],
+      elemsPage: 100,
+      dataPaginate: [],
+      actualPage: 1,
+    };
   },
-})
-// Montamos la app en el div #app de nuestra plantilla index.html.
-app.mount('#app')
+  mounted() {
+    fetch("../api/get_ranking")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        this.users = data.ranking;
+        this.getDataPage(1);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  methods: {
+    totalPages() {
+      return Math.ceil(this.users.length / this.elemsPage);
+    },
+    getDataPage(numPage) {
+      this.actualPage = numPage;
+      this.dataPaginate = [];
+      let ini = numPage * this.elemsPage - this.elemsPage;
+      let fin = numPage * this.elemsPage;
+      this.dataPaginate = this.users.slice(ini, fin);
+      console.log("pagData", this.dataPaginate);
+    },
+    getPreviousPage() {
+      if (this.actualPage > 1) {
+        this.actualPage--;
+      }
+      this.getDataPage(this.actualPage);
+    },
+    getNextPage() {
+      if (this.actualPage < this.totalPages()) {
+        this.actualPage++;
+      }
+      this.getDataPage(this.actualPage);
+    },
+    isActive(numPage) {
+      return numPage == this.actualPage ? "active" : "";
+    },
+  },
+});
+
+app.mount("#app");

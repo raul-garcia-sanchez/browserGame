@@ -382,6 +382,7 @@ def registerDone(request):
 def changePasswordDone(request):
     return render(request, "registration/changePasswordDone.html")
 
+
 @RefreshResources
 def index(request):
     if request.user.is_staff:
@@ -421,7 +422,8 @@ def actionsUser(user):
     actions_received = EventHistory.objects.filter(
         user_receiver=user, succeed=True)
     history = list(actions_transmitted) + list(actions_received)
-    ordered_history = sorted(history, key=lambda evento: evento.date, reverse=True)
+    ordered_history = sorted(
+        history, key=lambda evento: evento.date, reverse=True)
     return ordered_history
 
 
@@ -442,8 +444,7 @@ def messages(request):
 
 
 def ranking(request):
-    context = {}
-    return render(request, 'game/ranking.html', context)
+    return render(request, 'game/ranking.html')
 
 # Funcion logs
 # Level 1:INFO, 2:SUCCESS , 3:WARNING, 4:ERROR
