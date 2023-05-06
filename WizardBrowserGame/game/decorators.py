@@ -30,19 +30,19 @@ def RefreshResources(refresh):
             usuarios = User.objects.all()
             for usuario in usuarios:
                 if (usuario.level > 0):
-                    maxMana = (usuario.level * 10)
+                    turnsToRefresh = getTurnsToRefresh(usuario)
+                    if turnsToRefresh > 0:
+                        maxMana = (usuario.level * 10)
+                        if (maxMana > usuario.mana):
 
-                    if (maxMana > usuario.mana):
-                        turnsToRefresh = getTurnsToRefresh(usuario)
-
-                        if turnsToRefresh > 0:
                             usuario.mana = usuario.mana + (usuario.level * turnsToRefresh)
                             
                             if usuario.mana > maxMana:
                                 usuario.mana = maxMana
 
-                            usuario.last_update = timezone.now()
-                            usuario.save()
+                        usuario.last_update = timezone.now()
+                        usuario.save()
+                        
 
         return refresh(request, *args, **kwargs)
 

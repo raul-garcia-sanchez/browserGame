@@ -16,6 +16,7 @@ def getActions(request):
     return JsonResponse({
         "status": "OK",
         "actions": jsonData,
+        "status_code": 200
     }, safe=False)
 
 
@@ -25,10 +26,12 @@ def getCurrentUser(request):
     if jsonData:
         return JsonResponse({
             "status": "OK",
-            "user": jsonData,
+            "user": jsonData[0],
+            "status_code": 200
         }, safe=False)
     else:
         return JsonResponse({
             "status": "OK",
-            "user": "null",
+            "user": None,
+            "status_code": 404
         }, safe=False)
