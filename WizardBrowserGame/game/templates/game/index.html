@@ -1,4 +1,5 @@
 {% load static %}
+{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,10 +22,10 @@
         </h1>
     </div>
     <div class="flex justify-center items-center max-w-5xl m-auto mt-8">
-        <div class="backgroundLightGrey px-8 pt-8 pb-8">
+        <div id="app2" class="backgroundLightGrey px-8 pt-8 pb-8">
 
             <div class="mb-6">
-                <p class="p-2">Ens alegrem de veure't <b>{{user}}</b>!</p>
+                <p class="p-2">Ens alegrem de veure't <b>[[user.username]]</b>!</p>
                 <p class="p-2"> En aquest apartat podràs veure les estadístiques sobre el teu mag/a i tota la informació
                     sobre les últimes accions relacionades amb el teu mag/a.
                 </p>
@@ -34,23 +35,23 @@
                 <table class=" border-2 w-3/6 border-black">
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Nivell</td>
-                        <td class="border-2 border-black px-4 py-2">{{user.level}}</td>
+                        <td class="border-2 border-black px-4 py-2">[[user.level]]</td>
                     </tr>
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Vida</td>
-                        <td class="border-2 border-black px-4 py-2">{{user.life}}</td>
+                        <td class="border-2 border-black px-4 py-2">[[user.life]]</td>
                     </tr>
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Manà</td>
-                        <td class="border-2 border-black px-4 py-2">{{user.mana}}</td>
+                        <td class="border-2 border-black px-4 py-2">[[user.mana]]</td>
                     </tr>
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Experiència</td>
-                        <td class="border-2 border-black px-4 py-2">{{user.exp}}</td>
+                        <td class="border-2 border-black px-4 py-2">[[user.exp]]</td>
                     </tr>
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Posició ranking</td>
-                        <td class="border-2 border-black px-4 py-2">{{position}}</td>
+                        <td class="border-2 border-black px-4 py-2">[[userRanking.position]]</td>
                     </tr>
                 </table>
             </div>
@@ -151,6 +152,7 @@
             });
         }
     </script>
+    {% render_bundle 'main' %}
 
 </body>
 
