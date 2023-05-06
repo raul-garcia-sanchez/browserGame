@@ -460,9 +460,10 @@ def play_action(request):
         sendAct.append(act)
 
     usuarios = User.objects.filter(
-        Q(level=user.level) | Q(
-            level=user.level-1) | Q(level=user.level+1)
-    ).exclude(id=user.id)
+        Q(level=user.level) | 
+        Q(level=user.level-1) | 
+        Q(level=user.level+1)
+    ).exclude(Q(id=user.id)| Q(level=0) | Q(is_staff = True))
 
     context = {
         "user": user,

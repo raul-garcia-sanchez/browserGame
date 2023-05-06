@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}">
     <script src="https://kit.fontawesome.com/277f72a273.js" crossorigin="anonymous"></script>
     <script src="{% static 'resources/jquery.min.js' %}"></script>
+    <script src="{% static 'resources/jquery.cookie.js' %}"></script>
 
     <title>Àrea d'encanteris | WizardGame</title>
 </head>
@@ -24,12 +25,12 @@
     <div class="flex justify-center items-center">
 
         <form class="backgroundLightGrey px-8 pt-8 pb-8 formAction">
-
+            {% csrf_token %}
             <div class="mb-6 mt-3">
                 <label class="block text-gray-700 font-bold mb-2" for="spell">Tria un encanteri</label>
                 <select name="spell" id="spell" class="text-center text-lg italic w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-md shadow-sm 
                 focus:outline-none focus:ring-2 focus:ring-red-100 focus:border-red-500">
-                    <option class="bg-white text-gray-700" disabled selected value> -- Selecciona encanteri -- </option>
+                    <option class="bg-white text-gray-700" disabled selected value="null"> -- Selecciona encanteri -- </option>
 
                     <optgroup class="bg-red-300 text-gray-700" label="Atac">
                         {% for i in list_actions %}{% if i.action_type == 1 %}
@@ -64,20 +65,22 @@
                 <label class="block text-gray-700 font-bold mb-2" for="user_receiver">Tria un objectiu</label>
                 <select name="user_receiver" id="user_receiver" class="text-center w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-md shadow-sm 
                 focus:outline-none focus:ring-2 focus:ring-red-100 focus:border-red-500">
+                {% if list_users %}
                     <option disabled selected value="null"> -- Selecciona objectiu -- </option>
-
                     {% for i in list_users %}
                     <option value="{{i.id}}">{{ i.username}}</option>
                     {% endfor %}
+                {% else %}
+                    <option disabled selected value="null"> -- No hi ha objectius -- </option>
+                {% endif %}
                 </select>
             </div>
 
 
 
             <div class="flex items-center justify-center">
-                <button disabled id="btnConfirmAction"
-                    class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-                    type="submit">
+                <button disabled id="btnConfirmAction" type="button"
+                class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50">
                     Confirma acció
                 </button>
             </div>
