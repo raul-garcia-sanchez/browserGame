@@ -58,8 +58,14 @@
 
             <button id="buttonCollapsable" type="button" class="collapsible mt-4 font-bold">Veure últimes
                 accions</button>
-            <div class="content mt-2">
-                {% for action in actions %}
+            <div v-for="action in actions" class="content mt-2">
+                
+                <p>jj</p>
+
+                <!-- <p v-if="action.user_transmitter__username == user.username"> le doy</p>
+                <p v-else> me han dado</p> -->
+                    
+                <!-- {% for action in actions %}
                 {%if action.user_transmitter.username == user.username %}
                 <p>Has executat l'acció de {{action.action}} contra el jugador <b>{{action.user_receiver}}</b> el dia
                     {{action.date}}</p>
@@ -67,7 +73,7 @@
                 <p>Has rebut l'acció de {{action.action}} del jugador <b>{{action.user_transmitter}}</b> el dia
                     {{action.date}}</p>
                 {% endif %}
-                {% endfor %}
+                {% endfor %} -->
             </div>
         </div>
     </div>
@@ -105,13 +111,9 @@
                     </tr>
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Següent torn</td>
-                        {% if dateEnd <= dateNowTime %} <td class="border-2 border-black px-4 py-2">El joc ha acabat
+                         <td class="border-2 border-black px-4 py-2">[[gameOptions.minutes]]
                             </td>
-                            {% elif dateEnd >= dateNowTime and dateNowTime >= dateStart %}
-                            <td class="border-2 border-black px-4 py-2">{{minutesToTurn}} minuts</td>
-                            {% else %}
-                            <td class="border-2 border-black px-4 py-2">El joc encara no ha començat</td>
-                            {% endif %}
+                            
                     </tr>
                 </table>
             </div>
@@ -132,7 +134,7 @@
 
 
 
-
+    {% render_bundle 'main' %}
     <script>
         var coll = document.getElementsByClassName("collapsible");
         var buttonCollapasable = document.getElementById("buttonCollapsable")
@@ -152,7 +154,7 @@
             });
         }
     </script>
-    {% render_bundle 'main' %}
+    
 
 </body>
 

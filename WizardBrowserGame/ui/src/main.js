@@ -78,6 +78,7 @@ var app2 = createApp({
     return {
       user: [],
       userRanking: [],
+      actions: []
     };
   },
   mounted() {
@@ -101,7 +102,16 @@ var app2 = createApp({
                   return user.username === this.user.username;
                 });
                 this.userRanking = userRanking;
+                fetch("../api/get_actions")
+                 .then((response3) => {
+                    return response3.json();
+                 })
+                 .then((data3) => {
+                    this.actions = data3.actions;
+                    console.log(this.actions);
+                 })
                 setTimeout(this.updateData, 30000);
+
               })
               .catch((error2) => {
                 console.log(error2);
@@ -151,6 +161,18 @@ var app3 = createApp({
           const formatter = new Intl.DateTimeFormat('ca-ES', options);
           this.gameOptions.game_datetime_start = formatter.format(dateStart);
           this.gameOptions.game_datetime_end = formatter.format(dateEnd);
+          const dateNow = new Date();
+          let minutesNow = dateNow.getMinutes();
+          let minutesToReturn = this.gameOptions.mins_between_turns - (minutesNow % this.gameOptions.mins_between_turns )
+          if(dateEnd <= dateNow){
+            this.gameOptions.minutes = "El joc ha acabat"
+          }
+          else if(dateEnd >= dateNow && dateNow >= dateStart){
+            this.gameOptions.minutes = minutesToReturn + " minuts"
+          }
+          else{
+            this.gameOptions.minutes = "El joc encara no ha començat"
+          }
           setTimeout(this.getGameOptions, 30000);
         })
         .catch((error) => {
