@@ -23,3 +23,10 @@ def getCurrentUser(request):
             "status": "OK",
             "user": "null",
         }, safe=False)
+    
+def getGameOptions(request):
+    jsonData = list(GameOption.objects.all().values())
+    return JsonResponse({
+        "status": "OK",
+        "gameOptions": jsonData
+    })

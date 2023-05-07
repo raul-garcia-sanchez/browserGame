@@ -14,29 +14,29 @@ var app = createApp({
   },
   mounted() {
     fetch("../api/get_ranking")
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      this.users = data.ranking;
-      this.getDataPage(1);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  },
-  methods: {
-     getRanking(){
-      fetch("../api/get_ranking")
       .then((response) => {
         return response.json();
       })
-      .then(async (data) => {
-        this.users = await data.ranking;
+      .then((data) => {
+        this.users = data.ranking;
+        this.getDataPage(1);
       })
       .catch((error) => {
         console.log(error);
       });
+  },
+  methods: {
+    getRanking() {
+      fetch("../api/get_ranking")
+        .then((response) => {
+          return response.json();
+        })
+        .then(async (data) => {
+          this.users = await data.ranking;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     totalPages() {
       return Math.ceil(this.users.length / this.elemsPage);
@@ -48,7 +48,6 @@ var app = createApp({
       let fin = numPage * this.elemsPage;
       this.getRanking();
       this.dataPaginate = this.users.slice(ini, fin);
-      
     },
     getPreviousPage() {
       if (this.actualPage > 1) {
@@ -78,7 +77,7 @@ var app2 = createApp({
   data() {
     return {
       user: [],
-      userRanking: []
+      userRanking: [],
     };
   },
   mounted() {
@@ -101,15 +100,13 @@ var app2 = createApp({
                 const userRanking = data2.ranking.find((user) => {
                   return user.username === this.user.username;
                 });
-                this.userRanking = userRanking
-                setTimeout(this.updateData,30000)
+                this.userRanking = userRanking;
+                setTimeout(this.updateData, 30000);
               })
               .catch((error2) => {
                 console.log(error2);
               });
           }
-          
-          
         })
         .catch((error) => {
           console.log(error);
@@ -119,3 +116,48 @@ var app2 = createApp({
 });
 
 app2.mount("#app2");
+
+/* VUE COMPONENT LANDING WHEN YOU ARE NOT LOGGED */
+
+var app3 = createApp({
+  el: "#app3",
+  delimiters: ["[[", "]]"],
+  data() {
+    return {
+      gameOptions: [],
+    };
+  },
+  mounted() {
+    this.getGameOptions();
+  },
+  methods: {
+    getGameOptions() {
+      fetch("../api/get_gameOptions")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.gameOptions = data.gameOptions[0];
+          const dateStart = new Date(this.gameOptions.game_datetime_start);
+          const dateEnd = new Date(this.gameOptions.game_datetime_end)
+          const options = {
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric', 
+            hour: 'numeric', 
+            minute: 'numeric', 
+            hour12: false 
+          }
+          const formatter = new Intl.DateTimeFormat('ca-ES', options);
+          this.gameOptions.game_datetime_start = formatter.format(dateStart);
+          this.gameOptions.game_datetime_end = formatter.format(dateEnd);
+          setTimeout(this.getGameOptions, 30000);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+});
+
+app3.mount("#app3");
