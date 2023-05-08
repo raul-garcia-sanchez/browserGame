@@ -120,12 +120,16 @@ var app2 = createApp({
                                             }
                                             const formatter = new Intl.DateTimeFormat('ca-ES', options);
                                             action.date = formatter.format(newDate);
-
                                         });
                                     })
-                                if (shouldTimeout) {
-                                    setTimeout(this.updateData(true), 30000);
-                                }
+                                    .finally(() => {
+                                        if (shouldTimeout) {
+                                            setTimeout(() => {
+                                                this.updateData(true);
+                                            }, 30000);
+                                        }
+                                    });
+                                
                             })
                             .catch((error2) => {
                                 console.log(error2);
