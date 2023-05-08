@@ -108,7 +108,21 @@ var app2 = createApp({
                  })
                  .then((data3) => {
                     this.actions = data3.actions;
-                    console.log(this.actions);
+                    this.actions.forEach((action) => {
+                      // Aquí puede modificar la propiedad date según sus necesidades
+                      let newDate = new Date(action.date)
+                      const options = {
+                        day: 'numeric', 
+                        month: 'long', 
+                        year: 'numeric', 
+                        hour: 'numeric', 
+                        minute: 'numeric', 
+                        hour12: false 
+                      }
+                      const formatter = new Intl.DateTimeFormat('ca-ES', options);
+                      action.date = formatter.format(newDate);
+
+                    });
                  })
                 setTimeout(this.updateData, 30000);
 

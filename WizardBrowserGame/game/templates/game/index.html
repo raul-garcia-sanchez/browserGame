@@ -58,9 +58,14 @@
 
             <button id="buttonCollapsable" type="button" class="collapsible mt-4 font-bold">Veure últimes
                 accions</button>
-            <div v-for="action in actions" class="content mt-2">
+            <div class="content mt-2">
                 
-                <p>jj</p>
+                <template v-for="action in actions">
+
+                    <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de [[action.action__name]] contra el jugador <b>[[action.user_receiver__username]]</b> el dia [[action.date]] </p>
+                    <p v-else> Has rebut l'acció de [[action.action__name]] del jugador <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]</p>
+
+                </template>
 
                 <!-- <p v-if="action.user_transmitter__username == user.username"> le doy</p>
                 <p v-else> me han dado</p> -->
