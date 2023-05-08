@@ -62,8 +62,8 @@
                 
                 <template v-for="action in actions">
 
-                    <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de [[action.action__name]] contra el jugador <b>[[action.user_receiver__username]]</b> el dia [[action.date]] </p>
-                    <p v-else> Has rebut l'acció de [[action.action__name]] del jugador <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]</p>
+                    <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de <b><i>[[action.action__name]]</i></b> contra el jugador <b>[[action.user_receiver__username]]</b> el dia [[action.date]] </p>
+                    <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]</p>
 
                 </template>
 
