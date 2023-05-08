@@ -102,7 +102,7 @@ var app2 = createApp({
                                     return user.username === this.user.username;
                                 });
                                 this.userRanking = userRanking;
-                                fetch("../api/get_actions")
+                                fetch("../api/get_events")
                                     .then((response3) => {
                                         return response3.json();
                                     })
