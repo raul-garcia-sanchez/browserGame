@@ -21,7 +21,6 @@ def getActions(request):
         "status_code": 200
     }, safe=False)
 
-
 def getCurrentUser(request):
     jsonData = list(User.objects.filter(pk=request.user.pk).values())
 

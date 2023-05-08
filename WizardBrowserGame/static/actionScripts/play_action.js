@@ -1,11 +1,11 @@
-let user, actions;
+let user, actions, allUsers;
 
 // OnInit
 $(document).ready(async () => {
     actions = await getActions();
     user = await getCurrentUser();
+    allUsers = await getAllUsers();
     disableOptionsOutOfMana(user, actions);
-    console.log(getUsernameById(5))
 })
 
 // OnChange in spell selector
@@ -38,32 +38,53 @@ $("select[name='user_receiver']").change(() => {
 
 // OnClick in confirmAction
 $("#btnConfirmAction").click(async () => {
-    let idSpellSelected = $("select[name='spell']").val();
-    let spellSelected = getActionById(idSpellSelected);
-    let response
+    const idSpellSelected = $("select[name='spell']").val();
+    const spellSelected = getActionById(idSpellSelected);
+    var response, userTarget
     if (spellSelected.action_type == 1) { // Offensive action
         let idUserSelected = $("select[name='user_receiver']").val();
+        userTarget = getUserById(idUserSelected)
         response = await makeAction(spellSelected.id, user.id, idUserSelected);
     }
     else { // Other type of action
         response = await makeAction(spellSelected.id, user.id);
     }
+    await resetParameters()
 
-    if (response && response.status_code == 200){
+    if (response && response.status_code == 200) {
 
-        if (spellSelected.action_type == 1){
-            usernameTarget = getUsernameById(idUserSelected)
+        if (spellSelected.action_type == 1) {
             message = (response.action_succeed)  //If action succeeded
-                ? `Has encertat l'atac <strong><i>${spellSelected.name}</i></strong> contra el jugador <strong>${usernameTarget}</strong> `
-                : `Has fallat l'atac <strong><i>${spellSelected.name}</i></strong> contra el jugador <strong>${usernameTarget}</strong> `
-
+                ? `Has encertat l'atac <strong><i>${spellSelected.name}</i></strong> contra el jugador <strong>${userTarget.username}</strong><br>`
+                : `Has fallat l'atac <strong><i>${spellSelected.name}</i></strong> contra el jugador <strong>${userTarget.username}</strong><br>`
         }
-        else{
-
+        else if (spellSelected.action_type == 2) {
+            message = (response.action_succeed)  //If action succeeded
+                ? `Has realitzat correctament <strong><i>${spellSelected.name}</i></strong> i t'has curat<br>`
+                : `No has realitzat correctament <strong><i>${spellSelected.name}</i></strong><br>`
         }
-        console.log("Resp:",response)
-        NewError("success", message)
-        await resetParameters()
+        else if (spellSelected.action_type == 3) {
+            message = (response.action_succeed)  //If action succeeded
+                ? `Has realitzat correctament <strong><i>${spellSelected.name}</i></strong> i has guanyat punts d'experiència<br>`
+                : `No has realitzat correctament <strong><i>${spellSelected.name}</i></strong><br>`
+        }
+
+
+        message += (response.has_killed)
+            ? `Has matat al jugador <strong>${userTarget.username}</strong><br>`
+            : ``
+
+        message += (response.levelUp)
+            ? `Has pujat de nivell a <strong>${user.level}</strong><br>`
+            : ``
+
+        if (response.action_succeed) NewError("success", message);
+        else NewError("info", message);
+    }
+    else{
+        message = "Error del servidor";
+        NewError("error", message)
+
     }
 
 
@@ -87,8 +108,9 @@ function disableOptionsOutOfMana(user, actions) {
     });
 }
 
-async function resetParameters(){
+async function resetParameters() {
     user = await getCurrentUser();
+    allUsers = await getAllUsers();
     disableOptionsOutOfMana(user, actions);
     $("select[name='spell']").val("null");
     $("select[name='selectorUsers']").val("null");
@@ -99,12 +121,13 @@ async function resetParameters(){
 }
 
 // ALERTS
-function NewError(tipoMensaje,Texto) {
+function NewError(tipoMensaje, Texto) {
     var error = $(`
-    <div class="${tipoMensaje}">
+    <div class="${tipoMensaje} text-center flex justify-between">
         <ul>
-            <li> ${Texto} <span class="closebtn" onclick="this.parentElement.parentElement.parentElement.remove();">&times;</span></li>
+            <li> ${Texto}</li>
         </ul>
+        <span class="closebtn self-center" onclick="this.parentElement.remove();">&times;</span>
     </div>`);
     $('#mensajes').append(error);
 }
@@ -113,9 +136,9 @@ function getActionById(action_id) {
     actionSelected = actions.filter(action => action.id == action_id)[0]
     return actionSelected
 }
-function getUsernameById(user_id){
-    usernameSelected = $("select[name='user_receiver'] option[value='"+(user_id-1)+"']").html();
-    return usernameSelected
+function getUserById(user_id) {
+    userSelected = allUsers.filter(user => user.id == user_id)[0]
+    return userSelected
 }
 
 function enableSubmitButton() {

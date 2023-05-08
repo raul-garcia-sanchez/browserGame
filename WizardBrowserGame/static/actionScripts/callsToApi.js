@@ -6,6 +6,14 @@ async function getCurrentUser() {
     return currentUser
 }
 
+async function getAllUsers(){
+    let allUsers
+    await $.get("/api/get_ranking", function (data) {
+        allUsers = data.ranking;
+    });
+    return allUsers
+}
+
 async function getActions() {
     let allActions
     await $.get("/api/get_actions", function (data) {
