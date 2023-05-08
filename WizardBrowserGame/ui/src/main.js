@@ -97,7 +97,7 @@ var app2 = createApp({
                                 return response2.json();
                             })
                             .then((data2) => {
-                                this.user = data.user[0];
+                                this.user = data.user;
                                 const userRanking = data2.ranking.find((user) => {
                                     return user.username === this.user.username;
                                 });

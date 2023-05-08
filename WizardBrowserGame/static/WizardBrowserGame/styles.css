@@ -52,6 +52,11 @@
     color: var(--lightGrey);
 }
 
+
+.active{
+    background-color: #DCE0D9;
+}
+
 /* CHANGE PASSWORD */
 
 .content {
@@ -111,5 +116,85 @@
 
     .sidenav a {
         font-size: 18px;
+    }
+}
+.formAction{
+    min-width: 50%;
+}
+
+.attackSelect{
+    background-color: rgb(252 165 165 / var(--tw-bg-opacity) ) !important;
+    color: #6B0F1A !important;
+    font-weight: bold;
+}
+
+.defendSelect{
+    background-color: rgb(220 252 231 / var(--tw-bg-opacity))!important;
+    color: green !important;
+    font-weight: bold;
+}
+
+.neutralSelect{
+    background-color: rgb(219 234 254 / var(--tw-bg-opacity)) !important;
+    color: blue !important;
+    font-weight: bold;
+}
+
+/* ALERTS */
+#mensajes{
+    position: absolute;
+    top: 55px;
+    margin: auto;
+}
+
+#mensajes div{
+    border-left-width: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    animation: cascade 1.2s ease-in-out forwards;
+}
+#mensajes div.error{
+    background-color: #FEE2E2;
+    border-color: rgb(239 68 68);
+    color: rgb(185 28 28);
+}
+#mensajes div.info{
+    background-color: rgb(219 234 254);
+    border-color: rgb(29 78 216);
+    color: rgb(59 130 246);
+}
+#mensajes div.success{
+    background-color: rgb(220 252 231);
+    border-color: rgb(21 128 61);
+    color: rgb(34 197 94);
+}
+
+#mensajes div ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#mensajes div ul li{
+    list-style: none;
+}
+
+.closebtn {
+    margin-left: 10px;
+    color: black;
+    font-size: 20px;
+    transition: 0.3s;
+}
+.closebtn:hover {
+    cursor: pointer;
+}
+
+@keyframes cascade {
+    0% {
+      opacity: 0;
+      transform: translateY(-200%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
 }
