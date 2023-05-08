@@ -16,12 +16,16 @@
 </head>
 
 <body class="backgroundGarnet">
-
-    <div class="my-12">
+    <div class="my-8">
         <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
             ÀREA D'ENCANTERIS
         </h1>
     </div>
+
+    <div class="flex flex-center justify-center align-center">
+        <div id="mensajes"></div>
+    </div>
+
     <div class="flex justify-center items-center">
 
         <form class="backgroundLightGrey px-8 pt-8 pb-8 formAction">
@@ -78,11 +82,17 @@
 
 
 
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-around">
+                <a class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50" href="/">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Torna a l'inici
+                </a>
+
                 <button disabled id="btnConfirmAction" type="button"
                 class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50">
                     Confirma acció
                 </button>
+
             </div>
         </form>
     </div>

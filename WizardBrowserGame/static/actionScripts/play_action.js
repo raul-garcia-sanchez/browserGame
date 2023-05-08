@@ -5,6 +5,7 @@ $(document).ready(async () => {
     actions = await getActions();
     user = await getCurrentUser();
     disableOptionsOutOfMana(user, actions);
+    console.log(getUsernameById(5))
 })
 
 // OnChange in spell selector
@@ -49,6 +50,19 @@ $("#btnConfirmAction").click(async () => {
     }
 
     if (response && response.status_code == 200){
+
+        if (spellSelected.action_type == 1){
+            usernameTarget = getUsernameById(idUserSelected)
+            message = (response.action_succeed)  //If action succeeded
+                ? `Has encertat l'atac <strong><i>${spellSelected.name}</i></strong> contra el jugador <strong>${usernameTarget}</strong> `
+                : `Has fallat l'atac <strong><i>${spellSelected.name}</i></strong> contra el jugador <strong>${usernameTarget}</strong> `
+
+        }
+        else{
+
+        }
+        console.log("Resp:",response)
+        NewError("success", message)
         await resetParameters()
     }
 
@@ -64,10 +78,10 @@ function disableOptionsOutOfMana(user, actions) {
             dif = action.cost - mana;
             $("select[name='spell'] option[value=" + action.id + "]").attr("disabled", true);
             if (dif > 1) {
-                $("select[name='spell'] option[value=" + action.id + "]").text($("select[name='spell'] option[value=" + action.id + "]").text() + "(et falten " + dif + " de manà)");
+                $("select[name='spell'] option[value=" + action.id + "]").text($("select[name='spell'] option[value=" + action.id + "]").text().split("(")[0] + "(et falten " + dif + " de manà)");
             }
             else {
-                $("select[name='spell'] option[value=" + action.id + "]").text($("select[name='spell'] option[value=" + action.id + "]").text() + "(et falta " + dif + " de manà)");
+                $("select[name='spell'] option[value=" + action.id + "]").text($("select[name='spell'] option[value=" + action.id + "]").text().split("(")[0] + "(et falta " + dif + " de manà)");
             }
         }
     });
@@ -84,9 +98,24 @@ async function resetParameters(){
     $("select[name='spell']").removeClass("defendSelect neutralSelect attackSelect")
 }
 
+// ALERTS
+function NewError(tipoMensaje,Texto) {
+    var error = $(`
+    <div class="${tipoMensaje}">
+        <ul>
+            <li> ${Texto} <span class="closebtn" onclick="this.parentElement.parentElement.parentElement.remove();">&times;</span></li>
+        </ul>
+    </div>`);
+    $('#mensajes').append(error);
+}
+
 function getActionById(action_id) {
     actionSelected = actions.filter(action => action.id == action_id)[0]
     return actionSelected
+}
+function getUsernameById(user_id){
+    usernameSelected = $("select[name='user_receiver'] option[value='"+(user_id-1)+"']").html();
+    return usernameSelected
 }
 
 function enableSubmitButton() {
