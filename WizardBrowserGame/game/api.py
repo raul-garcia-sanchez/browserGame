@@ -2,6 +2,8 @@ import json
 import random
 from django.http import JsonResponse
 from .models import *
+from django.db.models import Q
+
 
 
 def getRanking(request):
@@ -20,6 +22,9 @@ def getActions(request):
         "actions": jsonData,
         "status_code": 200
     }, safe=False)
+
+
+
 
 def getCurrentUser(request):
     jsonData = list(User.objects.filter(pk=request.user.pk).values())
@@ -156,4 +161,11 @@ def makeAction(request):
         "status_code": 400,
         "error": "Bad request"
 
+    }, safe=False)
+
+def getGameOptions(request):
+    jsonData = list(GameOption.objects.all().values())
+    return JsonResponse({
+        "status": "OK",
+        "gameOptions": jsonData
     }, safe=False)

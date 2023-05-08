@@ -396,7 +396,6 @@ def index(request):
     dateNow = datetime.now()
     minutesToTurn = 60 - dateNow.minute
     if (request.user.username):
-        position = getPositionRankingUser(request.user)
         actions = actionsUser(request.user)
         InfoLog(
             request.user,
@@ -404,18 +403,9 @@ def index(request):
             "Usuari entra a veure el seu perfil i el temps pel següent torn",
             "/"
         )
-        return render(request, "game/index.html", {"position": position, "actions": actions})
+        return render(request, "game/index.html", { "actions": actions})
     else:
         return render(request, "game/index.html", {"datesGame": datesGame, "minutesToTurn": minutesToTurn, "dateNow": dateNow, "dateEnd": dateEnd, "dateStart": dateStart, "dateNowTime": dateNowTime})
-
-
-# RANKING USERS ORDER BY EXP
-def getPositionRankingUser(user):
-    ordered_users = User.objects.filter(
-        is_staff=False).order_by('-level', '-exp')
-    position = list(ordered_users).index(user) + 1
-    return position
-
 
 def actionsUser(user):
     actions_transmitted = EventHistory.objects.filter(
@@ -481,8 +471,13 @@ def messages(request):
 
 
 def ranking(request):
-    context = {}
-    return render(request, 'game/ranking.html', context)
+    InfoLog(
+        request.user,
+        "Usuari entra al ranking",
+        "Usuari entra a veure el ranking de tots els jugadors del joc",
+        "/"
+    )
+    return render(request, 'game/ranking.html')
 
 # Funcion logs
 # Level 1:INFO, 2:SUCCESS , 3:WARNING, 4:ERROR

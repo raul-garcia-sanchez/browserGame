@@ -52,6 +52,11 @@
     color: var(--lightGrey);
 }
 
+
+.active{
+    background-color: #DCE0D9;
+}
+
 /* CHANGE PASSWORD */
 
 .content{
