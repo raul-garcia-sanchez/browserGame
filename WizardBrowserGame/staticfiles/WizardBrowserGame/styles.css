@@ -1,0 +1,203 @@
+/*COLOR VARIABLES*/
+
+:root {
+    --purple: #800f85;
+    --grey: #595959;
+    --garnet: #6B0F1A;
+    --strongGarnet: #31081F;
+    --lightGrey: #DCE0D9;
+}
+
+/* BACKGROUND CLASES*/
+
+.backgroundPurple {
+    background-color: var(--purple);
+}
+
+.backgroundGrey {
+    background-color: var(--grey);
+}
+
+.backgroundGarnet {
+    background-color: var(--garnet);
+}
+
+.backgroundStrongGarnet {
+    background-color: var(--strongGarnet) !important;
+}
+
+.backgroundLightGrey {
+    background-color: var(--lightGrey);
+}
+
+/* COLOR VARIABLES*/
+
+.colorPurple {
+    color: var(--purple);
+}
+
+.colorGrey {
+    color: var(--grey);
+}
+
+.colorGarnet {
+    color: var(--garnet);
+}
+
+.colorStrongGarnet {
+    color: var(--strongGarnet);
+}
+
+.colorLightGrey {
+    color: var(--lightGrey);
+}
+
+
+.active{
+    background-color: #DCE0D9;
+}
+
+/* CHANGE PASSWORD */
+
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+}
+
+.active {
+    background-color: #DCE0D9;
+}
+
+/* SIDEBAR */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.5s;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+
+}
+
+.activeLink{
+    font-weight: bold;
+    color: white !important;
+}
+
+
+@media screen and (max-height:450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+.formAction{
+    min-width: 50%;
+}
+
+.attackSelect{
+    background-color: rgb(252 165 165 / var(--tw-bg-opacity) ) !important;
+    color: #6B0F1A !important;
+    font-weight: bold;
+}
+
+.defendSelect{
+    background-color: rgb(220 252 231 / var(--tw-bg-opacity))!important;
+    color: green !important;
+    font-weight: bold;
+}
+
+.neutralSelect{
+    background-color: rgb(219 234 254 / var(--tw-bg-opacity)) !important;
+    color: blue !important;
+    font-weight: bold;
+}
+
+/* ALERTS */
+#mensajes{
+    position: absolute;
+    top: 55px;
+    margin: auto;
+}
+
+#mensajes div{
+    border-left-width: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    animation: cascade 1.2s ease-in-out forwards;
+}
+#mensajes div.error{
+    background-color: #FEE2E2;
+    border-color: rgb(239 68 68);
+    color: rgb(185 28 28);
+}
+#mensajes div.info{
+    background-color: rgb(219 234 254);
+    border-color: rgb(29 78 216);
+    color: rgb(59 130 246);
+}
+#mensajes div.success{
+    background-color: rgb(220 252 231);
+    border-color: rgb(21 128 61);
+    color: rgb(34 197 94);
+}
+
+#mensajes div ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#mensajes div ul li{
+    list-style: none;
+}
+
+.closebtn {
+    margin-left: 10px;
+    color: black;
+    font-size: 20px;
+    transition: 0.3s;
+}
+.closebtn:hover {
+    cursor: pointer;
+}
+
+@keyframes cascade {
+    0% {
+      opacity: 0;
+      transform: translateY(-200%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
