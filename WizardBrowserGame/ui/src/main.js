@@ -78,13 +78,27 @@ var app2 = createApp({
         return {
             user: [],
             userRanking: [],
+            eventActions: [],
             actions: []
         };
     },
     mounted() {
         this.updateData(true);
+        this.getActions();
     },
     methods: {
+        getActions: function () {
+            fetch("../api/get_actions")
+                .then((response) => {
+                    return response.json();
+                })
+                    .then((response) => {
+                        this.actions=  response.actions;
+                    })
+                    .catch((error) => {
+                        console.log("Could not get actions:",error);
+                    });
+        },
         updateData: function (shouldTimeout) {
             fetch("../api/get_user")
                 .then((response) => {
@@ -107,8 +121,8 @@ var app2 = createApp({
                                         return response3.json();
                                     })
                                     .then((data3) => {
-                                        this.actions = data3.actions;
-                                        this.actions.forEach((action) => {
+                                        this.eventActions = data3.actions;
+                                        this.eventActions.forEach((action) => {
                                             let newDate = new Date(action.date)
                                             const options = {
                                                 day: 'numeric',
@@ -129,7 +143,7 @@ var app2 = createApp({
                                             }, 30000);
                                         }
                                     });
-                                
+
                             })
                             .catch((error2) => {
                                 console.log(error2);

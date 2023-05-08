@@ -41,6 +41,7 @@ class Action(models.Model):
     success_rate = models.IntegerField()
     exp_given = models.IntegerField()
     exp_extra = models.IntegerField(blank=True, null=True)
+    action_img = models.CharField(max_length=100)
     def __str__(self):
         return self.name
 

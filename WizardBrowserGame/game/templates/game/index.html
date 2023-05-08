@@ -24,18 +24,19 @@
     </div>
 
     <div id="mySidenav" class="sidenav">
-        <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
+                class="fa fa-arrow-left" aria-hidden="true"></i></a>
         <a href="/">Inici</a>
         <a href="/ranking">Ranking</a>
         <a href="/play_action">Àrea d'encanteris</a>
         <a href="/accounts/logout">Tancar sessió</a>
-        
+
     </div>
 
-    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()"&#9776; open>
+    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
 
-        <i style="position: absolute; top: 5%"class=" ml-10 fa fa-bars" aria-hidden="true"></i> 
-        
+        <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
+
     </span>
 
 
@@ -76,14 +77,65 @@
                 </table>
             </div>
 
+            <!-- Actions -->
+            <div class="mt-4 mb-4">
+                <!-- Ofenssive actions -->
+                <div class="mt-4 mb-4" id="offensiveActions">
+                    <h5 class="text-center text-gray-700 font-bold text-2xl">Accions Ofensives</h5>
+                    <div class="flex justify-around flex-row">
+                        <template v-for="action in actions">
+                            <div v-if="action.action_type == 1" class="flex flex-col">
+                                <button class="w-40 h-40 imageContainer"  v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
+                                    &nbsp;
+                                </button>
+                                <p class="text-center">[[action.name]]</p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <!-- Defensive actions -->
+                <div class="mt-4 mb-4" id="defensiveActions">
+                    <h5 class="text-center text-gray-700 font-bold text-2xl">Accions Defensives</h5>
+                    <div class="flex justify-around flex-row">
+                        <template v-for="action in actions">
+                            <div v-if="action.action_type == 2" class="flex flex-col">
+                                <button class="w-40 h-40 imageContainer"  v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
+                                    &nbsp;
+                                </button>
+                                <p class="text-center">[[action.name]]</p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <!-- Neutral actions -->
+                <div class="mt-4 mb-4" id="neutralActions">
+                    <h5 class="text-center text-gray-700 font-bold text-2xl">Accions Neutrals</h5>
+                    <div class="flex justify-around flex-row">
+                        <template v-for="action in actions">
+                            <div v-if="action.action_type == 3" class="flex flex-col">
+                                <button class="w-40 h-40 imageContainer"  v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
+                                    &nbsp;
+                                </button>
+                                <p class="text-center">[[action.name]]</p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
             <button id="buttonCollapsable" type="button" class="collapsible mt-4 font-bold">Veure últimes
                 accions</button>
             <div class="content mt-2">
-                
-                <template v-for="action in actions">
 
-                    <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de <b><i>[[action.action__name]]</i></b> contra el jugador <b>[[action.user_receiver__username]]</b> el dia [[action.date]] </p>
-                    <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]</p>
+                <template v-for="action in eventActions">
+
+                    <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de
+                        <b><i>[[action.action__name]]</i></b> contra el jugador
+                        <b>[[action.user_receiver__username]]</b> el dia [[action.date]]
+                    </p>
+                    <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador
+                        <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]
+                    </p>
 
                 </template>
 
@@ -109,7 +161,10 @@
                     mesura que avancen en el joc, cosa que els permet llançar encanteris més poderosos i resistir atacs
                     enemics.
                 </p>
-                <p class="p-2">Per poder jugar, els jugadors poden crear un compte o iniciar sessió en un compte existent. Quan han iniciat sessió, poden accedir a la sorra de batalla i comença la partida. El joc té un temporitzador que marca l'inici i el final de cada partida, cosa que significa que els jugadors tenen un temps limitat per vèncer els seus oponents i guanyar punts d'experiència.</p>
+                <p class="p-2">Per poder jugar, els jugadors poden crear un compte o iniciar sessió en un compte
+                    existent. Quan han iniciat sessió, poden accedir a la sorra de batalla i comença la partida. El joc
+                    té un temporitzador que marca l'inici i el final de cada partida, cosa que significa que els
+                    jugadors tenen un temps limitat per vèncer els seus oponents i guanyar punts d'experiència.</p>
             </div>
 
             <div id="app3" class="flex items-center justify-center">
@@ -124,9 +179,9 @@
                     </tr>
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Següent torn</td>
-                         <td class="border-2 border-black px-4 py-2">[[gameOptions.minutes]]
-                            </td>
-                            
+                        <td class="border-2 border-black px-4 py-2">[[gameOptions.minutes]]
+                        </td>
+
                     </tr>
                 </table>
             </div>
@@ -167,16 +222,16 @@
             });
         }
 
-        function openNav(){
-	        document.getElementById('mySidenav').style.width="250px";
+        function openNav() {
+            document.getElementById('mySidenav').style.width = "250px";
         }
 
-        function closeNav(){
-            document.getElementById("mySidenav").style.width="0px";
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0px";
 
         }
     </script>
-    
+
 
 </body>
 

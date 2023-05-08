@@ -57,6 +57,14 @@
     background-color: #DCE0D9;
 }
 
+.imageContainer{
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: scale(0.75);
+
+}
+
 /* CHANGE PASSWORD */
 
 .content {
