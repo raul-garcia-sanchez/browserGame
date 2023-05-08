@@ -12,4 +12,7 @@ urlpatterns = [
 
     # API ENDPOINTS
     path('api/get_ranking', api.getRanking, name="getRanking"),
+    path('api/get_user', api.getCurrentUser, name="getCurrentUser"),
+    path('api/get_gameOptions', api.getGameOptions, name="getGameOptions"),
+    path('api/get_actions', api.getActions, name="getActions"),
 ]
