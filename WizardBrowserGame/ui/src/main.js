@@ -109,7 +109,6 @@ var app2 = createApp({
                  .then((data3) => {
                     this.actions = data3.actions;
                     this.actions.forEach((action) => {
-                      // Aquí puede modificar la propiedad date según sus necesidades
                       let newDate = new Date(action.date)
                       const options = {
                         day: 'numeric', 
