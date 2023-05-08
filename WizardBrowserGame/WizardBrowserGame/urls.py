@@ -29,7 +29,7 @@ urlpatterns = [
     path('', include('game.urls')),
 
     path("accounts/login/", newLogin, name="newLogin"),
-    path("accounts/logout/", logout, name="logout"),
+    path("accounts/logout/", new_logout, name="new_logout"),
     path("accounts/password_change/", changePassword, name="changePassword"),
     path("accounts/password_change/done/", changePasswordDone, name="changePasswordDone"),
 

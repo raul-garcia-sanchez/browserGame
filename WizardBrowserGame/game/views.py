@@ -33,7 +33,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-
+from django.contrib.auth import logout
 
 # VIEWS OF AUTHENTICATION
 def newLogin(request):
@@ -94,7 +94,8 @@ def newLogin(request):
 
 @login_required
 @RefreshResources
-def logout(request):
+def new_logout(request):
+    logout(request);
     try:
         user = request.user
         SuccessLog(
