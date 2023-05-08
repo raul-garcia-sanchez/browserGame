@@ -81,7 +81,7 @@ class Command(BaseCommand):
             },
             {
                 "name": "Crucio",
-                "description": "Raig maldit de energía verda que causa un dolor insuportable al objectiu",
+                "description": "Raig de energía verda maleïda que causa un dolor insuportable a l'objectiu",
                 "cost": 5,
                 "action_type": 1,
                 "points": 5,

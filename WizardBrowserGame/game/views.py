@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.contrib.auth.hashers import make_password
+from django.db.models import Q
 
 
 from datetime import datetime
@@ -34,6 +35,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
 
+# VIEWS OF AUTHENTICATION
 def newLogin(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -415,14 +417,50 @@ def actionsUser(user):
         history, key=lambda evento: evento.date, reverse=True)
     return ordered_history
 
+# VIEWS OF GAME
 
+
+@login_required
+@RefreshResources
 def cron(request):
     context = {}
     return render(request, 'game/cron.html', context)
 
 
+@login_required
+@RefreshResources
 def play_action(request):
-    context = {}
+    user = request.user
+    allActions = Action.objects.all()
+    allActions.order_by('action_type')
+
+    sendAct = []
+    for action in allActions:
+        act = {
+            "name": action.name,
+            "description": action.description,
+            "cost": action.cost,
+            "action_type": action.action_type,
+            "points": action.points,
+
+            "success_rate": action.cost,
+            "exp_given": action.action_type,
+            "exp_extra": action.points,
+        }
+        sendAct.append(act)
+
+    usuarios = User.objects.filter(
+        Q(level=user.level) | 
+        Q(level=user.level-1) | 
+        Q(level=user.level+1)
+    ).exclude(Q(id=user.id)| Q(level=0) | Q(is_staff = True))
+
+    context = {
+        "user": user,
+        "list_users": list(usuarios),
+        "list_actions": list(allActions),
+        "test": sendAct
+    }
     return render(request, 'game/play_action.html', context)
 
 
