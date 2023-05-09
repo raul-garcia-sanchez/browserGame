@@ -1,17 +1,40 @@
 <template>
     <div class="dialog-wrapper" v-show="showDialog">
         <div class="dialog">
-            <h2>{{ dialogTitle }}</h2>
-            <form>
-                <label for="userToAttack">Selecciona usuari a atacar</label>
-                <select name="userToAttack" id="userToAttack">
-                    <option value="null" selected> -- Selecciona objectiu -- </option>
-                    <option v-for="user in users" v-bind:key="user.id">{{ user.username }}</option>
+            <h2 class="text-center mb-3">
+                {{ dialogTitle }}
+            </h2>
+            <div>
+                <hr class="border-black mb-3">
+                <h5 class="text-center text-gray-700 font-bold text-2xl">
+                    <i class="fa fa-gavel mr-3 text-red-600"></i>
+                    Acció ofensiva
+                </h5>
+                <div class="w-40 h-40 imageContainer m-auto"
+                    v-bind:style="{ backgroundImage: 'url(/static/' + [[action.action_img]] + ') !important' }">
+                    &nbsp;
+                </div>
+                <ul>
+                    <li> <strong>Encanteri:</strong> {{ action.name }}</li>
+                    <li> <strong>Descripció:</strong> {{ action.description }}</li>
+                    <li> <strong>Cost:</strong> {{ action.cost }} de manà</li>
+                    <li> <strong>Dany total:</strong> {{ action.points }}</li>
+                    <li> <strong>Percentatge d'encert:</strong> {{ action.success_rate }}%</li>
+                </ul>
+                <hr class="border-black mt-3">
+            </div>
+            <form class="mt-3">
+                <label class="text-center" for="userToAttack">Objectiu</label>
+                <select @change="checkIfUserSelected()" name="userToAttack" :id="'userToAttack_' + action.id"
+                    class="text-center text-lg italic w-full px-4 py-2 text-gray-700 
+                bg-white border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-100 focus:border-red-500">
+                    <option value="null" selected disabled> -- Selecciona objectiu -- </option>
+                    <option v-for="(user) in users" :key="user.id" v-bind:value="user.id">{{ user.username }}</option>
                 </select>
             </form>
-            <div class="dialog-buttons">
-                <button @click="cerrarDialogo">Cancelar</button>
-                <button @click="enviarFormulario">Enviar</button>
+            <div class="dialog-buttons flex justify-around w-full">
+                <button id="closeForm" @click="cerrarDialogo()">Cancelar</button>
+                <button type="button" :id="'sendForm_' + action.id" @click="enviarFormulario()" disabled>Enviar</button>
             </div>
         </div>
     </div>
@@ -19,10 +42,13 @@
 
 <script>
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 export default {
-    name: 'modalCreator',
-
+    name: 'ModalCreator',
+    mounted() {
+        this.csrfToken = Cookies.get('csrftoken')
+    },
     props: {
         action: {
             type: Object,
@@ -35,6 +61,10 @@ export default {
         dialogTitle: {
             type: String,
             default: 'Formulario'
+        },
+        user_transmitter: {
+            type: Object,
+            required: true
         }
     },
     data() {
@@ -43,23 +73,95 @@ export default {
         }
     },
     methods: {
-        logDeTest(){
-            console.log('Funcionando')
+        checkIfUserSelected() {
+            let selectuser = document.getElementById('userToAttack_' + this.action.id);
+            let userSelected = selectuser.value;
+            if (userSelected) {
+                let buttonSubmit = document.getElementById("sendForm_" + this.action.id);
+                buttonSubmit.disabled = false;
+                buttonSubmit.style.cursor = "pointer";
+                buttonSubmit.style.backgroundColor = "green";
+            }
         },
         abrirDialogo() {
             this.showDialog = true
         },
         cerrarDialogo() {
             this.showDialog = false
+            // this.updateData(false);
+            this.$emit('modal-closed');
+
         },
+        getUserById(id_user_receiver) {
+            const user_receiver = this.users.find((user) => {
+                return user.id == id_user_receiver;
+            });
+            return user_receiver
+        },
+
+        newError(tipoMensaje, texto) {
+            const error = document.createElement('div');
+            error.className = `${tipoMensaje} text-center flex justify-between`;
+            error.innerHTML = `
+                <ul>
+                <li>${texto}</li>
+                </ul>
+                <span class="closebtn self-center" onclick="this.parentElement.remove();">&times;</span>
+            `;
+            const mensajes = document.getElementById('mensajes');
+            mensajes.appendChild(error);
+        },
+
         enviarFormulario() {
-            axios.post('/api/make_action', this.formData)
+            let selectUser = document.getElementById('userToAttack_' + this.action.id);
+            let userSelected = selectUser.value;
+            let userTarget = this.getUserById(userSelected)
+            var dataToSend = {
+                action_id: this.action.id,
+                id_user_transmitter: this.user_transmitter.id,
+                id_user_receiver: userSelected
+            };
+
+            axios.post('/api/make_action', dataToSend, {
+                headers: { 'X-CSRFToken': this.csrfToken },
+            })
                 .then(response => {
-                    console.log(response.data)
-                    this.showDialog = false
+                    console.log(response);
+                    var message = "";
+                    if (this.action.action_type == 1) {
+                        message = (response.data.action_succeed)  //If action succeeded
+                            ? `Has encertat l'atac <strong><i>${this.action.name}</i></strong> contra el jugador <strong>${userTarget.username}</strong><br>`
+                            : `Has fallat l'atac <strong><i>${this.action.name}</i></strong> contra el jugador <strong>${userTarget.username}</strong><br>`
+                    }
+                    else if (this.action.action_type == 2) {
+                        message = (response.data.action_succeed)  //If action succeeded
+                            ? `Has realitzat correctament <strong><i>${this.action.name}</i></strong> i t'has curat<br>`
+                            : `No has realitzat correctament <strong><i>${this.action.name}</i></strong><br>`
+                    }
+                    else if (this.action.action_type == 3) {
+                        message = (response.data.action_succeed)  //If action succeeded
+                            ? `Has realitzat correctament <strong><i>${this.action.name}</i></strong> i has guanyat punts d'experiència<br>`
+                            : `No has realitzat correctament <strong><i>${this.action.name}</i></strong><br>`
+                    }
+
+
+                    message += (response.data.has_killed)
+                        ? `Has matat al jugador <strong>${userTarget.username}</strong><br>`
+                        : ``
+
+                    message += (response.data.levelUp)
+                        ? `Has pujat de nivell a <strong>${this.user.level}</strong><br>`
+                        : ``
+
+                    if (response.data.action_succeed) this.newError("success", message);
+                    else this.newError("info", message);
+
+                    this.cerrarDialogo()
                 })
                 .catch(error => {
                     console.log(error)
+                    let message = "Error del servidor";
+                    this.NewError("error", message)
                 })
         }
     }
@@ -84,7 +186,7 @@ export default {
 .dialog {
     background-color: white;
     padding: 20px;
-    max-width: 500px;
+    max-width: 50%;
     width: 100%;
     max-height: 80%;
     overflow-y: auto;
@@ -114,11 +216,6 @@ export default {
     border: 1px solid gray;
 }
 
-.dialog-buttons {
-    display: flex;
-    justify-content: flex-end;
-}
-
 .dialog-buttons button {
     margin-left: 10px;
     padding: 5px 10px;
@@ -126,13 +223,16 @@ export default {
     border: none;
     color: white;
     font-weight: bold;
-    cursor: pointer;
 }
 
 .dialog-buttons button:first-child {
     background-color: gray;
+    cursor: pointer;
+
 }
 
 .dialog-buttons button:last-child {
-    background-color: green;
-}</style>
+    background-color: rgb(63, 92, 63);
+    /* background-color: green; */
+}
+</style>

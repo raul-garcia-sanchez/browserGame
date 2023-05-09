@@ -1,5 +1,4 @@
 import { createApp } from "vue";
-import { modalCreator } from "./components/modalCreator"
 
 /* VUE COMPONENT RANKING */
 var app = createApp({
@@ -71,6 +70,7 @@ var app = createApp({
 app.mount("#app");
 
 /* VUE COMPONENT LANDING WHEN YOU ARE LOGGED */
+import ModalCreator from './components/ModalCreator.vue'
 
 var app2 = createApp({
     el: "#app2",
@@ -80,24 +80,40 @@ var app2 = createApp({
             user: [],
             userRanking: [],
             eventActions: [],
-            actions: []
+            actions: [],
+            allUsers: []
         };
     },
     mounted() {
         this.updateData(true);
         this.getActions();
+        this.$nextTick(() => {
+            this.disableOutOfManaButtons();
+        });
     },
     components : {
-        'modalCreator':modalCreator
+        'modal-creator': ModalCreator,
     },
     methods: {
         displayActionModal(action){
-            console.log("Elemento de componente:",this.$refs[action.id])
-            console.log("Elemento de componente:",modalCreator)
-            console.log("Accion:",action)
+            this.$refs[action.id][0].abrirDialogo();
         },
-        makeAction(action, user_transmitter, user_receiver=null){
-            console.log(action, user_transmitter, user_receiver)
+        resetParamters:function(){
+            this.updateData(false)
+        },
+        disableOutOfManaButtons(){
+            let buttons = document.getElementsByClassName("btnImage");
+            console.log("a:",buttons);
+
+            for (let button of buttons) {
+                console.log(button);
+            }
+        },
+        getActionById(idAction){
+            const actionToReturn = this.actions.find((action) => {
+                return action.id == idAction;
+            });
+            return actionToReturn
         },
         getActions: function () {
             fetch("../api/get_actions")
@@ -126,6 +142,16 @@ var app2 = createApp({
                                 this.user = data.user;
                                 const userRanking = data2.ranking.find((user) => {
                                     return user.username === this.user.username;
+                                });
+                                this.allUsers = data2.ranking.filter(user => {
+                                    if (
+                                        (user.level === userRanking.level  ||
+                                        (user.level - 1) === userRanking.level ||
+                                        (user.level + 1) === userRanking.level)
+                                        && (user != userRanking) && !(user.isStaff)
+                                        ){
+                                        return true
+                                    }
                                 });
                                 this.userRanking = userRanking;
                                 fetch("../api/get_events")

@@ -24,7 +24,9 @@
             SOBRE EL MEU MAG/A
         </h1>
     </div>
-
+    <div class="flex flex-center justify-center align-center">
+        <div id="mensajes"></div>
+    </div>
     <div id="mySidenav" class="sidenav">
         <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
                 class="fa fa-arrow-left" aria-hidden="true"></i></a>
@@ -87,12 +89,18 @@
                     <div class="flex justify-around flex-row">
                         <template v-for="action in actions">
                             <div v-if="action.action_type == 1" class="flex flex-col">
-                                <button class="w-40 h-40 imageContainer" @click="displayActionModal(action)"
+                                <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage" @click="displayActionModal(action)"
                                     v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
                                     &nbsp;
                                 </button>
                                 <p class="text-center">[[action.name]]</p>
-                                <modalCreator :form-data="action" :dialog-title="'Selecciona objectiu'" :ref="''+action.id"></modalCreator>
+                                <modal-creator 
+                                :action="action" 
+                                :dialog-title="'Selecciona objectiu'" 
+                                :users="allUsers" 
+                                :user_transmitter="user" 
+                                :ref="''+action.id"
+                                @modal-closed="resetParamters()"/>
                             </div>
                         </template>
                     </div>
@@ -103,7 +111,7 @@
                     <div class="flex justify-around flex-row">
                         <template v-for="action in actions">
                             <div v-if="action.action_type == 2" class="flex flex-col">
-                                <button class="w-40 h-40 imageContainer"
+                                <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
                                     v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
                                     &nbsp;
                                 </button>
@@ -118,7 +126,7 @@
                     <div class="flex justify-around flex-row">
                         <template v-for="action in actions">
                             <div v-if="action.action_type == 3" class="flex flex-col">
-                                <button class="w-40 h-40 imageContainer"
+                                <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
                                     v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
                                     &nbsp;
                                 </button>
@@ -234,10 +242,6 @@
 
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0px";
-
-        }
-        function a(a) {
-            console.log(a);
         }
     </script>
     <script src="{% static 'actionScripts/callsToApi.js' %}"></script>
