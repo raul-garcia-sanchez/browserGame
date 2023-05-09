@@ -147,7 +147,7 @@
 #mensajes{
     position: absolute;
     top: 55px;
-    margin: auto;
+    right: 2px;
 }
 
 #mensajes div{
@@ -201,3 +201,32 @@
       transform: translateY(0);
     }
 }
+
+/* LANDING */
+
+ /* Aplica la animación */
+ .wizardShowLeft {
+    margin-top: 90px;
+    position: absolute;
+    width: 400px;
+    animation: show 6s ease-in-out infinite;
+    left: 2%;
+  }
+  .wizardShowRight{
+    margin-top: 90px;
+    position: absolute;
+    width: 400px;
+    animation: show 6s ease-in-out infinite;
+    right: 2%;
+  }
+
+@keyframes show {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+ 
