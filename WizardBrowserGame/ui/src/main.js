@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import { modalCreator } from "./components/modalCreator"
 
 /* VUE COMPONENT RANKING */
 var app = createApp({
@@ -86,7 +87,18 @@ var app2 = createApp({
         this.updateData(true);
         this.getActions();
     },
+    components : {
+        'modalCreator':modalCreator
+    },
     methods: {
+        displayActionModal(action){
+            console.log("Elemento de componente:",this.$refs[action.id])
+            console.log("Elemento de componente:",modalCreator)
+            console.log("Accion:",action)
+        },
+        makeAction(action, user_transmitter, user_receiver=null){
+            console.log(action, user_transmitter, user_receiver)
+        },
         getActions: function () {
             fetch("../api/get_actions")
                 .then((response) => {

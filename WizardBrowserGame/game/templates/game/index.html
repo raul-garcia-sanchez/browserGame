@@ -10,6 +10,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}">
     <script src="https://kit.fontawesome.com/277f72a273.js" crossorigin="anonymous"></script>
+    <script src="{% static 'resources/jquery.min.js' %}"></script>
+    <script src="{% static 'resources/jquery.cookie.js' %}"></script>
     <title>Portada | WizardGame</title>
 
 </head>
@@ -85,10 +87,12 @@
                     <div class="flex justify-around flex-row">
                         <template v-for="action in actions">
                             <div v-if="action.action_type == 1" class="flex flex-col">
-                                <button class="w-40 h-40 imageContainer"  v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
+                                <button class="w-40 h-40 imageContainer" @click="displayActionModal(action)"
+                                    v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
                                     &nbsp;
                                 </button>
                                 <p class="text-center">[[action.name]]</p>
+                                <modalCreator :form-data="action" :dialog-title="'Selecciona objectiu'" :ref="''+action.id"></modalCreator>
                             </div>
                         </template>
                     </div>
@@ -99,7 +103,8 @@
                     <div class="flex justify-around flex-row">
                         <template v-for="action in actions">
                             <div v-if="action.action_type == 2" class="flex flex-col">
-                                <button class="w-40 h-40 imageContainer"  v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
+                                <button class="w-40 h-40 imageContainer"
+                                    v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
                                     &nbsp;
                                 </button>
                                 <p class="text-center">[[action.name]]</p>
@@ -113,7 +118,8 @@
                     <div class="flex justify-around flex-row">
                         <template v-for="action in actions">
                             <div v-if="action.action_type == 3" class="flex flex-col">
-                                <button class="w-40 h-40 imageContainer"  v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
+                                <button class="w-40 h-40 imageContainer"
+                                    v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
                                     &nbsp;
                                 </button>
                                 <p class="text-center">[[action.name]]</p>
@@ -230,7 +236,11 @@
             document.getElementById("mySidenav").style.width = "0px";
 
         }
+        function a(a) {
+            console.log(a);
+        }
     </script>
+    <script src="{% static 'actionScripts/callsToApi.js' %}"></script>
 
 
 </body>
