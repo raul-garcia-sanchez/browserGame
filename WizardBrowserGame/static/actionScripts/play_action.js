@@ -179,7 +179,7 @@ function fillSelectedActionProperties(action) {
                             <li> <strong>Descripci\ó:</strong> ${action.description}</li>
                             <li> <strong>Cost:</strong> ${action.cost} de manà</li>
                             <li> <strong>Dany total:</strong> ${action.points}</li>
-                            <li> <strong>Percentatge d'acert:</strong> ${action.success_rate}%</li>
+                            <li> <strong>Percentatge d'encert:</strong> ${action.success_rate}%</li>
                         </ul>
                         <hr class="border-black mt-3">
 
@@ -201,7 +201,7 @@ function fillSelectedActionProperties(action) {
                             <li> <strong>Descripci\ó:</strong> ${action.description}</li>
                             <li> <strong>Cost:</strong> ${action.cost} de manà</li>
                             <li> <strong>Curació total:</strong> ${action.points}</li>
-                            <li> <strong>Percentatge d'acert:</strong> ${action.success_rate}%</li>
+                            <li> <strong>Percentatge d'encert:</strong> ${action.success_rate}%</li>
                         </ul>
                         <hr class="border-black mt-3">
                     `)
@@ -222,7 +222,7 @@ function fillSelectedActionProperties(action) {
                             <li> <strong>Descripci\ó:</strong> ${action.description}</li>
                             <li> <strong>Cost:</strong> ${action.cost} de manà</li>
                             <li> <strong>Experi\ència a guanyar:</strong> ${action.exp_given}</li>
-                            <li> <strong>Percentatge d'acert:</strong> ${action.success_rate}%</li>
+                            <li> <strong>Percentatge d'encert:</strong> ${action.success_rate}%</li>
                         </ul>
                         <hr class="border-black mt-3">
                     `)

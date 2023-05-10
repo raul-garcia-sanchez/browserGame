@@ -67,7 +67,8 @@ class Command(BaseCommand):
                 "points": 1,
                 "success_rate": 90,
                 "exp_given": 1,
-                "exp_extra": 1
+                "exp_extra": 1,
+                "action_img": "images/spell_images/Glacius.png"
             },
             {
                 "name": "Confringo",
@@ -77,7 +78,8 @@ class Command(BaseCommand):
                 "points": 2,
                 "success_rate": 80,
                 "exp_given": 2,
-                "exp_extra": 3
+                "exp_extra": 3,
+                "action_img": "images/spell_images/Confringo.png"
             },
             {
                 "name": "Crucio",
@@ -87,7 +89,8 @@ class Command(BaseCommand):
                 "points": 5,
                 "success_rate": 60,
                 "exp_given": 3,
-                "exp_extra": 0
+                "exp_extra": 0,
+                "action_img": "images/spell_images/Crucio.png"
             },
             {
                 "name": "Avada Kedavra",
@@ -97,7 +100,8 @@ class Command(BaseCommand):
                 "points": 8,
                 "success_rate": 20,
                 "exp_given": 4,
-                "exp_extra": 0
+                "exp_extra": 0,
+                "action_img": "images/spell_images/Avada_Kedavra.png"
             },
             {
                 "name": "Protego",
@@ -107,7 +111,8 @@ class Command(BaseCommand):
                 "points": 1,
                 "success_rate": 100,
                 "exp_given": 1,
-                "exp_extra": 0
+                "exp_extra": 0,
+                "action_img": "images/spell_images/Protego.png"
             },
             {
                 "name": "Expecto Patronum",
@@ -117,7 +122,8 @@ class Command(BaseCommand):
                 "points": 5,
                 "success_rate": 40,
                 "exp_given": 3,
-                "exp_extra": 0
+                "exp_extra": 0,
+                "action_img": "images/spell_images/Patronus.png"
             },
             {
                 "name": "Aguamenti",
@@ -127,7 +133,8 @@ class Command(BaseCommand):
                 "points": 0,
                 "success_rate": 60,
                 "exp_given": 7,
-                "exp_extra": 0
+                "exp_extra": 0,
+                "action_img": "images/spell_images/Aguamenti.png"
             },
         ]
 
@@ -140,7 +147,8 @@ class Command(BaseCommand):
                 points= action["points"],
                 success_rate= action["success_rate"],
                 exp_given= action["exp_given"],
-                exp_extra= action["exp_extra"]
+                exp_extra= action["exp_extra"],
+                action_img= action["action_img"]
             )
 
             actionCreate.save()

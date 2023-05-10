@@ -34,7 +34,7 @@ def getEvents(request):
     return JsonResponse({
         "status": "OK",
         "actions": jsonData
-    });
+    })
 
 def getCurrentUser(request):
     jsonData = list(User.objects.filter(pk=request.user.pk).values())
