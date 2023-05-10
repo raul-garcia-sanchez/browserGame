@@ -25,7 +25,7 @@
         </h1>
     </div>
     <div class="flex flex-center justify-center align-center">
-        <div id="mensajes" class="fixed"></div>
+        <div id="mensajes"></div>
     </div>
     <div id="mySidenav" class="sidenav">
         <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
@@ -90,7 +90,7 @@
                                     v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
                                     &nbsp;
                                 </button>
-                                <p class="text-center">[[action.name]]</p>
+                                <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
                                 <modal-creator 
                                 :action="action" 
                                 :dialog-title="'Selecciona objectiu'" 
@@ -113,7 +113,7 @@
                                     @click="enviarFormulario(action)">
                                     &nbsp;
                                 </button>
-                                <p class="text-center">[[action.name]]</p>
+                                <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
                             </div>
                         </template>
                     </div>
@@ -129,7 +129,7 @@
                                     @click="enviarFormulario(action)">
                                     &nbsp;
                                 </button>
-                                <p class="text-center">[[action.name]]</p>
+                                <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
                             </div>
                         </template>
                     </div>

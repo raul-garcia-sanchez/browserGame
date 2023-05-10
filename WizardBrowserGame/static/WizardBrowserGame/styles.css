@@ -156,6 +156,7 @@
     position: fixed;
     top: 55px;
     right: 2px;
+    z-index: 1;
 }
 
 #mensajes div{
