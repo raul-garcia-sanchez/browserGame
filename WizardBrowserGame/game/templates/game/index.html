@@ -112,7 +112,8 @@
                         <template v-for="action in actions">
                             <div v-if="action.action_type == 2" class="flex flex-col">
                                 <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
-                                    v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
+                                    v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}"
+                                    @click="enviarFormulario(action)">
                                     &nbsp;
                                 </button>
                                 <p class="text-center">[[action.name]]</p>
@@ -127,7 +128,8 @@
                         <template v-for="action in actions">
                             <div v-if="action.action_type == 3" class="flex flex-col">
                                 <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
-                                    v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
+                                    v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}"
+                                    @click="enviarFormulario(action)">
                                     &nbsp;
                                 </button>
                                 <p class="text-center">[[action.name]]</p>

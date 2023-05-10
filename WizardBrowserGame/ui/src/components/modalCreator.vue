@@ -126,31 +126,17 @@ export default {
                 headers: { 'X-CSRFToken': this.csrfToken },
             })
                 .then(response => {
-                    console.log(response);
                     var message = "";
-                    if (this.action.action_type == 1) {
-                        message = (response.data.action_succeed)  //If action succeeded
+                    message = (response.data.action_succeed)  //If action succeeded
                             ? `Has encertat l'atac <strong><i>${this.action.name}</i></strong> contra el jugador <strong>${userTarget.username}</strong><br>`
                             : `Has fallat l'atac <strong><i>${this.action.name}</i></strong> contra el jugador <strong>${userTarget.username}</strong><br>`
-                    }
-                    else if (this.action.action_type == 2) {
-                        message = (response.data.action_succeed)  //If action succeeded
-                            ? `Has realitzat correctament <strong><i>${this.action.name}</i></strong> i t'has curat<br>`
-                            : `No has realitzat correctament <strong><i>${this.action.name}</i></strong><br>`
-                    }
-                    else if (this.action.action_type == 3) {
-                        message = (response.data.action_succeed)  //If action succeeded
-                            ? `Has realitzat correctament <strong><i>${this.action.name}</i></strong> i has guanyat punts d'experiència<br>`
-                            : `No has realitzat correctament <strong><i>${this.action.name}</i></strong><br>`
-                    }
-
-
+                    
                     message += (response.data.has_killed)
                         ? `Has matat al jugador <strong>${userTarget.username}</strong><br>`
                         : ``
 
                     message += (response.data.levelUp)
-                        ? `Has pujat de nivell a <strong>${this.user.level}</strong><br>`
+                        ? `Has pujat de nivell a <strong>${this.user_transmitter.level}</strong><br>`
                         : ``
 
                     if (response.data.action_succeed) this.newError("success", message);
@@ -161,7 +147,7 @@ export default {
                 .catch(error => {
                     console.log(error)
                     let message = "Error del servidor";
-                    this.NewError("error", message)
+                    this.newError("error", message)
                 })
         }
     }

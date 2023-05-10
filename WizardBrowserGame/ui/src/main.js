@@ -71,6 +71,8 @@ app.mount("#app");
 
 /* VUE COMPONENT LANDING WHEN YOU ARE LOGGED */
 import ModalCreator from './components/ModalCreator.vue'
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 var app2 = createApp({
     el: "#app2",
@@ -84,72 +86,157 @@ var app2 = createApp({
             allUsers: []
         };
     },
-    mounted() {
-        this.updateData(true);
-        this.getActions();
+    async mounted() {
+        await this.updateData(true);
+        await this.getActions();
         this.$nextTick(() => {
             this.disableOutOfManaButtons();
         });
+        this.csrfToken = Cookies.get('csrftoken');
+        this.disableOutOfManaButtons();
     },
-    components : {
+    components: {
         'modal-creator': ModalCreator,
     },
     methods: {
-        displayActionModal(action){
+        newError(tipoMensaje, texto) {
+            const error = document.createElement('div');
+            error.className = `${tipoMensaje} text-center flex justify-between`;
+            error.innerHTML = `
+                <ul>
+                <li>${texto}</li>
+                </ul>
+                <span class="closebtn self-center" onclick="this.parentElement.remove();">&times;</span>
+            `;
+            const mensajes = document.getElementById('mensajes');
+            mensajes.appendChild(error);
+        },
+        enviarFormulario(actionSelected) {
+            var dataToSend = {
+                action_id: actionSelected.id,
+                id_user_transmitter: this.user.id,
+                id_user_receiver: this.user.id
+            };
+
+            axios.post('/api/make_action', dataToSend, {
+                headers: { 'X-CSRFToken': this.csrfToken },
+            })
+                .then(response => {
+                    var message = "";
+                    if (actionSelected.action_type == 2) {
+                        message = (response.data.action_succeed)  //If action succeeded
+                            ? `Has realitzat correctament <strong><i>${actionSelected.name}</i></strong> i t'has curat<br>`
+                            : `No has realitzat correctament <strong><i>${actionSelected.name}</i></strong><br>`
+                    }
+                    else if (actionSelected.action_type == 3) {
+                        message = (response.data.action_succeed)  //If action succeeded
+                            ? `Has realitzat correctament <strong><i>${actionSelected.name}</i></strong> i has guanyat punts d'experiència<br>`
+                            : `No has realitzat correctament <strong><i>${actionSelected.name}</i></strong><br>`
+                    }
+
+                    message += (response.data.levelUp)
+                        ? `Has pujat de nivell a <strong>${this.user.level}</strong><br>`
+                        : ``
+
+                    if (response.data.action_succeed) this.newError("success", message);
+                    else this.newError("info", message);
+
+                    this.resetParamters();
+                })
+                .catch(error => {
+                    console.log(error)
+                    let message = "Error del servidor";
+                    this.newError("error", message)
+                })
+        },
+        displayActionModal(action) {
             this.$refs[action.id][0].abrirDialogo();
         },
-        resetParamters:function(){
-            this.updateData(false)
+        resetParamters: async function () {
+            await this.updateData(false);
+            await this.disableOutOfManaButtons();
         },
-        disableOutOfManaButtons(){
+        disableOutOfManaButtons() {
             let buttons = document.getElementsByClassName("btnImage");
-            console.log("a:",buttons);
-
             for (let button of buttons) {
-                console.log(button);
+                let idButtonAction = button.id
+                let actionOfButton = this.getActionById(idButtonAction.split("_")[1])
+                if (actionOfButton.cost > this.user.mana) {
+                    this.disableActionButton(button)
+                }
+                else{
+                    this.enableActionButton(button)
+                }
+
             }
         },
-        getActionById(idAction){
+
+        disableActionButton(button){
+            var imageUrl = button.style.backgroundImage.slice(4, -1).replace(/['"]/g, "");
+            var image = new Image();
+            image.src = imageUrl;
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            context.drawImage(image, 0, 0);
+            var dataUrl = canvas.toDataURL();
+            button.style.backgroundImage = `url(${dataUrl})`;
+            button.style.filter = 'grayscale(100%)';
+
+            button.style.cursor = "default";
+            button.disabled = true;
+        },
+        enableActionButton(button){
+            button.disabled = false;
+            button.style.cursor = "pointer"
+            button.style.filter = 'none';
+        },
+        getActionById(idAction) {
             const actionToReturn = this.actions.find((action) => {
                 return action.id == idAction;
             });
             return actionToReturn
         },
-        getActions: function () {
-            fetch("../api/get_actions")
+        getActions: async function () {
+            await fetch("../api/get_actions")
                 .then((response) => {
                     return response.json();
                 })
-                    .then((response) => {
-                        this.actions=  response.actions;
-                    })
-                    .catch((error) => {
-                        console.log("Could not get actions:",error);
-                    });
+                .then((response) => {
+                    this.actions = response.actions;
+                })
+                .catch((error) => {
+                    console.log("Could not get actions:", error);
+                });
         },
-        updateData: function (shouldTimeout) {
-            fetch("../api/get_user")
+        updateData: async function (shouldTimeout) {
+            await fetch("../api/get_user")
                 .then((response) => {
                     return response.json();
                 })
                 .then((data) => {
                     if (data) {
+                        this.user = data.user;
                         fetch("../api/get_ranking")
                             .then((response2) => {
                                 return response2.json();
                             })
                             .then((data2) => {
-                                this.user = data.user;
+
                                 const userRanking = data2.ranking.find((user) => {
                                     return user.username === this.user.username;
                                 });
+
                                 this.allUsers = data2.ranking.filter(user => {
                                     if (
-                                        (user.level === userRanking.level  ||
+                                        (user.level === userRanking.level ||
                                         (user.level - 1) === userRanking.level ||
                                         (user.level + 1) === userRanking.level)
-                                        && (user != userRanking) && !(user.isStaff)
-                                        ){
+                                        && (user.id != this.user.id) 
+                                        && !(user.is_staff) 
+                                        && (user.level > 0)
+                                    ) {
                                         return true
                                     }
                                 });
