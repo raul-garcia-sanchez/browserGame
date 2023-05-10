@@ -1,0 +1,145 @@
+{% load static %} {% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html lang="ca">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taula de clasificació | WizardGame</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/277f72a273.js" crossorigin="anonymous"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'WizardBrowserGame/styles.css' %}"
+    />
+  </head>
+
+  <body class="backgroundGarnet">
+    <div id="app">
+      <div class="my-12">
+        <h1
+          class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold"
+        >
+          RANKING
+        </h1>
+      </div>
+
+      <div id="mySidenav" class="sidenav">
+        <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <a href="/">Inici</a>
+        <a href="/ranking/">Ranking</a>
+        <a href="/play_action/">Àrea d'encanteris</a>
+        <a href="/accounts/logout/">Tancar sessió</a>
+        
+    </div>
+
+    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" open>
+
+        <i style="position: absolute; top: 5%"class=" ml-10 fa fa-bars" aria-hidden="true"></i> 
+        
+    </span>
+
+      <div class="flex justify-center items-center max-w-5xl m-auto mt-8">
+        <div class="backgroundLightGrey px-8 pt-8 pb-8">
+          <div class="flex items-center justify-center">
+            <table class="border-2 w-3/6 border-black bg-white">
+              <tr>
+                <th
+                  class="border-2 border-black px-20 py-4 text-center bg-gray-300 font-bold uppercase"
+                >
+                  Posició
+                </th>
+                <th
+                  class="border-2 border-black px-20 py-4 bg-gray-300 font-bold uppercase"
+                >
+                  Usuari
+                </th>
+                <th
+                  class="border-2 border-black px-20 py-4 bg-gray-300 font-bold uppercase"
+                >
+                  Nom jugador
+                </th>
+                <th
+                  class="border-2 border-black px-20 py-4 bg-gray-300 font-bold uppercase"
+                >
+                  Nivell
+                </th>
+              </tr>
+              <tr
+                v-for="(item,index) in dataPaginate"
+                v-bind:class="index % 2 === 0 ? 'bg-gray-100' : ''"
+              >
+                <td
+                  class="border-2 border-black px-7 py-2 text-center font-semibold"
+                >
+                  [[item.position]]
+                </td>
+                <td class="border-2 border-black px-7 text-center">
+                  [[item.username]]
+                </td>
+                <td class="border-2 border-black px-7 text-center">
+                  [[item.first_name]]
+                </td>
+                <td class="border-2 border-black px-7 text-center">
+                  [[item.level]]
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="flex items-center justify-center flex-column mt-8">
+            <div class="page-item m-1" v-on:click="getPreviousPage()">
+              <a
+                class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded"
+                href="#"
+                ><</a
+              >
+            </div>
+            <div
+              v-for="page in totalPages()"
+              v-on:click="getDataPage(page)"
+              class="page-item m-1"
+            >
+              <a
+                v-bind:class="[isActive(page) ? 'bg-gray-300 text-strongGarnet' : 'backgroundStrongGarnet text-white', 'font-bold py-2 px-4 rounded']"
+                href="#"
+                >[[page]]</a
+              >
+            </div>
+            <div class="page-item m-1" v-on:click="getNextPage()">
+              <a
+                class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded"
+                href="#"
+                >></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% render_bundle 'main' %}
+    <script>
+        function openNav(){
+	        document.getElementById('mySidenav').style.width="250px";
+        }
+
+        function closeNav(){
+            document.getElementById("mySidenav").style.width="0px";
+
+        }
+
+        const links = document.querySelectorAll("#mySidenav a");
+        links.forEach(link => {
+            const href = link.getAttribute("href");
+
+            if (window.location.pathname === href) {
+                link.classList.add("activeLink");
+            }
+        });
+
+    </script>
+    
+  </body>
+</html>
