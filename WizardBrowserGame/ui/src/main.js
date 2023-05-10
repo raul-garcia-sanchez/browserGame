@@ -325,7 +325,12 @@ var app3 = createApp({
                         this.gameOptions.minutes = "El joc ha acabat"
                     }
                     else if (dateEnd >= dateNow && dateNow >= dateStart) {
-                        this.gameOptions.minutes = minutesToReturn + " minuts"
+                        if(minutesToReturn > 1){
+                            this.gameOptions.minutes = minutesToReturn + " minuts"
+                        }
+                        else{
+                            this.gameOptions.minutes = minutesToReturn + " minut"
+                        }
                     }
                     else {
                         this.gameOptions.minutes = "El joc encara no ha començat"

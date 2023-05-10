@@ -216,14 +216,14 @@
  .wizardShowLeft {
     margin-top: 90px;
     position: absolute;
-    width: 400px;
+    width: 300px;
     animation: show 6s ease-in-out infinite;
     left: 2%;
   }
   .wizardShowRight{
     margin-top: 90px;
     position: absolute;
-    width: 400px;
+    width: 300px;
     animation: show 6s ease-in-out infinite;
     right: 2%;
   }
