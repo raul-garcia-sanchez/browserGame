@@ -22,6 +22,21 @@
         </h1>
     </div>
 
+    <div id="mySidenav" class="sidenav">
+        <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <a href="/">Inici</a>
+        <a href="/ranking/">Ranking</a>
+        <a href="/play_action/">Àrea d'encanteris</a>
+        <a href="/accounts/logout/">Tancar sessió</a>
+        
+    </div>
+
+    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" open>
+
+        <i style="position: absolute; top: 5%"class=" ml-10 fa fa-bars" aria-hidden="true"></i> 
+        
+    </span>
+
     <div class="flex flex-center justify-center align-center">
         <div id="mensajes"></div>
     </div>
@@ -98,6 +113,26 @@
     </div>
     <script src="{% static 'actionScripts/callsToApi.js' %}"></script>
     <script src="{% static 'actionScripts/play_action.js' %}"></script>
+    <script>
+        function openNav(){
+	        document.getElementById('mySidenav').style.width="250px";
+        }
+
+        function closeNav(){
+            document.getElementById("mySidenav").style.width="0px";
+
+        }
+
+        const links = document.querySelectorAll("#mySidenav a");
+        links.forEach(link => {
+            const href = link.getAttribute("href");
+
+            if (window.location.pathname === href) {
+                link.classList.add("activeLink");
+            }
+        });
+
+    </script>
 </body>
 
 </html>

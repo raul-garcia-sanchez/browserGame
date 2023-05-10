@@ -92,8 +92,6 @@
     transition: 0.5s;
 }
 
-
-
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
@@ -114,6 +112,11 @@
     font-size: 36px;
     margin-left: 50px;
 
+}
+
+.activeLink{
+    font-weight: bold;
+    color: white !important;
 }
 
 
@@ -152,7 +155,7 @@
 #mensajes{
     position: absolute;
     top: 55px;
-    margin: auto;
+    right: 2px;
 }
 
 #mensajes div{
@@ -206,3 +209,32 @@
       transform: translateY(0);
     }
 }
+
+/* LANDING */
+
+ /* Aplica la animación */
+ .wizardShowLeft {
+    margin-top: 90px;
+    position: absolute;
+    width: 400px;
+    animation: show 6s ease-in-out infinite;
+    left: 2%;
+  }
+  .wizardShowRight{
+    margin-top: 90px;
+    position: absolute;
+    width: 400px;
+    animation: show 6s ease-in-out infinite;
+    right: 2%;
+  }
+
+@keyframes show {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+ 
