@@ -4,7 +4,14 @@ from django.http import JsonResponse
 from .models import *
 from django.db.models import Q
 
+from game.decorators import RefreshResources
 
+@RefreshResources
+def getResources(request):
+    return JsonResponse({
+        "status": "OK",
+        "rosurcesRefreshed": True
+    }, safe=False)
 
 def getRanking(request):
     jsonData = list(User.objects.filter(is_staff=False, is_active=True).order_by(

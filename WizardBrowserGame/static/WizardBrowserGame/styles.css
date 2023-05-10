@@ -153,7 +153,7 @@
 
 /* ALERTS */
 #mensajes{
-    position: absolute;
+    position: fixed;
     top: 55px;
     right: 2px;
 }

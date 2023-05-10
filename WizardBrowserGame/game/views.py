@@ -386,7 +386,6 @@ def changePasswordDone(request):
     return render(request, "registration/changePasswordDone.html")
 
 
-@RefreshResources
 def index(request):
     if request.user.is_staff:
         return redirect("/admin")
@@ -428,10 +427,13 @@ def cron(request):
     return render(request, 'game/cron.html', context)
 
 
-@login_required
+# @login_required
 @RefreshResources
 def play_action(request):
     user = request.user
+    if (not user.username):
+            raise PermissionDenied()
+
     allActions = Action.objects.all()
     allActions.order_by('action_type')
 
@@ -473,7 +475,7 @@ def messages(request):
 
 def ranking(request):
     InfoLog(
-        request.user,
+        None,
         "Usuari entra al ranking",
         "Usuari entra a veure el ranking de tots els jugadors del joc",
         "/"

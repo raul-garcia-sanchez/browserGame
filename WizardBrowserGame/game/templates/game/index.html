@@ -25,7 +25,7 @@
         </h1>
     </div>
     <div class="flex flex-center justify-center align-center">
-        <div id="mensajes"></div>
+        <div id="mensajes" class="fixed"></div>
     </div>
     <div id="mySidenav" class="sidenav">
         <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
@@ -139,10 +139,12 @@
             <button id="buttonCollapsable" type="button" class="collapsible mt-4 font-bold">Veure últimes
                 accions</button>
             <div class="content mt-2">
+                <template v-for="action in eventActions">
+
                     <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de <b><i>[[action.action__name]]</i></b> contra el jugador/a <b>[[action.user_receiver__username]]</b> el dia [[action.date]] </p>
                     <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador/a <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]</p>
-                </template>
 
+                </template>
             </div>
         </div>
     </div>

@@ -173,7 +173,13 @@ function fillSelectedActionProperties(action) {
                         <h5 class="text-center text-gray-700 font-bold text-2xl">
                             <i class="fa fa-gavel mr-3 text-red-600"></i>
                             Acció ofensiva
-                            </h5>
+                        </h5>
+
+                        <div class="w-40 h-40 imageContainer m-auto"
+                            style="background-image: url(/static/${action.action_img})">
+                            &nbsp;
+                        </div>
+
                         <ul>
                             <li> <strong>Encanteri:</strong> ${action.name}</li>
                             <li> <strong>Descripci\ó:</strong> ${action.description}</li>
@@ -196,6 +202,12 @@ function fillSelectedActionProperties(action) {
                             <i class="fa-solid fa-shield mr-3 text-green-600"></i> 
                             Acció defensiva
                         </h5>
+
+                        <div class="w-40 h-40 imageContainer m-auto"
+                            style="background-image: url(/static/${action.action_img})">
+                            &nbsp;
+                        </div>
+                        
                         <ul>
                             <li> <strong>Encanteri:</strong> <i>${action.name}</i></li>
                             <li> <strong>Descripci\ó:</strong> ${action.description}</li>
@@ -217,6 +229,12 @@ function fillSelectedActionProperties(action) {
                             <i class="fa fa-heartbeat  mr-3 text-blue-600"></i>
                             Acció neutral
                         </h5>
+                        
+                        <div class="w-40 h-40 imageContainer m-auto"
+                            style="background-image: url(/static/${action.action_img})">
+                            &nbsp;
+                        </div>
+                        
                         <ul>
                             <li> <strong>Encanteri:</strong> ${action.name}</li>
                             <li> <strong>Descripci\ó:</strong> ${action.description}</li>

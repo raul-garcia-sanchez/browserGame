@@ -211,6 +211,13 @@ var app2 = createApp({
                 });
         },
         updateData: async function (shouldTimeout) {
+            await fetch("../api/get_resources")
+            .then((responseRefreshRources)=>{
+                if (responseRefreshRources){
+                    console.log( "Refreshed:",responseRefreshRources.rosurcesRefreshed)
+                }
+            })
+            
             await fetch("../api/get_user")
                 .then((response) => {
                     return response.json();
@@ -259,7 +266,7 @@ var app2 = createApp({
                                             }
                                             const formatter = new Intl.DateTimeFormat('ca-ES', options);
                                             action.date = formatter.format(newDate);
-                                        });
+                                        })
                                     })
                                     .finally(() => {
                                         if (shouldTimeout) {
