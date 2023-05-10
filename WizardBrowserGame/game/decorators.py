@@ -1,5 +1,6 @@
 from django.utils import timezone
 from .models import *
+from datetime import datetime, timedelta
 
 # Function to get turns to refresh (every hour)
 
@@ -14,12 +15,12 @@ def getTurnsToRefresh(user):
     diff = current_date - last_update
     secs_between_turns = (GameOption.objects.first().mins_between_turns) * 60
 
-    if (user.id == 201):
-        print("secs_between_turns:", secs_between_turns)
-
     turns = diff.total_seconds() // secs_between_turns
+    resOfTurns = (diff.total_seconds() % secs_between_turns) * secs_between_turns # Diferencia de segundos perdida
 
-    return int(turns)
+    dateUserLastUpdate = current_date - timedelta(seconds=resOfTurns)
+
+    return [int(turns),dateUserLastUpdate]
 
 
 # Decorator to refresh resources
@@ -35,9 +36,9 @@ def RefreshResources(refresh):
             usuarios = User.objects.all()
             for usuario in usuarios:
                 if (usuario.level > 0):
-                    turnsToRefresh = getTurnsToRefresh(usuario)
-                    if (usuario.id == 201):
-                        print("Turns to refresh:", turnsToRefresh)
+                    dataToRefresh = getTurnsToRefresh(usuario)
+                    turnsToRefresh = dataToRefresh[0]
+                    dateToSave = dataToRefresh[1]
 
                     if turnsToRefresh > 0:
                         maxMana = (usuario.level * 10)
@@ -49,7 +50,7 @@ def RefreshResources(refresh):
                             if usuario.mana > maxMana:
                                 usuario.mana = maxMana
 
-                        usuario.last_update = timezone.now()
+                        usuario.last_update = dateToSave
                         usuario.save()
 
         return refresh(request, *args, **kwargs)
