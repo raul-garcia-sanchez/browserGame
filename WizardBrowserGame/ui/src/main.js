@@ -70,7 +70,7 @@ var app = createApp({
 app.mount("#app");
 
 /* VUE COMPONENT LANDING WHEN YOU ARE LOGGED */
-import ModalCreator from './components/ModalCreator.vue'
+import ModalCreator from './components/modalCreator.vue'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
@@ -89,9 +89,6 @@ var app2 = createApp({
     async mounted() {
         await this.updateData(true);
         await this.getActions();
-        this.$nextTick(() => {
-            this.disableOutOfManaButtons();
-        });
         this.csrfToken = Cookies.get('csrftoken');
         this.disableOutOfManaButtons();
     },
@@ -135,7 +132,7 @@ var app2 = createApp({
                     }
 
                     message += (response.data.levelUp)
-                        ? `Has pujat de nivell a <strong>${this.user.level}</strong><br>`
+                        ? `Has pujat de nivell a <strong>${Number(this.user.level) + 1 }</strong><br>`
                         : ``
 
                     if (response.data.action_succeed) this.newError("success", message);
@@ -166,7 +163,7 @@ var app2 = createApp({
                 }
                 else{
                     this.enableActionButton(button)
-                }
+                 }
 
             }
         },
@@ -212,12 +209,7 @@ var app2 = createApp({
         },
         updateData: async function (shouldTimeout) {
             await fetch("../api/get_resources")
-            .then((responseRefreshRources)=>{
-                if (responseRefreshRources){
-                    console.log( "Refreshed:",responseRefreshRources.rosurcesRefreshed)
-                }
-            })
-            
+
             await fetch("../api/get_user")
                 .then((response) => {
                     return response.json();
@@ -270,8 +262,9 @@ var app2 = createApp({
                                     })
                                     .finally(() => {
                                         if (shouldTimeout) {
-                                            setTimeout(() => {
-                                                this.updateData(true);
+                                            setTimeout(async () => {
+                                                await this.updateData(true);
+                                                this.disableOutOfManaButtons();
                                             }, 30000);
                                         }
                                     });

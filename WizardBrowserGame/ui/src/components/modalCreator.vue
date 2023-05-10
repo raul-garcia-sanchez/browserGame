@@ -136,7 +136,7 @@ export default {
                         : ``
 
                     message += (response.data.levelUp)
-                        ? `Has pujat de nivell a <strong>${this.user_transmitter.level}</strong><br>`
+                        ? `Has pujat de nivell a <strong>${this.user_transmitter.level + 1}</strong><br>`
                         : ``
 
                     if (response.data.action_succeed) this.newError("success", message);
