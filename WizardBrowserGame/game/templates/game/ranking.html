@@ -29,8 +29,8 @@
       <a href="/">Inici</a>
       <a href="/ranking/">Ranking</a>
       <a href="/play_action/">Àrea d'encanteris</a>
-      <a href="/admin">Panel d'administració</a>
-      <a href="/accounts/password_change">Canviar contrasenya</a>
+      <a href="/admin/">Panel d'administració</a>
+      <a href="/accounts/password_change/">Canviar contrasenya</a>
       <a href="/accounts/logout">Tancar sessió</a>
 
     </div>
@@ -49,7 +49,7 @@
       <a href="/">Inici</a>
       <a href="/ranking/">Ranking</a>
       <a href="/play_action/">Àrea d'encanteris</a>
-      <a href="/accounts/password_change">Canviar contrasenya</a>
+      <a href="/accounts/password_change/">Canviar contrasenya</a>
       <a href="/accounts/logout">Tancar sessió</a>
 
     </div>
@@ -70,9 +70,9 @@
               class="fa fa-arrow-left" aria-hidden="true"></i></a>
               <a href="/">Inici</a>
               <a href="/ranking/">Ranking</a>
-              <a href="/accounts/login">Iniciar sessió</a>
-              <a href="/accounts/register">Registre</a>
-              <a href="/accounts/password_reset">Recuperar contrasenya</a>
+              <a href="/accounts/login/">Iniciar sessió</a>
+              <a href="/accounts/register/">Registre</a>
+              <a href="/accounts/password_reset/">Recuperar contrasenya</a>
 
   </div>
 
@@ -122,7 +122,7 @@
         <div class="flex items-center justify-center flex-column mt-8">
           <div class="page-item m-1" v-on:click="getPreviousPage()">
             <a class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded" href="#">
-              << /a>
+              <</a>
           </div>
           <div v-for="page in totalPages()" v-on:click="getDataPage(page)" class="page-item m-1">
             <a v-bind:class="[isActive(page) ? 'bg-gray-300 text-strongGarnet' : 'backgroundStrongGarnet text-white', 'font-bold py-2 px-4 rounded']"
