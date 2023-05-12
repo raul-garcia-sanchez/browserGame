@@ -30,6 +30,13 @@
             z-index: 10;
         }
 
+        #crucio #heart_death{
+            position: absolute;
+            top: 30vh;
+            left: 45vw;
+            animation: heart_death 2s linear forwards;
+        }
+
         @keyframes crucio {
             0% {
                 transform: translateX(-50vw)  rotate(180deg);
@@ -69,6 +76,23 @@
                 transform: translateX(35vw) rotate(180deg);
             }
         }
+        @keyframes heart_death {
+            0%{
+                opacity: 0;
+            }
+            14%{
+                opacity: 0;
+            }
+            15%{
+                opacity: 1;
+            }
+            99%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0;
+            }
+        }
     </style>
 
 </head>
@@ -78,14 +102,8 @@
     {% if user.username %}
 
     <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0">
-        <!-- <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden"> -->
+    <!-- <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden"> -->
         <div id="animationDisplayer" class="relative w-screen h-screen top-0">
-            <div id="crucio">
-                <img id="crucioImg" src="/static/VisualResources/Crucio/crucio.gif" alt="crucioImg">
-                <img id="wizard_stand" src="/static/VisualResources/Glacius/wizard_stand_mov.gif"
-                    alt="stand wizard breathing">
-                <!-- <img id="wizard_stand_freeze" src="/static/VisualResources/Glacius/wizard_stand.png" alt="stand wizard"> -->
-            </div>
         </div>
     </div>
 
