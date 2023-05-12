@@ -185,6 +185,15 @@ var app2 = createApp({
                             </div>
                         `
                         break;
+                    case 4:
+                        containerAnimation.innerHTML = `
+                            <div id="avadaKedabra">
+                                <img id="avadaKedabraImg" src="/static/VisualResources/Avada_Kedavra/avada.gif" alt="avadaKedabraImg">
+                                <img id="wizard_stand" src="/static/VisualResources/Avada_Kedavra/wizard_stand_mov.gif" alt="stand wizard breathing">
+                                <img id="skull" src="/static/VisualResources/Avada_Kedavra/skull.gif" alt="skull">
+                            </div>
+                        `
+                        break
                     default:
                         break;
                 }

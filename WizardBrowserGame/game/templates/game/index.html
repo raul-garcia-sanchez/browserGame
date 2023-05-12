@@ -14,96 +14,18 @@
     <script src="{% static 'resources/jquery.cookie.js' %}"></script>
     <title>Portada | WizardGame</title>
     <style>
-        #crucio #wizard_stand {
-            transform: scale(0.5);
-            position: absolute;
-            top: 45vh;
-            left: 45vw;
-            /* animation: standMan 1s linear forwards; */
-        }
-
-        #crucio #crucioImg {
-            position: absolute;
-            top: 60vh;
-            left: 0vw;
-            animation: crucio 2s linear forwards;
-            z-index: 10;
-        }
-
-        #crucio #heart_death{
-            position: absolute;
-            top: 30vh;
-            left: 45vw;
-            animation: heart_death 2s linear forwards;
-        }
-
-        @keyframes crucio {
-            0% {
-                transform: translateX(-50vw)  rotate(180deg);
-            }
-
-            20% {
-                transform: translateX(35vw) rotate(180deg);
-                opacity: 1;
-            }
-
-            41% {
-                opacity: 0;
-            }
-
-            50% {
-                opacity: 1;
-            }
-
-            60% {
-                opacity: 0;
-            }
-
-            70% {
-                opacity: 1;
-            }
-
-            80% {
-                opacity: 0;
-            }
-
-            90% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0;
-                transform: translateX(35vw) rotate(180deg);
-            }
-        }
-        @keyframes heart_death {
-            0%{
-                opacity: 0;
-            }
-            14%{
-                opacity: 0;
-            }
-            15%{
-                opacity: 1;
-            }
-            99%{
-                opacity: 1;
-            }
-            100%{
-                opacity: 0;
-            }
-        }
+        
     </style>
 
 </head>
 
 <body class="backgroundGarnet">
-
     {% if user.username %}
 
-    <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0">
-    <!-- <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden"> -->
+    <!-- <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0"> -->
+    <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden">
         <div id="animationDisplayer" class="relative w-screen h-screen top-0">
+
         </div>
     </div>
 

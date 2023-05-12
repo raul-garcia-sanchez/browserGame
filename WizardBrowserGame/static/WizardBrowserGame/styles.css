@@ -438,3 +438,139 @@
         opacity: 0;
     }
 }
+
+/* CRUCIO ANIMATION */
+
+#crucio #wizard_stand {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+}
+
+#crucio #crucioImg {
+    position: absolute;
+    top: 60vh;
+    left: 0vw;
+    animation: crucio 2s linear forwards;
+    z-index: 10;
+}
+
+#crucio #heart_death{
+    position: absolute;
+    top: 30vh;
+    left: 45vw;
+    animation: heart_death 2s linear forwards;
+}
+
+@keyframes crucio {
+    0% {
+        transform: translateX(-50vw)  rotate(180deg);
+    }
+
+    20% {
+        transform: translateX(35vw) rotate(180deg);
+        opacity: 1;
+    }
+
+    41% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 0;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(35vw) rotate(180deg);
+    }
+}
+@keyframes heart_death {
+    0%{
+        opacity: 0;
+    }
+    14%{
+        opacity: 0;
+    }
+    15%{
+        opacity: 1;
+    }
+    99%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+/* AVADA KEDAVRA ANIMATION */
+#avadaKedabra #wizard_stand {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+}
+
+#avadaKedabra #avadaKedabraImg {
+    position: absolute;
+    opacity: 0;
+    top: 45vh;
+    left: 40vw;
+    animation: avada 1.35s linear forwards;
+
+}
+
+#avadaKedabra #skull {
+    position: absolute;
+    top: 30vh;
+    left: 45vw;
+    opacity: 0;
+    animation: skull 3s linear forwards;
+}
+
+@keyframes avada {
+    0% {
+        opacity: 1;
+        transform: translateX(-50vw);
+    }
+
+    99% {
+        transform: translateX(0vw);
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+@keyframes skull {
+    50% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    99% {
+        transform: scale(3);
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
