@@ -266,3 +266,16 @@
 .iconDamage{
     color: rgb(185 28 28);
 }
+
+/* LOGS */
+.logs{
+    position: absolute;
+    bottom: 0;
+    right: 1%;
+    width: 288px;
+    height: 48px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-top: 10px;
+    background-color: white;
+}
