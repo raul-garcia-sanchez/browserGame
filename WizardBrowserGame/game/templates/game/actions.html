@@ -6,14 +6,14 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Taula de clasificació | WizardGame</title>
+  <title>Accions | WizardGame</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://kit.fontawesome.com/277f72a273.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="{% static 'WizardBrowserGame/styles.css' %}" />
 </head>
 
 <body class="backgroundGarnet">
-  <div id="app2">
+  <div id="app4">
     <div class="my-12">
       <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
         ACCIONS
@@ -28,6 +28,7 @@
           class="fa fa-arrow-left" aria-hidden="true"></i></a>
       <a href="/">Inici</a>
       <a href="/ranking/">Ranking</a>
+      <a href="/actions/">Accions</a>
       <a href="/play_action/">Àrea d'encanteris</a>
       <a href="/admin/">Panel d'administració</a>
       <a href="/accounts/password_change/">Canviar contrasenya</a>
@@ -48,6 +49,7 @@
           class="fa fa-arrow-left" aria-hidden="true"></i></a>
       <a href="/">Inici</a>
       <a href="/ranking/">Ranking</a>
+      <a href="/actions/">Accions</a>
       <a href="/play_action/">Àrea d'encanteris</a>
       <a href="/accounts/password_change/">Canviar contrasenya</a>
       <a href="/accounts/logout">Tancar sessió</a>
@@ -70,6 +72,7 @@
               class="fa fa-arrow-left" aria-hidden="true"></i></a>
               <a href="/">Inici</a>
               <a href="/ranking/">Ranking</a>
+              <a href="/actions/">Accions</a>
               <a href="/accounts/login/">Iniciar sessió</a>
               <a href="/accounts/register/">Registre</a>
               <a href="/accounts/password_reset/">Recuperar contrasenya</a>
@@ -118,22 +121,28 @@
                     &nbsp;
                 </div>
               </td>
-              <td class="border-2 border-black px-7 text-center">
+              <td class="border-2 border-black px-7 text-center text-xl font-bold italic">
                 [[action.name]]
               </td>
               <td class="border-2 border-black px-7 text-center">
                 [[action.description]]
               </td>
-              <td class="border-2 border-black px-7 text-center">
-                [[action.action_type]]
+              <td v-if="action.action_type == 1" class="border-2 border-black px-7 text-center text-red text-lg">
+                <span class="type typeAttack" >Atac</span>
               </td>
-              <td class="border-2 border-black px-7 text-center">
-                [[action.cost]] de manà
+              <td v-if="action.action_type == 2" class="border-2 border-black px-7 text-center text-lg">
+                <span class="type typeDeffense" >Defensa</span>
               </td>
-              <td class="border-2 border-black px-7 text-center">
-                [[action.points]]
+              <td v-if="action.action_type == 3" class="border-2 border-black px-7 text-center text-lg">
+                <span class="type typeNeutral" >Neutral</span>
               </td>
-              <td class="border-2 border-black px-7 text-center">
+              <td class="border-2 border-black px-7 text-center text-lg">
+                [[action.cost]] <i class="fa fa-tint iconMana" aria-hidden="true"></i>
+              </td>
+              <td class="border-2 border-black px-7 text-center text-lg">
+                [[action.points]] <i class="fa fa-fire iconDamage" aria-hidden="true"></i>
+              </td>
+              <td class="border-2 border-black px-7 text-center text-lg">
                 [[action.success_rate]] %
               </td>
             </tr>
