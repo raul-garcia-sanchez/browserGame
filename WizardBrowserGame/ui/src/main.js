@@ -202,6 +202,7 @@ var app2 = createApp({
                 })
                 .then((response) => {
                     this.actions = response.actions;
+                    console.log(this.actions);
                 })
                 .catch((error) => {
                     console.log("Could not get actions:", error);

@@ -526,3 +526,6 @@ def ErrorLog(user, title, description, route):
         route=route,
         date=timezone.now()
     )
+
+def actions(request):
+    return render(request, "game/actions.html")
