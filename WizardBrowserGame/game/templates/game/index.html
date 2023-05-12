@@ -13,12 +13,54 @@
     <script src="{% static 'resources/jquery.min.js' %}"></script>
     <script src="{% static 'resources/jquery.cookie.js' %}"></script>
     <title>Portada | WizardGame</title>
+    <style>
+        .animationContainer {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        #fireballImg {
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            animation: fireball 1s linear forwards;
+        }
+
+        #burntPlayer {
+            transform: scale(0.5);
+            position: absolute;
+            top: 45vh;
+            left: 45vw;
+
+        }
+
+        @keyframes fireball {
+            0% {
+                transform: translateX(-50vw) translateY(-50vh) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(40vw) translateY(50vh) rotate(45deg);
+            }
+        }
+    </style>
 
 </head>
 
 <body class="backgroundGarnet">
 
     {% if user.username %}
+
+    <div class="animationContainer fixed w-screen h-screen z-10 top-0">
+        <div class="relative  w-screen h-screen top-0">
+            <div id="confringo">
+                <img id="fireballImg" src="{% static 'VisualResources/Confringo/Confringo.gif' %}" alt="fireball">
+                <img id="burntPlayer" src="{% static 'VisualResources/Confringo/burnt_player.gif' %}" alt="burnt player">
+            </div>
+        </div>
+
+    </div>
+
+
     <div class="my-12">
         <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
             SOBRE EL MEU MAG/A
@@ -42,6 +84,7 @@
         <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
 
     </span>
+
 
     <div class="flex justify-center items-center max-w-5xl m-auto mt-8 mb-4">
         <div id="app2" class="backgroundLightGrey px-8 pt-8 pb-8">
@@ -86,18 +129,14 @@
                     <div class="flex justify-around flex-row">
                         <template v-for="action in actions">
                             <div v-if="action.action_type == 1" class="flex flex-col">
-                                <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage" @click="displayActionModal(action)"
+                                <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
+                                    @click="displayActionModal(action)"
                                     v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
                                     &nbsp;
                                 </button>
                                 <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
-                                <modal-creator 
-                                :action="action" 
-                                :dialog-title="'Selecciona objectiu'" 
-                                :users="allUsers" 
-                                :user_transmitter="user" 
-                                :ref="''+action.id"
-                                @modal-closed="resetParamters()"/>
+                                <modal-creator :action="action" :dialog-title="'Selecciona objectiu'" :users="allUsers"
+                                    :user_transmitter="user" :ref="''+action.id" @modal-closed="resetParamters()" />
                             </div>
                         </template>
                     </div>
@@ -141,8 +180,13 @@
             <div class="content mt-2">
                 <template v-for="action in eventActions">
 
-                    <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de <b><i>[[action.action__name]]</i></b> contra el jugador/a <b>[[action.user_receiver__username]]</b> el dia [[action.date]] </p>
-                    <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador/a <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]</p>
+                    <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de
+                        <b><i>[[action.action__name]]</i></b> contra el jugador/a
+                        <b>[[action.user_receiver__username]]</b> el dia [[action.date]]
+                    </p>
+                    <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador/a
+                        <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]
+                    </p>
 
                 </template>
             </div>
