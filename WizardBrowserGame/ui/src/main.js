@@ -202,6 +202,7 @@ var app2 = createApp({
                 })
                 .then((response) => {
                     this.actions = response.actions;
+                    console.log(this.actions);
                 })
                 .catch((error) => {
                     console.log("Could not get actions:", error);
@@ -233,7 +234,6 @@ var app2 = createApp({
                                         (user.level - 1) === userRanking.level ||
                                         (user.level + 1) === userRanking.level)
                                         && (user.id != this.user.id) 
-                                        && !(user.is_staff) 
                                         && (user.level > 0)
                                     ) {
                                         return true
@@ -345,3 +345,35 @@ var app3 = createApp({
 });
 
 app3.mount("#app3");
+
+
+var app4 = createApp({
+    el: "#app4",
+    delimiters: ["[[", "]]"],
+    data() {
+        return {
+            actions: [],
+        };
+    },
+    mounted() {
+        this.getActions();
+    },
+    methods: {
+        getActions: async function () {
+            await fetch("../api/get_actions")
+                .then((response) => {
+                    return response.json();
+                })
+                .then((response) => {
+                    this.actions = response.actions;
+                    console.log(this.actions);
+                })
+                .catch((error) => {
+                    console.log("Could not get actions:", error);
+                });
+        },
+    }
+
+})
+
+app4.mount("#app4");
