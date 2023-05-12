@@ -122,8 +122,6 @@
                 </select>
             </div>
 
-
-
             <div class="flex items-center justify-around">
                 <a class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50" href="/">
                     <i class="fa-solid fa-arrow-left"></i>
@@ -139,10 +137,10 @@
         </form>
 
 
-        <div class="logs">
-            <div>
-                <p>Logs</p>
-                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        <div id="divLogs" class="logs">
+            <div id="openCloseLogs" onclick="changeClass()" style="height: 48px;" class="headerLogs flex justify-around align-center">
+                <p class="firstViewLog text-gray-700 font-bold">Intents del joc</p>
+                <i id="arrow" class="firstViewLog fa fa-angle-up text-gray-700 font-bold hover:text-xl" aria-hidden="true"></i>
             </div>
         </div>
 
@@ -162,11 +160,20 @@
         const links = document.querySelectorAll("#mySidenav a");
         links.forEach(link => {
             const href = link.getAttribute("href");
-
             if (window.location.pathname === href) {
                 link.classList.add("activeLink");
             }
         });
+
+        function changeClass(){
+            var elem = document.getElementById("divLogs")
+            var elem2 = document.getElementById("arrow")
+            elem.classList.toggle("allLogs")
+            if(elem2.classList.contains("fa-angle-up")) elem2.classList.replace("fa-angle-up", "fa-angle-down")
+            else elem2.classList.replace("fa-angle-down", "fa-angle-up")
+            
+            
+        }
 
     </script>
 </body>
