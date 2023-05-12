@@ -234,7 +234,6 @@ var app2 = createApp({
                                         (user.level - 1) === userRanking.level ||
                                         (user.level + 1) === userRanking.level)
                                         && (user.id != this.user.id) 
-                                        && !(user.is_staff) 
                                         && (user.level > 0)
                                     ) {
                                         return true
