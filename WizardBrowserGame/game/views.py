@@ -51,7 +51,7 @@ def newLogin(request):
                         "Un compte d'administrador a accedit a la web mitjançant l'accés general",
                         "/accounts/login/"
                     )
-                    return redirect("/admin")
+                    return redirect("/")
                 else:
                     SuccessLog(
                         user,
@@ -387,8 +387,6 @@ def changePasswordDone(request):
 
 
 def index(request):
-    if request.user.is_staff:
-        return redirect("/admin")
     datesGame = GameOption.objects.get(pk=1)
     dateEnd = timezone.localtime(datesGame.game_datetime_end).timestamp()
     dateStart = timezone.localtime(datesGame.game_datetime_start).timestamp()
