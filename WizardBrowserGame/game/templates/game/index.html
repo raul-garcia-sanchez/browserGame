@@ -120,7 +120,7 @@
                                 <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
                                 <modal-creator 
                                 :action="action" 
-                                :dialog-title="'Selecciona objectiu'" 
+                                :dialog-title="'Informació'" 
                                 :users="allUsers" 
                                 :user_transmitter="user" 
                                 :ref="''+action.id"
@@ -137,10 +137,16 @@
                             <div v-if="action.action_type == 2" class="flex flex-col">
                                 <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
                                     v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}"
-                                    @click="enviarFormulario(action)">
+                                    @click="displayActionModal(action)">
                                     &nbsp;
                                 </button>
                                 <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
+                                <modal-simple 
+                                :action="action" 
+                                :dialog-title="'Informació'" 
+                                :user_transmitter="user" 
+                                :ref="''+action.id"
+                                @modal-closed="resetParamters()"/>
                             </div>
                         </template>
                     </div>
@@ -153,10 +159,16 @@
                             <div v-if="action.action_type == 3" class="flex flex-col">
                                 <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
                                     v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}"
-                                    @click="enviarFormulario(action)">
+                                    @click="displayActionModal(action)">
                                     &nbsp;
                                 </button>
                                 <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
+                                <modal-simple 
+                                :action="action" 
+                                :dialog-title="'Informació'" 
+                                :user_transmitter="user" 
+                                :ref="''+action.id"
+                                @modal-closed="resetParamters()"/>
                             </div>
                         </template>
                     </div>

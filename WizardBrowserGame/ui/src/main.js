@@ -71,8 +71,7 @@ app.mount("#app");
 
 /* VUE COMPONENT LANDING WHEN YOU ARE LOGGED */
 import ModalCreator from './components/modalCreator.vue'
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import ModalSimpleCreator from './components/modalSimpleCreator.vue'
 
 var app2 = createApp({
     el: "#app2",
@@ -89,11 +88,11 @@ var app2 = createApp({
     async mounted() {
         await this.updateData(true);
         await this.getActions();
-        this.csrfToken = Cookies.get('csrftoken');
         this.disableOutOfManaButtons();
     },
     components: {
         'modal-creator': ModalCreator,
+        'modal-simple': ModalSimpleCreator
     },
     methods: {
         newError(tipoMensaje, texto) {
@@ -107,44 +106,6 @@ var app2 = createApp({
             `;
             const mensajes = document.getElementById('mensajes');
             mensajes.appendChild(error);
-        },
-        enviarFormulario(actionSelected) {
-            var dataToSend = {
-                action_id: actionSelected.id,
-                id_user_transmitter: this.user.id,
-                id_user_receiver: this.user.id
-            };
-
-            axios.post('/api/make_action', dataToSend, {
-                headers: { 'X-CSRFToken': this.csrfToken },
-            })
-                .then(response => {
-                    var message = "";
-                    if (actionSelected.action_type == 2) {
-                        message = (response.data.action_succeed)  //If action succeeded
-                            ? `Has realitzat correctament <strong><i>${actionSelected.name}</i></strong> i t'has curat<br>`
-                            : `No has realitzat correctament <strong><i>${actionSelected.name}</i></strong><br>`
-                    }
-                    else if (actionSelected.action_type == 3) {
-                        message = (response.data.action_succeed)  //If action succeeded
-                            ? `Has realitzat correctament <strong><i>${actionSelected.name}</i></strong> i has guanyat punts d'experiència<br>`
-                            : `No has realitzat correctament <strong><i>${actionSelected.name}</i></strong><br>`
-                    }
-
-                    message += (response.data.levelUp)
-                        ? `Has pujat de nivell a <strong>${Number(this.user.level) + 1 }</strong><br>`
-                        : ``
-
-                    if (response.data.action_succeed) this.newError("success", message);
-                    else this.newError("info", message);
-
-                    this.resetParamters();
-                })
-                .catch(error => {
-                    console.log(error)
-                    let message = "Error del servidor";
-                    this.newError("error", message)
-                })
         },
         displayActionModal(action) {
             this.$refs[action.id][0].abrirDialogo();
@@ -202,7 +163,6 @@ var app2 = createApp({
                 })
                 .then((response) => {
                     this.actions = response.actions;
-                    console.log(this.actions);
                 })
                 .catch((error) => {
                     console.log("Could not get actions:", error);
