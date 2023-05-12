@@ -14,32 +14,59 @@
     <script src="{% static 'resources/jquery.cookie.js' %}"></script>
     <title>Portada | WizardGame</title>
     <style>
-        .animationContainer {
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        #fireballImg {
-            position: absolute;
-            top: -100px;
-            left: -100px;
-            animation: fireball 1s linear forwards;
-        }
-
-        #burntPlayer {
+        #crucio #wizard_stand {
             transform: scale(0.5);
             position: absolute;
             top: 45vh;
             left: 45vw;
-
+            /* animation: standMan 1s linear forwards; */
         }
 
-        @keyframes fireball {
+        #crucio #crucioImg {
+            position: absolute;
+            top: 60vh;
+            left: 0vw;
+            animation: crucio 2s linear forwards;
+            z-index: 10;
+        }
+
+        @keyframes crucio {
             0% {
-                transform: translateX(-50vw) translateY(-50vh) rotate(45deg);
+                transform: translateX(-50vw)  rotate(180deg);
+            }
+
+            20% {
+                transform: translateX(35vw) rotate(180deg);
+                opacity: 1;
+            }
+
+            41% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            60% {
+                opacity: 0;
+            }
+
+            70% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 0;
+            }
+
+            90% {
+                opacity: 1;
             }
 
             100% {
-                transform: translateX(40vw) translateY(50vh) rotate(45deg);
+                opacity: 0;
+                transform: translateX(35vw) rotate(180deg);
             }
         }
     </style>
@@ -50,14 +77,16 @@
 
     {% if user.username %}
 
-    <div class="animationContainer fixed w-screen h-screen z-10 top-0">
-        <div class="relative  w-screen h-screen top-0">
-            <div id="confringo">
-                <img id="fireballImg" src="{% static 'VisualResources/Confringo/Confringo.gif' %}" alt="fireball">
-                <img id="burntPlayer" src="{% static 'VisualResources/Confringo/burnt_player.gif' %}" alt="burnt player">
+    <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0">
+        <!-- <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden"> -->
+        <div id="animationDisplayer" class="relative w-screen h-screen top-0">
+            <div id="crucio">
+                <img id="crucioImg" src="/static/VisualResources/Crucio/crucio.gif" alt="crucioImg">
+                <img id="wizard_stand" src="/static/VisualResources/Glacius/wizard_stand_mov.gif"
+                    alt="stand wizard breathing">
+                <!-- <img id="wizard_stand_freeze" src="/static/VisualResources/Glacius/wizard_stand.png" alt="stand wizard"> -->
             </div>
         </div>
-
     </div>
 
 
@@ -80,9 +109,7 @@
     </div>
 
     <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
-
         <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
-
     </span>
 
 
@@ -136,7 +163,8 @@
                                 </button>
                                 <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
                                 <modal-creator :action="action" :dialog-title="'Selecciona objectiu'" :users="allUsers"
-                                    :user_transmitter="user" :ref="''+action.id" @modal-closed="resetParamters()" />
+                                    :user_transmitter="user" :ref="''+action.id"
+                                    @modal-closed="displayAnimation($event)" />
                             </div>
                         </template>
                     </div>

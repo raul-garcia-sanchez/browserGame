@@ -238,4 +238,203 @@
     }
   }
   
- 
+ /* ANIMATIONS OF ACTIONS */
+
+
+.animationContainer {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* GLACIUS ANIMATION */
+
+#glaciusImg {
+    position: absolute;
+    top: 60vh;
+    left: 0vw;
+    animation: glacius 1s linear forwards;
+}
+
+#glacius #wizard_stand {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    animation: standMan 1s linear forwards;
+}
+
+#glacius #wizard_stand_freeze {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    animation: appearfreezed 2s linear forwards;
+}
+
+#glacius #ice_cube{
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    opacity: 0.6;
+    animation: iceAnimation 2s linear forwards;
+}
+
+@keyframes iceAnimation {
+    0% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 1;
+    }
+
+    51% {
+        opacity: 0;
+    }
+    60%{
+        opacity: 1;
+    }
+    70%{
+        opacity: 0;
+    }
+    80%{
+        opacity: 1;
+    }
+    90%{
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes appearfreezed {
+    0% {
+        opacity: 0;
+    }
+    50%{
+        opacity: 0;
+    }
+    51%{
+        opacity: 1;
+    }
+}
+
+@keyframes glacius {
+    0% {
+        transform: translateX(-50vw);
+    }
+    40% {
+        transform: translateX(25vw);
+        opacity: 1;
+    }
+    41%{
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+
+    60%{
+        opacity: 0;
+    }
+    70%{
+        opacity: 1;
+    }
+    80%{
+        opacity: 0;
+    }
+    90%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(25vw);
+    }
+}
+
+/* CONFRINGO ANIMATION */
+#fireballImg {
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    animation: fireball 1s linear forwards;
+}
+
+#burntPlayer {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    animation: burntMan 2s linear forwards;
+}
+#explosion {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 38vw;
+    animation: explosion 2s linear forwards;
+}
+#confringo #wizard_stand{
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    animation: standMan 1s linear forwards;
+}
+
+
+@keyframes standMan {
+    0% {
+        opacity: 1;
+    }
+    99% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fireball {
+    0% {
+        transform: translateX(-50vw) translateY(-50vh) rotate(45deg);
+    }
+    99%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(40vw) translateY(50vh) rotate(45deg);
+    }
+}
+
+@keyframes burntMan {
+    0% {
+        opacity: 0;
+    }
+    95% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes explosion {
+    0% {
+        opacity: 0;
+    }
+    45% {
+        opacity: 0;
+    }
+    99% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

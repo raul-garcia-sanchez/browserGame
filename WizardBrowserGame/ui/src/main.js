@@ -149,6 +149,45 @@ var app2 = createApp({
         displayActionModal(action) {
             this.$refs[action.id][0].abrirDialogo();
         },
+        displayAnimation(response){
+            let action = response.action
+            let modeAnimation = document.getElementById("animationContainer");
+            let containerAnimation = document.getElementById("animationDisplayer");
+            if (response.succeed){
+                modeAnimation.classList.remove("hidden");
+                switch (action.id) {
+                    case 1:
+                        containerAnimation.innerHTML = `
+                        <div id="glacius">
+                            <img id="glaciusImg" src="/static/VisualResources/Glacius/glacius.png" alt="glaciusImg">
+                            <img id="wizard_stand" src="/static/VisualResources/Glacius/wizard_stand_mov.gif" alt="stand wizard breathing">
+                            <img id="wizard_stand_freeze" src="/static/VisualResources/Glacius/wizard_stand.png" alt="stand wizard">
+                            <img id="ice_cube" src="/static/VisualResources/Glacius/ice_cube.png" alt="ice cube">
+                        </div>
+                    `
+                        break;
+                    case 2:
+                        containerAnimation.innerHTML = `
+                            <div id="confringo">
+                                <img id="fireballImg" src="/static/VisualResources/Confringo/Confringo.gif" alt="fireball">
+                                <img id="wizard_stand" src="/static/VisualResources/Confringo/wizard_stand_mov.gif" alt="stand wizard">
+                                <img id="burntPlayer" src="/static/VisualResources/Confringo/burnt_player.gif" alt="burnt player">
+                                <img id="explosion" src="/static/VisualResources/Confringo/explosion.gif" alt="explosion">
+                            </div>
+                        `
+                        break;
+                
+                    default:
+                        break;
+                }
+                setTimeout(() => {
+                    modeAnimation.classList.add("hidden");
+                    containerAnimation.innerHTML = "";
+                }, 3500);
+            }
+            
+            this.resetParamters();
+        },
         resetParamters: async function () {
             await this.updateData(false);
             await this.disableOutOfManaButtons();
