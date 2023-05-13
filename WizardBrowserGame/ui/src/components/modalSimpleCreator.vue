@@ -6,9 +6,13 @@
             </h2>
             <div>
                 <hr class="border-black mb-3">
-                <h5 class="text-center text-gray-700 font-bold text-2xl">
-                    <i class="fa fa-gavel mr-3 text-red-600"></i>
-                    Acció ofensiva
+                <h5 v-if="action.action_type == 2" class="text-center text-gray-700 font-bold text-2xl">
+                    <i class="fa-solid fa-shield mr-3 text-green-600"></i>
+                    Acció defensiva
+                </h5>
+                <h5 v-if="action.action_type == 3" class="text-center text-gray-700 font-bold text-2xl">
+                    <i class="fa fa-heartbeat  mr-3 text-blue-600" aria-hidden="true"></i>
+                    Acció neutral
                 </h5>
                 <div class="w-40 h-40 imageContainer m-auto"
                     v-bind:style="{ backgroundImage: 'url(/static/' + [[action.action_img]] + ') !important' }">
@@ -18,23 +22,15 @@
                     <li> <strong>Encanteri:</strong> {{ action.name }}</li>
                     <li> <strong>Descripció:</strong> {{ action.description }}</li>
                     <li> <strong>Cost:</strong> {{ action.cost }} de manà</li>
-                    <li> <strong>Dany total:</strong> {{ action.points }}</li>
+                    <li v-if="action.action_type == 2"> <strong>Curació total:</strong> {{ action.points }}</li>
+                    <li v-if="action.action_type == 3"> <strong>Experiencia total:</strong> {{ action.exp_given }}</li>
                     <li> <strong>Percentatge d'encert:</strong> {{ action.success_rate }}%</li>
                 </ul>
                 <hr class="border-black mt-3">
             </div>
-            <form class="mt-3">
-                <label class="text-center" for="userToAttack">Objectiu</label>
-                <select @change="checkIfUserSelected()" name="userToAttack" :id="'userToAttack_' + action.id"
-                    class="text-center text-lg italic w-full px-4 py-2 text-gray-700 
-                bg-white border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-100 focus:border-red-500">
-                    <option value="null" selected disabled> -- Selecciona objectiu -- </option>
-                    <option v-for="(user) in users" :key="user.id" v-bind:value="user.id">{{ user.username }}</option>
-                </select>
-            </form>
-            <div class="dialog-buttons flex justify-around w-full">
+            <div class="dialog-buttons flex justify-around w-full mt-5">
                 <button id="closeForm" @click="cerrarDialogo()">Cancelar</button>
-                <button type="button" :id="'sendForm_' + action.id" @click="enviarFormulario()" disabled>Enviar</button>
+                <button class="buttonActive" type="button" :id="'sendForm_' + action.id" @click="enviarFormulario()">Enviar</button>
             </div>
         </div>
     </div>
@@ -45,17 +41,13 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 
 export default {
-    name: 'ModalCreator',
+    name: 'ModalSimpleCreator',
     mounted() {
         this.csrfToken = Cookies.get('csrftoken')
     },
     props: {
         action: {
             type: Object,
-            required: true
-        },
-        users: {
-            type: [Object],
             required: true
         },
         dialogTitle: {
@@ -73,21 +65,11 @@ export default {
         }
     },
     methods: {
-        checkIfUserSelected() {
-            let selectuser = document.getElementById('userToAttack_' + this.action.id);
-            let userSelected = selectuser.value;
-            if (userSelected) {
-                let buttonSubmit = document.getElementById("sendForm_" + this.action.id);
-                buttonSubmit.disabled = false;
-                buttonSubmit.style.cursor = "pointer";
-                buttonSubmit.style.backgroundColor = "green";
-            }
-        },
         abrirDialogo() {
             this.showDialog = true
         },
         cerrarDialogo() {
-            this.showDialog = false;
+            this.showDialog = false
         },
         getUserById(id_user_receiver) {
             const user_receiver = this.users.find((user) => {
@@ -110,13 +92,10 @@ export default {
         },
 
         enviarFormulario() {
-            let selectUser = document.getElementById('userToAttack_' + this.action.id);
-            let userSelected = selectUser.value;
-            let userTarget = this.getUserById(userSelected)
             var dataToSend = {
                 action_id: this.action.id,
                 id_user_transmitter: this.user_transmitter.id,
-                id_user_receiver: userSelected
+                id_user_receiver: this.user_transmitter.id
             };
 
             axios.post('/api/make_action', dataToSend, {
@@ -124,20 +103,23 @@ export default {
             })
                 .then(response => {
                     var message = "";
+                    if(this.action.action_type == 2){
                     message = (response.data.action_succeed)  //If action succeeded
-                            ? `Has encertat l'atac <strong><i>${this.action.name}</i></strong> contra el jugador <strong>${userTarget.username}</strong><br>`
-                            : `Has fallat l'atac <strong><i>${this.action.name}</i></strong> contra el jugador <strong>${userTarget.username}</strong><br>`
-                    
-                    message += (response.data.has_killed)
-                        ? `Has matat al jugador <strong>${userTarget.username}</strong><br>`
-                        : ``
-
+                            ? `Has realitzat correctament <strong><i>${this.action.name}</i></strong> i t'has curat<br>`
+                            : `No has realizat correctament <strong><i>${this.action.name}</i></strong><br>`
+                        }
+                    else if(this.action.action_type == 3){
+                    message = (response.data.action_succeed)
+                        ? `Has realizat correctament <strong><i>${this.action.name}</i></strong> i has guanyat punts d'experiència<br>`
+                        : `No has realitzat correctament <strong><i>${this.action.name}</i></strong><br>`
+                    }
                     message += (response.data.levelUp)
-                        ? `Has pujat de nivell a <strong>${this.user_transmitter.level + 1}</strong><br>`
+                        ? `Has pujat de nivell a <strong>${Number(this.user_transmitter.level) + 1}</strong><br>`
                         : ``
 
                     if (response.data.action_succeed) this.newError("success", message);
                     else this.newError("info", message);
+                    console.log(response)
                     this.$emit('modal-closed',{action:this.action, succeed: response.data.action_succeed, levelUp: response.data.levelUp, hasKilled: response.data.has_killed});
                     this.cerrarDialogo()
                 })
@@ -211,9 +193,14 @@ export default {
 .dialog-buttons button:first-child {
     background-color: gray;
     cursor: pointer;
+
 }
 
 .dialog-buttons button:last-child {
     background-color: rgb(63, 92, 63);
+}
+
+.buttonActive {
+    background-color: green !important; 
 }
 </style>

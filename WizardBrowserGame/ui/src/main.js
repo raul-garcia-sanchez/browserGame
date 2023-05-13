@@ -71,8 +71,7 @@ app.mount("#app");
 
 /* VUE COMPONENT LANDING WHEN YOU ARE LOGGED */
 import ModalCreator from './components/modalCreator.vue'
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import ModalSimpleCreator from './components/modalSimpleCreator.vue'
 
 var app2 = createApp({
     el: "#app2",
@@ -89,11 +88,11 @@ var app2 = createApp({
     async mounted() {
         await this.updateData(true);
         await this.getActions();
-        this.csrfToken = Cookies.get('csrftoken');
         this.disableOutOfManaButtons();
     },
     components: {
         'modal-creator': ModalCreator,
+        'modal-simple': ModalSimpleCreator
     },
     methods: {
         newError(tipoMensaje, texto) {
@@ -108,48 +107,10 @@ var app2 = createApp({
             const mensajes = document.getElementById('mensajes');
             mensajes.appendChild(error);
         },
-        enviarFormulario(actionSelected) {
-            var dataToSend = {
-                action_id: actionSelected.id,
-                id_user_transmitter: this.user.id,
-                id_user_receiver: this.user.id
-            };
-
-            axios.post('/api/make_action', dataToSend, {
-                headers: { 'X-CSRFToken': this.csrfToken },
-            })
-                .then(response => {
-                    var message = "";
-                    if (actionSelected.action_type == 2) {
-                        message = (response.data.action_succeed)  //If action succeeded
-                            ? `Has realitzat correctament <strong><i>${actionSelected.name}</i></strong> i t'has curat<br>`
-                            : `No has realitzat correctament <strong><i>${actionSelected.name}</i></strong><br>`
-                    }
-                    else if (actionSelected.action_type == 3) {
-                        message = (response.data.action_succeed)  //If action succeeded
-                            ? `Has realitzat correctament <strong><i>${actionSelected.name}</i></strong> i has guanyat punts d'experiència<br>`
-                            : `No has realitzat correctament <strong><i>${actionSelected.name}</i></strong><br>`
-                    }
-
-                    message += (response.data.levelUp)
-                        ? `Has pujat de nivell a <strong>${Number(this.user.level) + 1}</strong><br>`
-                        : ``
-
-                    if (response.data.action_succeed) this.newError("success", message);
-                    else this.newError("info", message);
-
-                    this.resetParamters();
-                })
-                .catch(error => {
-                    console.log(error)
-                    let message = "Error del servidor";
-                    this.newError("error", message)
-                })
-        },
         displayActionModal(action) {
             this.$refs[action.id][0].abrirDialogo();
         },
-        displayAnimation(response) {
+        async displayAnimation(response) {
             let action = response.action
             let modeAnimation = document.getElementById("animationContainer");
             let containerAnimation = document.getElementById("animationDisplayer");
@@ -194,14 +155,65 @@ var app2 = createApp({
                             </div>
                         `
                         break
-                    default:
-                        break;
+                    case 5:
+                        containerAnimation.innerHTML = `
+                            <div id="protego">
+                                <img id="protegoImg" src="/static/VisualResources/Protego/protego.gif" alt="protegoImg">
+                                <img id="wizard_spell" src="/static/VisualResources/Protego/wizard_defend.gif" alt="stand wizard spell">
+                            </div>
+                        `
+                        break
+                    case 6:
+                        containerAnimation.innerHTML = `
+                            <div id="patronus">
+                                <img id="wizard_spell" src="/static/VisualResources/Patronus/wizard_spell.gif" alt="stand wizard spell">
+                                <img id="patronusImg" src="/static/VisualResources/Patronus/patronus.gif" alt="img patronus">
+                            </div>
+                        `
+                        break
+                    case 7:
+                        containerAnimation.innerHTML = `
+                            <div id="aguamenti">
+                                <img id="wizard_stand" src="/static/VisualResources/Aguamenti/wizard_spell.gif" alt="stand wizard breathing">
+                                <img id="aguamentiImg" src="/static/VisualResources/Aguamenti/aguamenti.gif" alt="aguamentiImg">
+                                <img id="exp" src="/static/VisualResources/Aguamenti/exp.gif" alt="expImg">
+                            </div>
+                        `
+                        break
                 }
-                setTimeout(() => {
+                await new Promise (resolve => setTimeout(() => resolve(), 3500));
+
+                modeAnimation.classList.add("hidden");
+                containerAnimation.innerHTML = "";
+
+                if (response.hasKilled) {
+                    modeAnimation.classList.remove("hidden");
+                    containerAnimation.innerHTML = `
+                        <div id="death">
+                            <img id="wizard_death" src="/static/VisualResources/Death/wizard_death.gif" alt="stand wizard death">
+                            <img id="soul" src="/static/VisualResources/Death/soul.gif" alt="soul">
+                        </div>
+                    `
+                    await new Promise (resolve => setTimeout(() => resolve(), 3500));
                     modeAnimation.classList.add("hidden");
                     containerAnimation.innerHTML = "";
-                }, 3500);
+                }
+
+                if (response.levelUp) {
+                    modeAnimation.classList.remove("hidden");
+                    containerAnimation.innerHTML = `
+                        <div id="levelup">
+                            <img id="wizard_gesture" src="/static/VisualResources/Level_Up/wizard_gesture.gif" alt="stand wizard gesture">
+                            <img id="levelUpImg" src="/static/VisualResources/Level_Up/levelUp.png" alt="levelUpImg">
+                        </div>
+                    `
+                    await new Promise (resolve => setTimeout(() => resolve(), 3500));
+                    modeAnimation.classList.add("hidden");
+                    containerAnimation.innerHTML = "";
+                }
             }
+
+
 
             this.resetParamters();
         },
@@ -286,10 +298,9 @@ var app2 = createApp({
                                 this.allUsers = data2.ranking.filter(user => {
                                     if (
                                         (user.level === userRanking.level ||
-                                            (user.level - 1) === userRanking.level ||
-                                            (user.level + 1) === userRanking.level)
-                                        && (user.id != this.user.id)
-                                        && !(user.is_staff)
+                                        (user.level - 1) === userRanking.level ||
+                                        (user.level + 1) === userRanking.level)
+                                        && (user.id != this.user.id) 
                                         && (user.level > 0)
                                     ) {
                                         return true
@@ -401,3 +412,35 @@ var app3 = createApp({
 });
 
 app3.mount("#app3");
+
+
+var app4 = createApp({
+    el: "#app4",
+    delimiters: ["[[", "]]"],
+    data() {
+        return {
+            actions: [],
+        };
+    },
+    mounted() {
+        this.getActions();
+    },
+    methods: {
+        getActions: async function () {
+            await fetch("../api/get_actions")
+                .then((response) => {
+                    return response.json();
+                })
+                .then((response) => {
+                    this.actions = response.actions;
+                    console.log(this.actions);
+                })
+                .catch((error) => {
+                    console.log("Could not get actions:", error);
+                });
+        },
+    }
+
+})
+
+app4.mount("#app4");

@@ -9,6 +9,7 @@ urlpatterns = [
     path('play_action/', views.play_action, name='play_action'),
     path('messages/', views.messages, name='messages'),
     path('ranking/', views.ranking, name='ranking'),
+    path('actions/', views.actions, name='actions'),
 
     # API ENDPOINTS
     path('api/get_ranking', api.getRanking, name="getRanking"),

@@ -20,6 +20,7 @@
 
 .backgroundGarnet {
     background-color: var(--garnet);
+    overflow-x: hidden;
 }
 
 .backgroundStrongGarnet {
@@ -215,26 +216,18 @@
 
  /* Aplica la animación */
  .wizardShowLeft {
-    margin-top: 90px;
+    bottom: 5%;
     position: absolute;
     width: 300px;
-    animation: show 6s ease-in-out infinite;
-    left: 2%;
-  }
-  .wizardShowRight{
-    margin-top: 90px;
-    position: absolute;
-    width: 300px;
-    animation: show 6s ease-in-out infinite;
-    right: 2%;
+    animation: move-left-right 6s ease-in-out infinite;
   }
 
-@keyframes show {
+  @keyframes move-left-right {
     0% {
-      opacity: 0;
+      transform: translateX(-100%);
     }
     100% {
-      opacity: 1;
+        transform: translateX(700%);
     }
   }
   
@@ -573,4 +566,239 @@
     100%{
         opacity: 0;
     }
+}
+
+/* PROTEGO ANIMATION */
+
+#protego #wizard_spell {
+    transform: scale(0.5);
+    opacity: 1;
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    animation: spellWizardAnimation 3.5s linear forwards;
+}
+
+#protego #protegoImg {
+    opacity: 0;
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    animation: protego 3.5s linear forwards;
+}
+
+@keyframes spellWizardAnimation {
+    0% {
+        opacity: 1;
+    }
+    99% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes protego {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+    }
+    51% {
+        opacity: 1;
+    }
+
+    99% {
+        opacity: 1;
+    }            
+    100% {
+        opacity: 0;
+    }
+}
+
+/* PATRONUS ANIMATION */
+
+#patronus #wizard_spell {
+    transform: scale(0.5);
+    opacity: 1;
+    position: absolute;
+    top: 45vh;
+    left: 35vw;
+    z-index: 1;
+}
+
+#patronus #patronusImg {
+    opacity: 1;
+    position: absolute;
+    top: 35vh;
+    left: 40vw;
+    animation: patronus 2.5s linear forwards;
+}
+
+@keyframes patronus {
+    0% {
+        opacity: 0;
+    }
+    45% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* AGUAMENTI ANIMATION */
+
+#aguamenti #wizard_stand {
+    transform: scale(0.5);
+    opacity: 1;
+    position: absolute;
+    top: 45vh;
+    left: 35vw;
+    z-index: 1;
+}
+
+#aguamenti #aguamentiImg {
+    opacity: 1;
+    position: absolute;
+    top: 35vh;
+    left: 40vw;
+}
+
+#aguamenti #exp {
+    transform: scale(0.75);
+    opacity: 1;
+    position: absolute;
+    top: 35vh;
+    left: 20vw;
+    animation: exp 3.5s linear forwards;
+
+}
+
+@keyframes exp {
+    0% {
+        opacity: 0;
+    }
+
+    65% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* KILL ANIMATION */
+
+#death #wizard_death {
+    transform: scale(0.5);
+    opacity: 1;
+    position: absolute;
+    top: 45vh;
+    left: 35vw;
+    z-index: 1;
+}
+
+#death #soul {
+    transform: scale(0.5) rotate(90deg);
+    opacity: 1;
+    position: absolute;
+    top: 65vh;
+    left: 38vw;
+    z-index: 1;
+    animation: soul 3.5s linear forwards;
+}
+
+@keyframes soul {
+    0% {
+        opacity: 0;
+    }
+
+    60% {
+        opacity: 0;
+    }
+    61% {
+        transform: translateY(0vh) rotate(90deg) scale(0.5);
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50vh) rotate(90deg) scale(0.5);
+    }
+}
+
+/* LEVEL UP ANIMATION */
+
+#levelup #wizard_gesture {
+    transform: scale(0.5);
+    opacity: 1;
+    position: absolute;
+    top: 45vh;
+    left: 35vw;
+    z-index: 1;
+}
+
+#levelup #levelUpImg {
+    transform: scale(0.65);
+    opacity: 1;
+    position: absolute;
+    top: -20vh;
+    left: 20vw;
+    z-index: 1;
+    animation: levelUp 3.5s linear forwards;
+}
+
+@keyframes levelUp {
+    0% {
+        transform: scale(0);
+    }
+
+    61% {
+        transform: scale(0);
+    }
+
+    80% {
+        transform: scale(0.65);
+    }
+}
+
+/* FIELD TYPE OF ACTIONS */
+
+.type{
+    border-left-width: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.typeAttack {
+    background-color: #FEE2E2;
+    border-color: #FEE2E2;
+    color: rgb(185 28 28);
+}
+
+.typeDeffense {
+    background-color: rgb(220 252 231);
+    border-color: rgb(220 252 231);
+    color: rgb(34 197 94);
+}
+
+.typeNeutral {
+    background-color: rgb(219 234 254);
+    border-color: rgb(219 234 254);
+    color: rgb(59 130 246);
+}
+
+/* ICONS TABLE ACTIONS */
+
+.iconMana{
+    color: rgb(59 130 246);
+}
+
+.iconDamage{
+    color: rgb(185 28 28);
 }

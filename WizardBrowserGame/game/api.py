@@ -14,7 +14,7 @@ def getResources(request):
     }, safe=False)
 
 def getRanking(request):
-    jsonData = list(User.objects.filter(is_staff=False, is_active=True).order_by(
+    jsonData = list(User.objects.filter(is_active=True).order_by(
         '-level', '-exp', '-life').values())
     for i, user in enumerate(jsonData):
         user["position"] = i + 1

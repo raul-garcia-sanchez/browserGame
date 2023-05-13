@@ -22,20 +22,47 @@
         </h1>
     </div>
 
+    {% if user.is_staff %}
     <div id="mySidenav" class="sidenav">
-        <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
+                class="fa fa-arrow-left" aria-hidden="true"></i></a>
         <a href="/">Inici</a>
         <a href="/ranking/">Ranking</a>
+        <a href="/actions/">Accions</a>
         <a href="/play_action/">Àrea d'encanteris</a>
-        <a href="/accounts/logout/">Tancar sessió</a>
-        
+        <a href="/admin/">Panel d'administració</a>
+        <a href="/accounts/password_change/">Canviar contrasenya</a>
+        <a href="/accounts/logout">Tancar sessió</a>
+
     </div>
 
-    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" open>
+    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
 
-        <i style="position: absolute; top: 5%"class=" ml-10 fa fa-bars" aria-hidden="true"></i> 
-        
+        <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
+
     </span>
+
+    {% else %}
+
+    <div id="mySidenav" class="sidenav">
+        <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
+                class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <a href="/">Inici</a>
+        <a href="/ranking/">Ranking</a>
+        <a href="/actions/">Accions</a>
+        <a href="/play_action/">Àrea d'encanteris</a>
+        <a href="/accounts/password_change/">Canviar contrasenya</a>
+        <a href="/accounts/logout">Tancar sessió</a>
+
+    </div>
+
+    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
+
+        <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
+
+    </span>
+
+    {% endif %}
 
     <div class="flex flex-center justify-center align-center">
         <div id="mensajes"></div>
