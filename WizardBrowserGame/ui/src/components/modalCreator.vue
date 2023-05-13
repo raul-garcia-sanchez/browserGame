@@ -87,10 +87,7 @@ export default {
             this.showDialog = true
         },
         cerrarDialogo() {
-            this.showDialog = false
-            // this.updateData(false);
-            this.$emit('modal-closed');
-
+            this.showDialog = false;
         },
         getUserById(id_user_receiver) {
             const user_receiver = this.users.find((user) => {
@@ -141,7 +138,7 @@ export default {
 
                     if (response.data.action_succeed) this.newError("success", message);
                     else this.newError("info", message);
-
+                    this.$emit('modal-closed',{action:this.action, succeed: response.data.action_succeed, levelUp: response.data.levelUp, hasKilled: response.data.has_killed});
                     this.cerrarDialogo()
                 })
                 .catch(error => {
@@ -214,11 +211,9 @@ export default {
 .dialog-buttons button:first-child {
     background-color: gray;
     cursor: pointer;
-
 }
 
 .dialog-buttons button:last-child {
     background-color: rgb(63, 92, 63);
-    /* background-color: green; */
 }
 </style>

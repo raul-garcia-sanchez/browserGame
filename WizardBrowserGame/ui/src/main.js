@@ -110,6 +110,113 @@ var app2 = createApp({
         displayActionModal(action) {
             this.$refs[action.id][0].abrirDialogo();
         },
+        async displayAnimation(response) {
+            let action = response.action
+            let modeAnimation = document.getElementById("animationContainer");
+            let containerAnimation = document.getElementById("animationDisplayer");
+            if (response.succeed) {
+                modeAnimation.classList.remove("hidden");
+                switch (action.id) {
+                    case 1:
+                        containerAnimation.innerHTML = `
+                            <div id="glacius">
+                                <img id="glaciusImg" src="/static/VisualResources/Glacius/glacius.png" alt="glaciusImg">
+                                <img id="wizard_stand" src="/static/VisualResources/Glacius/wizard_stand_mov.gif" alt="stand wizard breathing">
+                                <img id="wizard_stand_freeze" src="/static/VisualResources/Glacius/wizard_stand.png" alt="stand wizard">
+                                <img id="ice_cube" src="/static/VisualResources/Glacius/ice_cube.png" alt="ice cube">
+                            </div>
+                        `
+                        break;
+                    case 2:
+                        containerAnimation.innerHTML = `
+                            <div id="confringo">
+                                <img id="fireballImg" src="/static/VisualResources/Confringo/Confringo.gif" alt="fireball">
+                                <img id="wizard_stand" src="/static/VisualResources/Confringo/wizard_stand_mov.gif" alt="stand wizard">
+                                <img id="burntPlayer" src="/static/VisualResources/Confringo/burnt_player.gif" alt="burnt player">
+                                <img id="explosion" src="/static/VisualResources/Confringo/explosion.gif" alt="explosion">
+                            </div>
+                        `
+                        break;
+                    case 3:
+                        containerAnimation.innerHTML = `
+                            <div id="crucio">
+                                <img id="crucioImg" src="/static/VisualResources/Crucio/crucio.gif" alt="crucioImg">
+                                <img id="wizard_stand" src="/static/VisualResources/Crucio/wizard_stand_mov.gif" alt="stand wizard breathing">
+                                <img id="heart_death" src="/static/VisualResources/Crucio/heart_death.gif" alt="heart death">
+                            </div>
+                        `
+                        break;
+                    case 4:
+                        containerAnimation.innerHTML = `
+                            <div id="avadaKedabra">
+                                <img id="avadaKedabraImg" src="/static/VisualResources/Avada_Kedavra/avada.gif" alt="avadaKedabraImg">
+                                <img id="wizard_stand" src="/static/VisualResources/Avada_Kedavra/wizard_stand_mov.gif" alt="stand wizard breathing">
+                                <img id="skull" src="/static/VisualResources/Avada_Kedavra/skull.gif" alt="skull">
+                            </div>
+                        `
+                        break
+                    case 5:
+                        containerAnimation.innerHTML = `
+                            <div id="protego">
+                                <img id="protegoImg" src="/static/VisualResources/Protego/protego.gif" alt="protegoImg">
+                                <img id="wizard_spell" src="/static/VisualResources/Protego/wizard_defend.gif" alt="stand wizard spell">
+                            </div>
+                        `
+                        break
+                    case 6:
+                        containerAnimation.innerHTML = `
+                            <div id="patronus">
+                                <img id="wizard_spell" src="/static/VisualResources/Patronus/wizard_spell.gif" alt="stand wizard spell">
+                                <img id="patronusImg" src="/static/VisualResources/Patronus/patronus.gif" alt="img patronus">
+                            </div>
+                        `
+                        break
+                    case 7:
+                        containerAnimation.innerHTML = `
+                            <div id="aguamenti">
+                                <img id="wizard_stand" src="/static/VisualResources/Aguamenti/wizard_spell.gif" alt="stand wizard breathing">
+                                <img id="aguamentiImg" src="/static/VisualResources/Aguamenti/aguamenti.gif" alt="aguamentiImg">
+                                <img id="exp" src="/static/VisualResources/Aguamenti/exp.gif" alt="expImg">
+                            </div>
+                        `
+                        break
+                }
+                await new Promise (resolve => setTimeout(() => resolve(), 3500));
+
+                modeAnimation.classList.add("hidden");
+                containerAnimation.innerHTML = "";
+
+                if (response.hasKilled) {
+                    modeAnimation.classList.remove("hidden");
+                    containerAnimation.innerHTML = `
+                        <div id="death">
+                            <img id="wizard_death" src="/static/VisualResources/Death/wizard_death.gif" alt="stand wizard death">
+                            <img id="soul" src="/static/VisualResources/Death/soul.gif" alt="soul">
+                        </div>
+                    `
+                    await new Promise (resolve => setTimeout(() => resolve(), 3500));
+                    modeAnimation.classList.add("hidden");
+                    containerAnimation.innerHTML = "";
+                }
+
+                if (response.levelUp) {
+                    modeAnimation.classList.remove("hidden");
+                    containerAnimation.innerHTML = `
+                        <div id="levelup">
+                            <img id="wizard_gesture" src="/static/VisualResources/Level_Up/wizard_gesture.gif" alt="stand wizard gesture">
+                            <img id="levelUpImg" src="/static/VisualResources/Level_Up/levelUp.png" alt="levelUpImg">
+                        </div>
+                    `
+                    await new Promise (resolve => setTimeout(() => resolve(), 3500));
+                    modeAnimation.classList.add("hidden");
+                    containerAnimation.innerHTML = "";
+                }
+            }
+
+
+
+            this.resetParamters();
+        },
         resetParamters: async function () {
             await this.updateData(false);
             await this.disableOutOfManaButtons();
@@ -122,14 +229,14 @@ var app2 = createApp({
                 if (actionOfButton.cost > this.user.mana) {
                     this.disableActionButton(button)
                 }
-                else{
+                else {
                     this.enableActionButton(button)
-                 }
+                }
 
             }
         },
 
-        disableActionButton(button){
+        disableActionButton(button) {
             var imageUrl = button.style.backgroundImage.slice(4, -1).replace(/['"]/g, "");
             var image = new Image();
             image.src = imageUrl;
@@ -145,7 +252,7 @@ var app2 = createApp({
             button.style.cursor = "default";
             button.disabled = true;
         },
-        enableActionButton(button){
+        enableActionButton(button) {
             button.disabled = false;
             button.style.cursor = "pointer"
             button.style.filter = 'none';
@@ -285,10 +392,10 @@ var app3 = createApp({
                         this.gameOptions.minutes = "El joc ha acabat"
                     }
                     else if (dateEnd >= dateNow && dateNow >= dateStart) {
-                        if(minutesToReturn > 1){
+                        if (minutesToReturn > 1) {
                             this.gameOptions.minutes = minutesToReturn + " minuts"
                         }
-                        else{
+                        else {
                             this.gameOptions.minutes = minutesToReturn + " minut"
                         }
                     }

@@ -70,9 +70,6 @@ export default {
         },
         cerrarDialogo() {
             this.showDialog = false
-            // this.updateData(false);
-            this.$emit('modal-closed');
-
         },
         getUserById(id_user_receiver) {
             const user_receiver = this.users.find((user) => {
@@ -112,7 +109,7 @@ export default {
                             : `No has realizat correctament <strong><i>${this.action.name}</i></strong><br>`
                         }
                     else if(this.action.action_type == 3){
-                    message = (response.data.has_killed)
+                    message = (response.data.action_succeed)
                         ? `Has realizat correctament <strong><i>${this.action.name}</i></strong> i has guanyat punts d'experiència<br>`
                         : `No has realitzat correctament <strong><i>${this.action.name}</i></strong><br>`
                     }
@@ -122,7 +119,8 @@ export default {
 
                     if (response.data.action_succeed) this.newError("success", message);
                     else this.newError("info", message);
-
+                    console.log(response)
+                    this.$emit('modal-closed',{action:this.action, succeed: response.data.action_succeed, levelUp: response.data.levelUp, hasKilled: response.data.has_killed});
                     this.cerrarDialogo()
                 })
                 .catch(error => {

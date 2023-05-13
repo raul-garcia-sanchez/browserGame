@@ -13,12 +13,17 @@
     <script src="{% static 'resources/jquery.min.js' %}"></script>
     <script src="{% static 'resources/jquery.cookie.js' %}"></script>
     <title>Portada | WizardGame</title>
-
 </head>
 
 <body class="backgroundGarnet">
-
     {% if user.username %}
+
+    <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden">
+        <div id="animationDisplayer" class="relative w-screen h-screen top-0">
+        </div>
+    </div>
+
+
     <div class="my-12">
         <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
             SOBRE EL MEU MAG/A
@@ -27,7 +32,7 @@
     <div class="flex flex-center justify-center align-center">
         <div id="mensajes"></div>
     </div>
-    
+
     {% if user.is_staff %}
     <div id="mySidenav" class="sidenav">
         <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
@@ -43,9 +48,7 @@
     </div>
 
     <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
-
         <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
-
     </span>
 
     {% else %}
@@ -113,18 +116,15 @@
                     <div class="flex justify-around flex-row">
                         <template v-for="action in actions">
                             <div v-if="action.action_type == 1" class="flex flex-col">
-                                <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage" @click="displayActionModal(action)"
+                                <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
+                                    @click="displayActionModal(action)"
                                     v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
                                     &nbsp;
                                 </button>
                                 <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
-                                <modal-creator 
-                                :action="action" 
-                                :dialog-title="'Informació'" 
-                                :users="allUsers" 
-                                :user_transmitter="user" 
-                                :ref="''+action.id"
-                                @modal-closed="resetParamters()"/>
+                                <modal-creator :action="action" :dialog-title="'Informació'" :users="allUsers"
+                                    :user_transmitter="user" :ref="''+action.id"
+                                    @modal-closed="displayAnimation($event)" />
                             </div>
                         </template>
                     </div>
@@ -141,12 +141,8 @@
                                     &nbsp;
                                 </button>
                                 <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
-                                <modal-simple 
-                                :action="action" 
-                                :dialog-title="'Informació'" 
-                                :user_transmitter="user" 
-                                :ref="''+action.id"
-                                @modal-closed="resetParamters()"/>
+                                <modal-simple :action="action" :dialog-title="'Informació'" :user_transmitter="user"
+                                    :ref="''+action.id" @modal-closed="displayAnimation($event)" />
                             </div>
                         </template>
                     </div>
@@ -163,12 +159,8 @@
                                     &nbsp;
                                 </button>
                                 <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
-                                <modal-simple 
-                                :action="action" 
-                                :dialog-title="'Informació'" 
-                                :user_transmitter="user" 
-                                :ref="''+action.id"
-                                @modal-closed="resetParamters()"/>
+                                <modal-simple :action="action" :dialog-title="'Informació'" :user_transmitter="user"
+                                    :ref="''+action.id" @modal-closed="displayAnimation($event)" />
                             </div>
                         </template>
                     </div>
@@ -180,8 +172,13 @@
             <div class="content mt-2">
                 <template v-for="action in eventActions">
 
-                    <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de <b><i>[[action.action__name]]</i></b> contra el jugador/a <b>[[action.user_receiver__username]]</b> el dia [[action.date]] </p>
-                    <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador/a <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]</p>
+                    <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de
+                        <b><i>[[action.action__name]]</i></b> contra el jugador/a
+                        <b>[[action.user_receiver__username]]</b> el dia [[action.date]]
+                    </p>
+                    <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador/a
+                        <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]
+                    </p>
 
                 </template>
             </div>
