@@ -45,6 +45,14 @@ class Action(models.Model):
     def __str__(self):
         return self.name
 
+class StatisticsUser(models.Model):
+    idUser = models.ForeignKey(User, on_delete=models.CASCADE, related_name='idUser')
+    act_date = models.DateField(auto_now_add=True)
+    act_time = models.TimeField(auto_now_add=True)
+    action = models.ForeignKey(Action, on_delete=models.CASCADE, related_name="action")
+    success_rate = models.IntegerField()
+    actual_roll = models.IntegerField()
+    success = models.BooleanField()
 class EventHistory(models.Model):
     action = models.ForeignKey(Action, on_delete=models.CASCADE)
     user_transmitter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='transmitter')

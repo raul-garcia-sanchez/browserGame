@@ -78,7 +78,9 @@ def makeAction(request):
                 id=eventDict["id_user_receiver"])[0]
             
             num_random = random.random()
+            print("numRandom",num_random*100)
             probabilities = actionToMake.success_rate / 100
+            print("probabilities", probabilities*100)
 
             newEvent = EventHistory()
             newEvent.action = actionToMake
@@ -102,6 +104,8 @@ def makeAction(request):
                 user_transmitter.exp -= actionToMake.exp_given # To mantain exp
                 newEvent.succeed = False
                 user_transmitter.save()
+                statistics_user = StatisticsUser(idUser=user_transmitter, action=actionToMake, success_rate=actionToMake.success_rate, actual_roll=num_random*100, success=False )
+                statistics_user.save()
                 newEvent.save()
                 return JsonResponse({
                     "status": "OK",
@@ -154,7 +158,8 @@ def makeAction(request):
 
                 user_transmitter.save()
                 
-
+            statistics_user = StatisticsUser(idUser=user_transmitter, action=actionToMake, success_rate=actionToMake.success_rate, actual_roll=num_random*100, success=True )
+            statistics_user.save()
             newEvent.save()
             return JsonResponse({
                 "status": "OK",
@@ -185,4 +190,13 @@ def getGameOptions(request):
     return JsonResponse({
         "status": "OK",
         "gameOptions": jsonData
+    }, safe=False)
+
+
+def getStatisticsCurrentUser(request):
+    statistics_data = StatisticsUser.objects.filter(idUser=request.user).values('idUser','act_date','act_time','action__name', 'success_rate', 'actual_roll', 'success')
+    statistics_list = list(statistics_data)
+    return JsonResponse({
+        "status": "OK",
+        "statistics": statistics_list
     }, safe=False)

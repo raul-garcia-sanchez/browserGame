@@ -23,6 +23,10 @@
     overflow-x: hidden;
 }
 
+.backgroundGarnet2 {
+    background-color: var(--garnet);
+    overflow-y: hidden;
+}
 .backgroundStrongGarnet {
     background-color: var(--strongGarnet) !important;
 }
@@ -272,7 +276,7 @@
     position: absolute;
     bottom: 0;
     right: 1%;
-    width: 288px;
+    width: 500px;
     height: 48px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -284,8 +288,9 @@
     position: absolute;
     bottom: 0;
     right: 1%;
-    width: 288px;
-    height: 80%;
+    width: 500px;
+    height: auto;
+    max-height: 45%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-top: 10px;
@@ -305,3 +310,7 @@
     align-items: center;
 }
 
+.overflowLogs{
+    overflow-x: auto;
+    height: 400px !important;
+}

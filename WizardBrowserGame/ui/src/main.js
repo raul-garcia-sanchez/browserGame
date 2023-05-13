@@ -326,7 +326,6 @@ var app4 = createApp({
                 })
                 .then((response) => {
                     this.actions = response.actions;
-                    console.log(this.actions);
                 })
                 .catch((error) => {
                     console.log("Could not get actions:", error);
@@ -337,3 +336,34 @@ var app4 = createApp({
 })
 
 app4.mount("#app4");
+
+var app5 = createApp({
+    el: "#app5",
+    delimiters: ["[[", "]]"],
+    data() {
+        return {
+            statistics: []
+        }
+    },
+    mounted() {
+        this.getStatistics();
+    },
+    methods: {
+        getStatistics: async function (){
+            await fetch("../api/get_statistics")
+                .then((response) => {
+                    return response.json()
+                })
+                .then((response) => {
+                    console.log(response);
+                    this.statistics = response.statistics
+
+                })
+                .catch((error) => {
+                    console.log("Could not get statistics", error);
+                });
+        }
+    }
+})
+
+app5.mount("#app5")

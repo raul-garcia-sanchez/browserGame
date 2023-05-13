@@ -454,7 +454,7 @@ def play_action(request):
         Q(level=user.level) | 
         Q(level=user.level-1) | 
         Q(level=user.level+1)
-    ).exclude(Q(id=user.id)| Q(level=0) | Q(is_staff = True))
+    ).exclude(Q(id=user.id)| Q(level=0))
 
     context = {
         "user": user,

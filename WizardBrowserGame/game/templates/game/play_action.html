@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} {% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <html lang="ca">
 
@@ -15,7 +15,7 @@
     <title>Àrea d'encanteris | WizardGame</title>
 </head>
 
-<body class="backgroundGarnet">
+<body class="backgroundGarnet2">
     <div class="my-8">
         <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
             ÀREA D'ENCANTERIS
@@ -142,9 +142,30 @@
                 <p class="firstViewLog text-gray-700 font-bold">Intents del joc</p>
                 <i id="arrow" class="firstViewLog fa fa-angle-up text-gray-700 font-bold hover:text-xl" aria-hidden="true"></i>
             </div>
+            <div id="app5"  class="flex justify-center overflowLogs">
+            <table v-if="statistics" class="mt-3 mb-6 border-2 w-3/6 border-black bg-white">
+                <tr>
+                    <th class="border-2 border-black text-center px-2 bg-gray-300 font-bold uppercase">Data</th>
+                    <th class="border-2 border-black text-center px-2 bg-gray-300 font-bold uppercase">Hora</th>
+                    <th class="border-2 border-black text-center px-2 bg-gray-300 font-bold uppercase">Acció</th>
+                    <th class="border-2 border-black text-center px-2 bg-gray-300 font-bold uppercase">Percentatge d'exit</th>
+                    <th class="border-2 border-black text-center px-2 bg-gray-300 font-bold uppercase">Tirada real</th>
+                    <th class="border-2 border-black text-center px-2 bg-gray-300 font-bold uppercase">Exit</th>
+                </tr>
+                <tr v-for="item in statistics">
+                    <td class="border-2 border-black text-center">[[item.act_date]]</td>
+                    <td class="border-2 border-black text-center">[[item.act_time]]</td>
+                    <td class="border-2 border-black text-center">[[item.action__name]]</td>
+                    <td class="border-2 border-black text-center">[[item.success_rate]]</td>
+                    <td class="border-2 border-black text-center">[[item.actual_roll</td>
+                    <td class="border-2 border-black text-center">[[item.success]]</td>
+                </tr>
+            </table>
+        </div>
         </div>
 
     </div>
+    
     <script src="{% static 'actionScripts/callsToApi.js' %}"></script>
     <script src="{% static 'actionScripts/play_action.js' %}"></script>
     <script>
@@ -176,6 +197,7 @@
         }
 
     </script>
+    {% render_bundle 'main' %}
 </body>
 
 </html>
