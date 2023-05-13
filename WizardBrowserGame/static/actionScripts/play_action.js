@@ -50,7 +50,6 @@ $("#btnConfirmAction").click(async () => {
         response = await makeAction(spellSelected.id, user.id);
     }
     await resetParameters()
-
     
     if (response && response.status_code == 200) {
         

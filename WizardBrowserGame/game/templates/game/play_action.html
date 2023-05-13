@@ -129,7 +129,7 @@
                 </a>
 
                 <button disabled id="btnConfirmAction" type="button"
-                class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50">
+                class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50" >
                     Confirma acció
                 </button>
 
@@ -143,7 +143,7 @@
                 <i id="arrow" class="firstViewLog fa fa-angle-up text-gray-700 font-bold hover:text-xl" aria-hidden="true"></i>
             </div>
             <div id="app5"  class="flex justify-center overflowLogs">
-            <table v-if="statistics" class="mt-3 mb-6 border-2 w-3/6 border-black bg-white">
+            <table v-if="statistics.length > 0" class="mt-3 mb-6 border-2 w-3/6 border-black bg-white">
                 <tr>
                     <th class="border-2 border-black text-center px-2 bg-gray-300 font-bold uppercase">Data</th>
                     <th class="border-2 border-black text-center px-2 bg-gray-300 font-bold uppercase">Hora</th>
@@ -152,12 +152,12 @@
                     <th class="border-2 border-black text-center px-2 bg-gray-300 font-bold uppercase">Tirada real</th>
                     <th class="border-2 border-black text-center px-2 bg-gray-300 font-bold uppercase">Exit</th>
                 </tr>
-                <tr v-for="item in statistics">
+                <tr v-for="(item,index) in statistics" v-bind:class="index % 2 === 0 ? 'bg-gray-100' : ''">
                     <td class="border-2 border-black text-center">[[item.act_date]]</td>
                     <td class="border-2 border-black text-center">[[item.act_time]]</td>
                     <td class="border-2 border-black text-center">[[item.action__name]]</td>
                     <td class="border-2 border-black text-center">[[item.success_rate]]</td>
-                    <td class="border-2 border-black text-center">[[item.actual_roll</td>
+                    <td class="border-2 border-black text-center">[[item.actual_roll]]</td>
                     <td class="border-2 border-black text-center">[[item.success]]</td>
                 </tr>
             </table>
@@ -166,6 +166,7 @@
 
     </div>
     
+    {% render_bundle 'main' %}
     <script src="{% static 'actionScripts/callsToApi.js' %}"></script>
     <script src="{% static 'actionScripts/play_action.js' %}"></script>
     <script>
@@ -197,7 +198,7 @@
         }
 
     </script>
-    {% render_bundle 'main' %}
+    
 </body>
 
 </html>

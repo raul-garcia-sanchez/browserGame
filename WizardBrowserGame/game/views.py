@@ -95,6 +95,7 @@ def newLogin(request):
 @login_required
 @RefreshResources
 def new_logout(request):
+    StatisticsUser.objects.filter(idUser=request.user.id).delete()
     logout(request);
     try:
         user = request.user

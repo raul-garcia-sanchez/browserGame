@@ -194,7 +194,7 @@ def getGameOptions(request):
 
 
 def getStatisticsCurrentUser(request):
-    statistics_data = StatisticsUser.objects.filter(idUser=request.user).values('idUser','act_date','act_time','action__name', 'success_rate', 'actual_roll', 'success')
+    statistics_data = StatisticsUser.objects.filter(idUser=request.user).order_by('-act_date', '-act_time').values('idUser', 'act_date', 'act_time', 'action__name', 'success_rate', 'actual_roll', 'success')
     statistics_list = list(statistics_data)
     return JsonResponse({
         "status": "OK",

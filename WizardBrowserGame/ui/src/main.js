@@ -342,14 +342,14 @@ var app5 = createApp({
     delimiters: ["[[", "]]"],
     data() {
         return {
-            statistics: []
-        }
+            statistics: [],
+        };
     },
     mounted() {
         this.getStatistics();
     },
     methods: {
-        getStatistics: async function (){
+        getStatistics: async function () {
             await fetch("../api/get_statistics")
                 .then((response) => {
                     return response.json()
@@ -357,7 +357,6 @@ var app5 = createApp({
                 .then((response) => {
                     console.log(response);
                     this.statistics = response.statistics
-
                 })
                 .catch((error) => {
                     console.log("Could not get statistics", error);
