@@ -357,6 +357,16 @@ var app5 = createApp({
                 .then((response) => {
                     console.log(response);
                     this.statistics = response.statistics
+                    for( let item of this.statistics) {
+                        var date = item.act_date.split("-")
+                        var year = date[0]
+                        var month = date[1]
+                        var day = date[2]
+                        var newDate = day + "/" + month + "/" + year;
+                        var time = item.act_time.split(".")
+                        item.act_date = newDate
+                        item.act_time = time[0]
+                    }
                 })
                 .catch((error) => {
                     console.log("Could not get statistics", error);
