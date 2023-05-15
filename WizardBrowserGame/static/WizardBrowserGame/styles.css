@@ -240,11 +240,13 @@
 
 /* GLACIUS ANIMATION */
 
-#glaciusImg {
+#glacius #glaciusImg {
     position: absolute;
     top: 60vh;
     left: 0vw;
     animation: glacius 1s linear forwards;
+    z-index: 1;
+
 }
 
 #glacius #wizard_stand {
@@ -321,7 +323,7 @@
         transform: translateX(-50vw);
     }
     40% {
-        transform: translateX(25vw);
+        transform: translateX(20vw);
         opacity: 1;
     }
     41%{
@@ -345,12 +347,13 @@
     }
     100% {
         opacity: 0;
-        transform: translateX(25vw);
+        transform: translateX(20vw);
     }
 }
 
 /* CONFRINGO ANIMATION */
 #fireballImg {
+    z-index: 1;
     position: absolute;
     top: -100px;
     left: -100px;
@@ -462,7 +465,7 @@
     }
 
     20% {
-        transform: translateX(35vw) rotate(180deg);
+        transform: translateX(30vw) rotate(180deg);
         opacity: 1;
     }
 
@@ -492,7 +495,7 @@
 
     100% {
         opacity: 0;
-        transform: translateX(35vw) rotate(180deg);
+        transform: translateX(30vw) rotate(180deg);
     }
 }
 @keyframes heart_death {
@@ -575,7 +578,7 @@
     opacity: 1;
     position: absolute;
     top: 45vh;
-    left: 45vw;
+    left: 36vw;
     animation: spellWizardAnimation 3.5s linear forwards;
 }
 
@@ -583,7 +586,7 @@
     opacity: 0;
     position: absolute;
     top: 45vh;
-    left: 45vw;
+    left: 35vw;
     animation: protego 3.5s linear forwards;
 }
 
@@ -630,6 +633,16 @@
     z-index: 1;
 }
 
+#patronus #greenBall {
+    transform: scale(0.1);
+    opacity: 0;
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    animation: lifeBall 3.5s linear forwards;
+
+}
+
 #patronus #patronusImg {
     opacity: 1;
     position: absolute;
@@ -650,6 +663,36 @@
     }
 }
 
+@keyframes lifeBall {
+    0% {
+        opacity: 0;
+    }
+    45% {
+        opacity: 0;
+        transform: translatex(0) translatey(0) scale(0.1);
+    }
+    50% {
+        transform: translatex(-5vw) translatey(-5vh) scale(0.1);
+    }
+    60% {
+        transform: translatex(-10vw) translatey(-10vh) scale(0.1);
+    }
+    70% {
+        transform: translatex(-5vw) translatey(-15vh) scale(0.1);
+    }
+    85% {
+        transform: translatex(0vw) translatey(-10vh) scale(0.1);
+        opacity: 1;
+    }
+    99%{
+        transform: translatex(-8vw) translatey(0vh) scale(0.1);
+        opacity: 1;
+    }
+    100% {
+        transform: translatex(-8vw) translatey(0vh) scale(0.1);
+        opacity: 0;
+    }
+}
 /* AGUAMENTI ANIMATION */
 
 #aguamenti #wizard_stand {
