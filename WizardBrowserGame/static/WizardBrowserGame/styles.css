@@ -23,6 +23,10 @@
     overflow-x: hidden;
 }
 
+.backgroundGarnet2 {
+    background-color: var(--garnet);
+    overflow-y: hidden;
+}
 .backgroundStrongGarnet {
     background-color: var(--strongGarnet) !important;
 }
@@ -844,4 +848,68 @@
 
 .iconDamage{
     color: rgb(185 28 28);
+}
+
+/* LOGS */
+.logs{
+    position: fixed;
+    bottom: 0;
+    right: 1%;
+    width: 300px;
+    height: 48px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-top: 10px;
+    z-index: 10;
+}
+
+.allLogs{
+    position: fixed;
+    bottom: 0;
+    right: 1%;
+    width: 300px;
+    height: auto;
+    max-height: 45%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-top: 10px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.headerLogs{
+    background-color: #d7d4d4;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    cursor: pointer;
+}
+
+.firstViewLog{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.defaultUl{
+    list-style-type: none;
+    padding: 10px;
+    margin: 0;
+    margin-top: 5px;
+    border-bottom: 2px solid #333; /* Línea superior */
+}
+
+.defaultLi{
+    display: block;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+}
+
+.defaultLi:hover{
+    background-color: #ebebeb;
 }

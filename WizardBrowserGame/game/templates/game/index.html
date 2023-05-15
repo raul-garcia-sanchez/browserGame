@@ -16,184 +16,209 @@
 </head>
 
 <body class="backgroundGarnet">
-    {% if user.username %}
+    
 
-    <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden">
-        <div id="animationDisplayer" class="relative w-screen h-screen top-0">
+        {% if user.username %}
+
+        <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden">
+            <div id="animationDisplayer" class="relative w-screen h-screen top-0">
+    
+            </div>
+        </div>
+        
+        <div id="app2">
+        <div class="my-12">
+            <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
+                SOBRE EL MEU MAG/A
+            </h1>
+        </div>
+        <div class="flex flex-center justify-center align-center">
+            <div id="mensajes"></div>
+        </div>
+
+        {% if user.is_staff %}
+        <div id="mySidenav" class="sidenav">
+            <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
+                    class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            <a href="/">Inici</a>
+            <a href="/ranking/">Ranking</a>
+            <a href="/actions/">Accions</a>
+            <a href="/play_action/">Àrea d'encanteris</a>
+            <a href="/admin">Panel d'administració</a>
+            <a href="/accounts/password_change/">Canviar contrasenya</a>
+            <a href="/accounts/logout">Tancar sessió</a>
 
         </div>
-    </div>
 
+        <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" open>
 
+            <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
 
-    <div class="my-12">
-        <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
-            SOBRE EL MEU MAG/A
-        </h1>
-    </div>
-    <div class="flex flex-center justify-center align-center">
-        <div id="mensajes"></div>
-    </div>
+        </span>
 
-    {% if user.is_staff %}
-    <div id="mySidenav" class="sidenav">
-        <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
-                class="fa fa-arrow-left" aria-hidden="true"></i></a>
-        <a href="/">Inici</a>
-        <a href="/ranking/">Ranking</a>
-        <a href="/actions/">Accions</a>
-        <a href="/play_action/">Àrea d'encanteris</a>
-        <a href="/admin">Panel d'administració</a>
-        <a href="/accounts/password_change/">Canviar contrasenya</a>
-        <a href="/accounts/logout">Tancar sessió</a>
+        {% else %}
 
-    </div>
+        <div id="mySidenav" class="sidenav">
+            <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
+                    class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            <a href="/">Inici</a>
+            <a href="/ranking/">Ranking</a>
+            <a href="/actions/">Accions</a>
+            <a href="/play_action/">Àrea d'encanteris</a>
+            <a href="/accounts/password_change/">Canviar contrasenya</a>
+            <a href="/accounts/logout">Tancar sessió</a>
 
-    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
-        <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
-    </span>
+        </div>
 
-    {% else %}
+        <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" open>
 
-    <div id="mySidenav" class="sidenav">
-        <a style="font-size: 25px !important;" class="closebtn cursor-pointer" onclick="closeNav()"><i
-                class="fa fa-arrow-left" aria-hidden="true"></i></a>
-        <a href="/">Inici</a>
-        <a href="/ranking/">Ranking</a>
-        <a href="/actions/">Accions</a>
-        <a href="/play_action/">Àrea d'encanteris</a>
-        <a href="/accounts/password_change/">Canviar contrasenya</a>
-        <a href="/accounts/logout">Tancar sessió</a>
+            <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
 
-    </div>
-
-    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
-
-        <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
-
-    </span>
-
-    {% endif %}
-
-    <div class="flex justify-center items-center max-w-5xl m-auto mt-8 mb-4">
-        <div id="app2" class="backgroundLightGrey px-8 pt-8 pb-8">
+        </span>
 
             <div v-if="loading" id="spinner"
                 class="animationContainer fixed w-screen h-screen z-10 top-0 left-0 bottom-o right-0 flex items-center justify-center">
                 <img id="imgSpinner" class="scale-50" src="/static/images/spinner.gif" alt="spinner image">
             </div>
 
-            <div class="mb-6">
-                <p class="p-2">Ens alegrem de veure't <b>[[user.username]]</b>!</p>
-                <p class="p-2"> En aquest apartat podràs veure les estadístiques sobre el teu mag/a i tota la informació
-                    sobre les últimes accions relacionades amb el teu mag/a.
-                </p>
+            
+        {% endif %}
+
+        <div id="divLogs" class="logs backgroundLightGrey">
+            <div id="openCloseLogs" onclick="changeClass()" style="height: 48px;"
+                class="headerLogs flex justify-around align-center">
+                <p class="firstViewLog text-gray-700 font-bold">Els meus intents del joc</p>
+                <i id="arrow" class="firstViewLog fa fa-angle-up text-gray-700 font-bold hover:text-xl"
+                    aria-hidden="true"></i>
             </div>
-
-            <div class="flex items-center justify-center">
-                <table class=" border-2 w-3/6 border-black">
-                    <tr>
-                        <td class="border-2 border-black px-4 py-2">Nivell</td>
-                        <td class="border-2 border-black px-4 py-2">[[user.level]]</td>
-                    </tr>
-                    <tr>
-                        <td class="border-2 border-black px-4 py-2">Vida</td>
-                        <td class="border-2 border-black px-4 py-2">[[user.life]]</td>
-                    </tr>
-                    <tr>
-                        <td class="border-2 border-black px-4 py-2">Manà</td>
-                        <td class="border-2 border-black px-4 py-2">[[user.mana]]</td>
-                    </tr>
-                    <tr>
-                        <td class="border-2 border-black px-4 py-2">Experiència</td>
-                        <td class="border-2 border-black px-4 py-2">[[user.exp]]</td>
-                    </tr>
-                    <tr>
-                        <td class="border-2 border-black px-4 py-2">Posició ranking</td>
-                        <td class="border-2 border-black px-4 py-2">[[userRanking.position]]</td>
-                    </tr>
-                </table>
+            <div id="divContainsLogs" style="display: none; width: 100% !important">
+                <ul v-for="item in statistics" class="defaultUl">
+                    <li class="defaultLi">Data: [[item.act_date]]</li>
+                    <li class="defaultLi">Hora: [[item.act_time]]</li>
+                    <li class="defaultLi">Acció: <strong><i>[[item.action__name]]</i></strong></li>
+                    <li class="defaultLi">Percentatge d'exit: [[item.success_rate]] %</li>
+                    <li class="defaultLi">Tirada real: [[item.actual_roll]] %</li>
+                    <li class="defaultLi" v-if="item.success == true">Exit: <i
+                            class="ml-2 fa fa-check-circle-o text-green-600" aria-hidden="true"></i></li>
+                    <li class="defaultLi" v-if="item.success == false">Exit: <i
+                            class="ml-2 fa fa-times-circle-o text-red-600" aria-hidden="true"></i></li>
+                </ul>
             </div>
+        </div>
 
-            <!-- Actions -->
-            <div class="mt-4 mb-4">
-                <!-- Ofenssive actions -->
-                <div class="mt-4 mb-4" id="offensiveActions">
-                    <h5 class="text-center text-gray-700 font-bold text-2xl">Accions Ofensives</h5>
-                    <div class="flex justify-around flex-row">
-                        <template v-for="action in actions">
-                            <div v-if="action.action_type == 1" class="flex flex-col">
-                                <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
-                                    @click="displayActionModal(action)"
-                                    v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
-                                    &nbsp;
-                                </button>
-                                <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
-                                <modal-creator :action="action" :dialog-title="'Informació'" :users="allUsers"
-                                    :user_transmitter="user" :ref="''+action.id"
-                                    @modal-closed="displayAnimation($event)" />
-                            </div>
-                        </template>
-                    </div>
-                </div>
-                <!-- Defensive actions -->
-                <div class="mt-4 mb-4" id="defensiveActions">
-                    <h5 class="text-center text-gray-700 font-bold text-2xl">Accions Defensives</h5>
-                    <div class="flex justify-around flex-row">
-                        <template v-for="action in actions">
-                            <div v-if="action.action_type == 2" class="flex flex-col">
-                                <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
-                                    v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}"
-                                    @click="displayActionModal(action)">
-                                    &nbsp;
-                                </button>
-                                <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
-                                <modal-simple :action="action" :dialog-title="'Informació'" :user_transmitter="user"
-                                    :ref="''+action.id" @modal-closed="displayAnimation($event)" />
-                            </div>
-                        </template>
-                    </div>
-                </div>
-                <!-- Neutral actions -->
-                <div class="mt-4 mb-4" id="neutralActions">
-                    <h5 class="text-center text-gray-700 font-bold text-2xl">Accions Neutrals</h5>
-                    <div class="flex justify-around flex-row">
-                        <template v-for="action in actions">
-                            <div v-if="action.action_type == 3" class="flex flex-col">
-                                <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
-                                    v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}"
-                                    @click="displayActionModal(action)">
-                                    &nbsp;
-                                </button>
-                                <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
-                                <modal-simple :action="action" :dialog-title="'Informació'" :user_transmitter="user"
-                                    :ref="''+action.id" @modal-closed="displayAnimation($event)" />
-                            </div>
-                        </template>
-                    </div>
-                </div>
-            </div>
+        <div class="flex justify-center items-center max-w-5xl m-auto mt-8 mb-4">
+            <div class="backgroundLightGrey px-8 pt-8 pb-8">
 
-            <button id="buttonCollapsable" type="button" class="collapsible mt-4 font-bold">Veure últimes
-                accions</button>
-            <div class="content mt-2">
-                <template v-for="action in eventActions">
-
-                    <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de
-                        <b><i>[[action.action__name]]</i></b> contra el jugador/a
-                        <b>[[action.user_receiver__username]]</b> el dia [[action.date]]
+                <div class="mb-6">
+                    <p class="p-2">Ens alegrem de veure't <b>[[user.username]]</b>!</p>
+                    <p class="p-2"> En aquest apartat podràs veure les estadístiques sobre el teu mag/a i tota la
+                        informació
+                        sobre les últimes accions relacionades amb el teu mag/a.
                     </p>
-                    <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador/a
-                        <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]
-                    </p>
+                </div>
 
-                </template>
+                <div class="flex items-center justify-center">
+                    <table class=" border-2 w-3/6 border-black">
+                        <tr>
+                            <td class="border-2 border-black px-4 py-2">Nivell</td>
+                            <td class="border-2 border-black px-4 py-2">[[user.level]]</td>
+                        </tr>
+                        <tr>
+                            <td class="border-2 border-black px-4 py-2">Vida</td>
+                            <td class="border-2 border-black px-4 py-2">[[user.life]]</td>
+                        </tr>
+                        <tr>
+                            <td class="border-2 border-black px-4 py-2">Manà</td>
+                            <td class="border-2 border-black px-4 py-2">[[user.mana]]</td>
+                        </tr>
+                        <tr>
+                            <td class="border-2 border-black px-4 py-2">Experiència</td>
+                            <td class="border-2 border-black px-4 py-2">[[user.exp]]</td>
+                        </tr>
+                        <tr>
+                            <td class="border-2 border-black px-4 py-2">Posició ranking</td>
+                            <td class="border-2 border-black px-4 py-2">[[userRanking.position]]</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Actions -->
+                <div class="mt-4 mb-4">
+                    <!-- Ofenssive actions -->
+                    <div class="mt-4 mb-4" id="offensiveActions">
+                        <h5 class="text-center text-gray-700 font-bold text-2xl">Accions Ofensives</h5>
+                        <div class="flex justify-around flex-row">
+                            <template v-for="action in actions">
+                                <div v-if="action.action_type == 1" class="flex flex-col">
+                                    <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
+                                        @click="displayActionModal(action)"
+                                        v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}">
+                                        &nbsp;
+                                    </button>
+                                    <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
+                                    <modal-creator :action="action" :dialog-title="'Informació'" :users="allUsers"
+                                        :user_transmitter="user" :ref="''+action.id" @modal-closed="displayAnimation($event)" />
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <!-- Defensive actions -->
+                    <div class="mt-4 mb-4" id="defensiveActions">
+                        <h5 class="text-center text-gray-700 font-bold text-2xl">Accions Defensives</h5>
+                        <div class="flex justify-around flex-row">
+                            <template v-for="action in actions">
+                                <div v-if="action.action_type == 2" class="flex flex-col">
+                                    <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
+                                        v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}"
+                                        @click="displayActionModal(action)">
+                                        &nbsp;
+                                    </button>
+                                    <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
+                                    <modal-simple :action="action" :dialog-title="'Informació'" :user_transmitter="user"
+                                        :ref="''+action.id" @modal-closed="displayAnimation($event)" />
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <!-- Neutral actions -->
+                    <div class="mt-4 mb-4" id="neutralActions">
+                        <h5 class="text-center text-gray-700 font-bold text-2xl">Accions Neutrals</h5>
+                        <div class="flex justify-around flex-row">
+                            <template v-for="action in actions">
+                                <div v-if="action.action_type == 3" class="flex flex-col">
+                                    <button :id="'btnAction_'+action.id" class="w-40 h-40 imageContainer btnImage"
+                                        v-bind:style="{ backgroundImage: 'url(/static/'+[[action.action_img]]+') !important'}"
+                                        @click="displayActionModal(action)">
+                                        &nbsp;
+                                    </button>
+                                    <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
+                                    <modal-simple :action="action" :dialog-title="'Informació'" :user_transmitter="user"
+                                        :ref="''+action.id" @modal-closed="displayAnimation($event)" />
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="buttonCollapsable" type="button" class="collapsible mt-4 font-bold">Veure últimes
+                    accions</button>
+                <div class="content mt-2">
+                    <template v-for="action in eventActions">
+
+                        <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de
+                            <b><i>[[action.action__name]]</i></b> contra el jugador/a
+                            <b>[[action.user_receiver__username]]</b> el dia [[action.date]] </p>
+                        <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador/a
+                            <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]</p>
+
+                    </template>
+                </div>
             </div>
         </div>
     </div>
     {% else %}
 
-    <div class="my-12   ">
+    <div class="my-12">
         <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
             WIZARD GAME
         </h1>
@@ -210,13 +235,13 @@
 
     </div>
 
-    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
+    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" open>
 
         <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
 
     </span>
     <img src="{% static 'img/witch.gif' %}" alt="Bruixa terrorifica" class="wizardShowLeft">
-    <div class="flex justify-center items-center max-w-5xl m-auto">
+    <div id="app3" class="flex justify-center items-center max-w-5xl m-auto">
         <div class="backgroundLightGrey px-8 pt-8 pb-8">
 
             <div class="mb-6">
@@ -234,7 +259,7 @@
                     jugadors tenen un temps limitat per vèncer els seus oponents i guanyar punts d'experiència.</p>
             </div>
 
-            <div id="app3" class="flex items-center justify-center">
+            <div class="flex items-center justify-center">
                 <table class=" border-2 w-3/6 border-black">
                     <tr>
                         <td class="border-2 border-black px-4 py-2">Data d'inici</td>
@@ -265,11 +290,13 @@
             </div>
         </div>
     </div>
+
     {% endif %}
 
 
 
     {% render_bundle 'main' %}
+
     <script>
         var coll = document.getElementsByClassName("collapsible");
         var buttonCollapasable = document.getElementById("buttonCollapsable")
@@ -305,8 +332,21 @@
                 link.classList.add("activeLink");
             }
         });
+
+
+        function changeClass() {
+            var elem = document.getElementById("divLogs")
+            var elem2 = document.getElementById("arrow")
+            var elem3 = document.getElementById("divContainsLogs")
+            elem.classList.toggle("allLogs")
+            if (elem2.classList.contains("fa-angle-up")) elem2.classList.replace("fa-angle-up", "fa-angle-down")
+            else elem2.classList.replace("fa-angle-down", "fa-angle-up")
+            if (elem3.style.display == "none") elem3.style.display = ""
+            else elem3.style.display = "none"
+        }
+
     </script>
-    <script src="{% static 'actionScripts/callsToApi.js' %}"></script>
+
 
 
 </body>

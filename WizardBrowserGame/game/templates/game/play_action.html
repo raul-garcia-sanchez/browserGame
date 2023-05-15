@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} {% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <html lang="ca">
 
@@ -36,7 +36,7 @@
 
     </div>
 
-    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
+    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" open>
 
         <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
 
@@ -56,7 +56,7 @@
 
     </div>
 
-    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
+    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" open>
 
         <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
 
@@ -68,7 +68,7 @@
         <div id="mensajes"></div>
     </div>
 
-    <div class="flex justify-center items-center">
+    <div id="app2" class="flex justify-center items-center">
 
         <form class="backgroundLightGrey px-8 pt-8 pb-8 formAction">
             {% csrf_token %}
@@ -122,8 +122,6 @@
                 </select>
             </div>
 
-
-
             <div class="flex items-center justify-around">
                 <a class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50" href="/">
                     <i class="fa-solid fa-arrow-left"></i>
@@ -131,13 +129,36 @@
                 </a>
 
                 <button disabled id="btnConfirmAction" type="button"
-                class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50">
+                class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50" v-on:click="getStatistics2">
                     Confirma acció
                 </button>
 
             </div>
         </form>
+
+        <div id="divLogs" class="logs backgroundLightGrey">
+            <div id="openCloseLogs" onclick="changeClass()" style="height: 48px;" class="headerLogs flex justify-around align-center">
+                <p class="firstViewLog text-gray-700 font-bold">Els meus intents del joc</p>
+                <i id="arrow" class="firstViewLog fa fa-angle-up text-gray-700 font-bold hover:text-xl" aria-hidden="true"></i>
+            </div>
+            <div id="divContainsLogs" style="display: none; width: 100% !important">
+                <ul v-for="item in statistics" class="defaultUl">
+                    <li class="defaultLi">Data: [[item.act_date]]</li>
+                    <li class="defaultLi">Hora: [[item.act_time]]</li>
+                    <li class="defaultLi">Acció: <strong><i>[[item.action__name]]</i></strong></li>
+                    <li class="defaultLi">Percentatge d'exit: [[item.success_rate]] %</li>
+                    <li class="defaultLi">Tirada real: [[item.actual_roll]] %</li>
+                    <li class="defaultLi" v-if="item.success == true">Exit: <i class="ml-2 fa fa-check-circle-o text-green-600" aria-hidden="true"></i></li>
+                    <li class="defaultLi" v-if="item.success == false">Exit: <i class="ml-2 fa fa-times-circle-o text-red-600" aria-hidden="true"></i></li>
+                </ul>
+            
+            </div>
+        </div>
+
+
     </div>
+    
+    {% render_bundle 'main' %}
     <script src="{% static 'actionScripts/callsToApi.js' %}"></script>
     <script src="{% static 'actionScripts/play_action.js' %}"></script>
     <script>
@@ -153,13 +174,26 @@
         const links = document.querySelectorAll("#mySidenav a");
         links.forEach(link => {
             const href = link.getAttribute("href");
-
             if (window.location.pathname === href) {
                 link.classList.add("activeLink");
             }
         });
 
+        function changeClass(){
+            var elem = document.getElementById("divLogs")
+            var elem2 = document.getElementById("arrow")
+            var elem3 = document.getElementById("divContainsLogs")
+            elem.classList.toggle("allLogs")
+            if(elem2.classList.contains("fa-angle-up")) elem2.classList.replace("fa-angle-up", "fa-angle-down")
+            else elem2.classList.replace("fa-angle-down", "fa-angle-up")
+            if(elem3.style.display == "none") elem3.style.display = ""
+            else elem3.style.display = "none"
+
+            
+        }
+
     </script>
+    
 </body>
 
 </html>

@@ -95,6 +95,7 @@ def newLogin(request):
 @login_required
 @RefreshResources
 def new_logout(request):
+    StatisticsUser.objects.filter(idUser=request.user.id).delete()
     logout(request);
     try:
         user = request.user
@@ -454,7 +455,7 @@ def play_action(request):
         Q(level=user.level) | 
         Q(level=user.level-1) | 
         Q(level=user.level+1)
-    ).exclude(Q(id=user.id)| Q(level=0) | Q(is_staff = True))
+    ).exclude(Q(id=user.id)| Q(level=0))
 
     context = {
         "user": user,

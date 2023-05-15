@@ -13,7 +13,7 @@
 </head>
 
 <body class="backgroundGarnet">
-  <div id="app4">
+  <div>
     <div class="my-12">
       <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
         ACCIONS
@@ -65,6 +65,26 @@
 
     {% endif %}
 
+    <div id="app2">
+      <div id="divLogs" class="logs backgroundLightGrey">
+          <div id="openCloseLogs" onclick="changeClass()" style="height: 48px;" class="headerLogs flex justify-around align-center">
+              <p class="firstViewLog text-gray-700 font-bold">Els meus intents del joc</p>
+              <i id="arrow" class="firstViewLog fa fa-angle-up text-gray-700 font-bold hover:text-xl" aria-hidden="true"></i>
+          </div>
+          <div id="divContainsLogs" style="display: none; width: 100% !important">
+              <ul v-for="item in statistics" class="defaultUl">
+                  <li class="defaultLi">Data: [[item.act_date]]</li>
+                  <li class="defaultLi">Hora: [[item.act_time]]</li>
+                  <li class="defaultLi">Acció: <strong><i>[[item.action__name]]</i></strong></li>
+                  <li class="defaultLi">Percentatge d'exit: [[item.success_rate]] %</li>
+                  <li class="defaultLi">Tirada real: [[item.actual_roll]] %</li>
+                  <li class="defaultLi" v-if="item.success == true">Exit: <i class="ml-2 fa fa-check-circle-o text-green-600" aria-hidden="true"></i></li>
+                  <li class="defaultLi" v-if="item.success == false">Exit: <i class="ml-2 fa fa-times-circle-o text-red-600" aria-hidden="true"></i></li>
+              </ul>
+          </div>
+      </div>
+  </div>
+
     {% else %}
 
     <div id="mySidenav" class="sidenav">
@@ -87,7 +107,7 @@
 
     {% endif %}
 
-    <div class="flex justify-center items-center max-w-5xl m-auto mt-8">
+    <div id="app4" class="flex justify-center items-center max-w-5xl m-auto mt-8">
       <div class="backgroundLightGrey px-8 pt-8 pb-8">
         <div class="flex items-center justify-center">
           <table class="border-2 w-3/6 border-black bg-white">
@@ -172,6 +192,17 @@
         link.classList.add("activeLink");
       }
     });
+
+    function changeClass(){
+        var elem = document.getElementById("divLogs")
+        var elem2 = document.getElementById("arrow")
+        var elem3 = document.getElementById("divContainsLogs")
+        elem.classList.toggle("allLogs")
+        if(elem2.classList.contains("fa-angle-up")) elem2.classList.replace("fa-angle-up", "fa-angle-down")
+        else elem2.classList.replace("fa-angle-down", "fa-angle-up")
+        if(elem3.style.display == "none") elem3.style.display = ""
+        else elem3.style.display = "none"
+        }
 
   </script>
 

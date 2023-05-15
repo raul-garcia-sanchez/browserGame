@@ -119,7 +119,6 @@ export default {
 
                     if (response.data.action_succeed) this.newError("success", message);
                     else this.newError("info", message);
-                    console.log(response)
                     this.$emit('modal-closed',{action:this.action, succeed: response.data.action_succeed, levelUp: response.data.levelUp, hasKilled: response.data.has_killed});
                     this.cerrarDialogo()
                 })

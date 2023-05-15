@@ -19,4 +19,5 @@ urlpatterns = [
     path('api/get_gameOptions', api.getGameOptions, name="getGameOptions"),
     path('api/get_events', api.getEvents, name="getEvents"),
     path('api/get_resources', api.getResources, name="getResources"),
+    path('api/get_statistics', api.getStatisticsCurrentUser, name="getStatistics"),
 ]

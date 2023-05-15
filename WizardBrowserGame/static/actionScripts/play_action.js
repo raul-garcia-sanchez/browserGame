@@ -50,9 +50,9 @@ $("#btnConfirmAction").click(async () => {
         response = await makeAction(spellSelected.id, user.id);
     }
     await resetParameters()
-
+    
     if (response && response.status_code == 200) {
-
+        
         if (spellSelected.action_type == 1) {
             message = (response.action_succeed)  //If action succeeded
                 ? `Has encertat l'atac <strong><i>${spellSelected.name}</i></strong> contra el jugador <strong>${userTarget.username}</strong><br>`

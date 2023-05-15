@@ -83,7 +83,8 @@ var app2 = createApp({
             eventActions: [],
             actions: [],
             allUsers: [],
-            loading: false
+            loading: false,
+            statistics: []
         };
     },
     async mounted() {
@@ -92,6 +93,7 @@ var app2 = createApp({
         await this.getActions();
         this.disableOutOfManaButtons();
         this.loading = false;
+        await this.getStatistics();
     },
     components: {
         'modal-creator': ModalCreator,
@@ -239,9 +241,37 @@ var app2 = createApp({
 
             this.resetParamters();
         },
+        getStatistics: async function () {
+            await fetch("../../api/get_statistics")
+                .then((response) => {
+                    return response.json()
+                })
+                .then((response) => {
+                    this.statistics = response.statistics
+                    for( let item of this.statistics) {
+                        var date = item.act_date.split("-")
+                        var year = date[0]
+                        var month = date[1]
+                        var day = date[2]
+                        var newDate = day + "/" + month + "/" + year;
+                        var time = item.act_time.split(".")
+                        item.act_date = newDate
+                        item.act_time = time[0]
+                    }
+                })
+                .catch((error) => {
+                    console.log("Could not get statistics", error);
+                });
+        },
+        getStatistics2: async function() {
+            setTimeout(() => {
+                this.getStatistics()
+            }, 500);
+        },
         resetParamters: async function () {
             await this.updateData(false);
             await this.disableOutOfManaButtons();
+            this.getStatistics()
         },
         disableOutOfManaButtons() {
             let buttons = document.getElementsByClassName("btnImage");
@@ -299,7 +329,6 @@ var app2 = createApp({
         },
         updateData: async function (shouldTimeout) {
             await fetch("../api/get_resources")
-
             await fetch("../api/get_user")
                 .then((response) => {
                     return response.json();
@@ -455,7 +484,6 @@ var app4 = createApp({
                 })
                 .then((response) => {
                     this.actions = response.actions;
-                    console.log(this.actions);
                 })
                 .catch((error) => {
                     console.log("Could not get actions:", error);
@@ -466,3 +494,4 @@ var app4 = createApp({
 })
 
 app4.mount("#app4");
+
