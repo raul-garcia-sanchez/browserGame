@@ -58,7 +58,7 @@ class EventHistoryAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name in ['user_transmitter', 'user_receiver']:
-            kwargs['queryset'] = User.objects.filter(is_staff=False)
+            kwargs['queryset'] = User.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 admin.site.register(User, UserAdmin)

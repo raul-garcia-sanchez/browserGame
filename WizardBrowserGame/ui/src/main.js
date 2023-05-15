@@ -82,13 +82,15 @@ var app2 = createApp({
             userRanking: [],
             eventActions: [],
             actions: [],
-            allUsers: []
+            allUsers: [],
+            statistics: []
         };
     },
     async mounted() {
         await this.updateData(true);
         await this.getActions();
         this.disableOutOfManaButtons();
+        await this.getStatistics();
     },
     components: {
         'modal-creator': ModalCreator,
@@ -110,9 +112,38 @@ var app2 = createApp({
         displayActionModal(action) {
             this.$refs[action.id][0].abrirDialogo();
         },
+        getStatistics: async function () {
+            await fetch("../../api/get_statistics")
+                .then((response) => {
+                    return response.json()
+                })
+                .then((response) => {
+                    console.log(response);
+                    this.statistics = response.statistics
+                    for( let item of this.statistics) {
+                        var date = item.act_date.split("-")
+                        var year = date[0]
+                        var month = date[1]
+                        var day = date[2]
+                        var newDate = day + "/" + month + "/" + year;
+                        var time = item.act_time.split(".")
+                        item.act_date = newDate
+                        item.act_time = time[0]
+                    }
+                })
+                .catch((error) => {
+                    console.log("Could not get statistics", error);
+                });
+        },
+        getStatistics2: async function() {
+            setTimeout(() => {
+                this.getStatistics()
+            }, 500);
+        },
         resetParamters: async function () {
             await this.updateData(false);
             await this.disableOutOfManaButtons();
+            this.getStatistics()
         },
         disableOutOfManaButtons() {
             let buttons = document.getElementsByClassName("btnImage");
@@ -125,7 +156,6 @@ var app2 = createApp({
                 else{
                     this.enableActionButton(button)
                  }
-
             }
         },
 
@@ -170,7 +200,6 @@ var app2 = createApp({
         },
         updateData: async function (shouldTimeout) {
             await fetch("../api/get_resources")
-
             await fetch("../api/get_user")
                 .then((response) => {
                     return response.json();
@@ -259,6 +288,7 @@ var app3 = createApp({
     },
     methods: {
         getGameOptions() {
+            console.log("eei");
             fetch("../api/get_gameOptions")
                 .then((response) => {
                     return response.json();
@@ -337,42 +367,42 @@ var app4 = createApp({
 
 app4.mount("#app4");
 
-var app5 = createApp({
-    el: "#app5",
-    delimiters: ["[[", "]]"],
-    data() {
-        return {
-            statistics: [],
-        };
-    },
-    mounted() {
-        this.getStatistics();
-    },
-    methods: {
-        getStatistics: async function () {
-            await fetch("../api/get_statistics")
-                .then((response) => {
-                    return response.json()
-                })
-                .then((response) => {
-                    console.log(response);
-                    this.statistics = response.statistics
-                    for( let item of this.statistics) {
-                        var date = item.act_date.split("-")
-                        var year = date[0]
-                        var month = date[1]
-                        var day = date[2]
-                        var newDate = day + "/" + month + "/" + year;
-                        var time = item.act_time.split(".")
-                        item.act_date = newDate
-                        item.act_time = time[0]
-                    }
-                })
-                .catch((error) => {
-                    console.log("Could not get statistics", error);
-                });
-        }
-    }
-})
+// var app5 = createApp({
+//     el: "#app5",
+//     delimiters: ["[[", "]]"],
+//     data() {
+//         return {
+//             statistics: [],
+//         };
+//     },
+//     mounted() {
+//         this.getStatistics();
+//     },
+//     methods: {
+//         getStatistics: async function () {
+//             await fetch("../../api/get_statistics")
+//                 .then((response) => {
+//                     return response.json()
+//                 })
+//                 .then((response) => {
+//                     console.log(response);
+//                     this.statistics = response.statistics
+//                     for( let item of this.statistics) {
+//                         var date = item.act_date.split("-")
+//                         var year = date[0]
+//                         var month = date[1]
+//                         var day = date[2]
+//                         var newDate = day + "/" + month + "/" + year;
+//                         var time = item.act_time.split(".")
+//                         item.act_date = newDate
+//                         item.act_time = time[0]
+//                     }
+//                 })
+//                 .catch((error) => {
+//                     console.log("Could not get statistics", error);
+//                 });
+//         }
+//     }
+// })
 
-app5.mount("#app5")
+// app5.mount("#app5")

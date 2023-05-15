@@ -36,7 +36,7 @@
 
     </div>
 
-    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
+    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" open>
 
         <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
 
@@ -56,7 +56,7 @@
 
     </div>
 
-    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" &#9776; open>
+    <span style="font-size: 30px;" class="cursor-pointer" onclick="openNav()" open>
 
         <i style="position: absolute; top: 5%" class=" ml-10 fa fa-bars" aria-hidden="true"></i>
 
@@ -68,7 +68,7 @@
         <div id="mensajes"></div>
     </div>
 
-    <div id="app5" class="flex justify-center items-center">
+    <div id="app2" class="flex justify-center items-center">
 
         <form class="backgroundLightGrey px-8 pt-8 pb-8 formAction">
             {% csrf_token %}
@@ -129,20 +129,19 @@
                 </a>
 
                 <button disabled id="btnConfirmAction" type="button"
-                class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50">
+                class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50" v-on:click="getStatistics2">
                     Confirma acció
                 </button>
 
             </div>
         </form>
 
-
         <div id="divLogs" class="logs backgroundLightGrey">
             <div id="openCloseLogs" onclick="changeClass()" style="height: 48px;" class="headerLogs flex justify-around align-center">
                 <p class="firstViewLog text-gray-700 font-bold">Els meus intents del joc</p>
                 <i id="arrow" class="firstViewLog fa fa-angle-up text-gray-700 font-bold hover:text-xl" aria-hidden="true"></i>
             </div>
-            <div id="divContainsLogs" style="display: none; width: 100% !important;">
+            <div id="divContainsLogs" style="display: none; width: 100% !important">
                 <ul v-for="item in statistics" class="defaultUl">
                     <li class="defaultLi">Data: [[item.act_date]]</li>
                     <li class="defaultLi">Hora: [[item.act_time]]</li>
@@ -155,6 +154,7 @@
             
             </div>
         </div>
+
 
     </div>
     
