@@ -82,13 +82,16 @@ var app2 = createApp({
             userRanking: [],
             eventActions: [],
             actions: [],
-            allUsers: []
+            allUsers: [],
+            loading: false
         };
     },
     async mounted() {
+        this.loading = true;
         await this.updateData(true);
         await this.getActions();
         this.disableOutOfManaButtons();
+        this.loading = false;
     },
     components: {
         'modal-creator': ModalCreator,

@@ -20,9 +20,10 @@
 
     <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden">
         <div id="animationDisplayer" class="relative w-screen h-screen top-0">
-            
+
         </div>
     </div>
+
 
 
     <div class="my-12">
@@ -76,6 +77,11 @@
 
     <div class="flex justify-center items-center max-w-5xl m-auto mt-8 mb-4">
         <div id="app2" class="backgroundLightGrey px-8 pt-8 pb-8">
+
+            <div v-if="loading" id="spinner"
+                class="animationContainer fixed w-screen h-screen z-10 top-0 left-0 bottom-o right-0 flex items-center justify-center">
+                <img id="imgSpinner" class="scale-50" src="/static/images/spinner.gif" alt="spinner image">
+            </div>
 
             <div class="mb-6">
                 <p class="p-2">Ens alegrem de veure't <b>[[user.username]]</b>!</p>
