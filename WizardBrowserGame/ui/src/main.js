@@ -410,14 +410,16 @@ var app3 = createApp({
     data() {
         return {
             gameOptions: [],
+            loading: false,
         };
     },
-    mounted() {
+    async mounted() {
         this.getGameOptions();
     },
     methods: {
-        getGameOptions() {
-            fetch("../api/get_gameOptions")
+        async getGameOptions() {
+            this.loading = true;
+            await fetch("../api/get_gameOptions")
                 .then((response) => {
                     return response.json();
                 })
@@ -458,6 +460,8 @@ var app3 = createApp({
                 .catch((error) => {
                     console.log(error);
                 });
+            this.loading = false;
+
         },
     },
 });

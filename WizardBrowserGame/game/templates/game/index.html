@@ -12,21 +12,24 @@
     <script src="https://kit.fontawesome.com/277f72a273.js" crossorigin="anonymous"></script>
     <script src="{% static 'resources/jquery.min.js' %}"></script>
     <script src="{% static 'resources/jquery.cookie.js' %}"></script>
+    <script src="{% static 'resources/jquery-ui.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'resources/jquery-ui.min.css' %}">
+    </link>
     <title>Portada | WizardGame</title>
 </head>
 
 <body class="backgroundGarnet">
-    
 
-        {% if user.username %}
 
-        <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden">
-            <div id="animationDisplayer" class="relative w-screen h-screen top-0">
-    
-            </div>
+    {% if user.username %}
+
+    <div id="animationContainer" class="animationContainer fixed w-screen h-screen z-10 top-0 hidden">
+        <div id="animationDisplayer" class="relative w-screen h-screen top-0">
+
         </div>
-        
-        <div id="app2">
+    </div>
+
+    <div id="app2">
         <div class="my-12">
             <h1 class="flex justify-center items-center top-28 m-auto inset-x-0 text-6xl colorLightGrey font-bold">
                 SOBRE EL MEU MAG/A
@@ -76,12 +79,12 @@
 
         </span>
 
-            <div v-if="loading" id="spinner"
-                class="animationContainer fixed w-screen h-screen z-10 top-0 left-0 bottom-o right-0 flex items-center justify-center">
-                <img id="imgSpinner" class="scale-50" src="/static/images/spinner.gif" alt="spinner image">
-            </div>
+        <div v-if="loading" id="spinner"
+            class="animationContainer fixed w-screen h-screen z-10 top-0 left-0 bottom-o right-0 flex items-center justify-center">
+            <img id="imgSpinner" class="scale-50" src="/static/images/spinner.gif" alt="spinner image">
+        </div>
 
-            
+
         {% endif %}
 
         <div id="divLogs" class="logs backgroundLightGrey">
@@ -157,7 +160,8 @@
                                     </button>
                                     <p class="text-center"><strong><i>[[action.name]]</i></strong></p>
                                     <modal-creator :action="action" :dialog-title="'Informació'" :users="allUsers"
-                                        :user_transmitter="user" :ref="''+action.id" @modal-closed="displayAnimation($event)" />
+                                        :user_transmitter="user" :ref="''+action.id"
+                                        @modal-closed="displayAnimation($event)" />
                                 </div>
                             </template>
                         </div>
@@ -207,9 +211,11 @@
 
                         <p v-if="action.user_transmitter__username == user.username">Has executat l'acció de
                             <b><i>[[action.action__name]]</i></b> contra el jugador/a
-                            <b>[[action.user_receiver__username]]</b> el dia [[action.date]] </p>
+                            <b>[[action.user_receiver__username]]</b> el dia [[action.date]]
+                        </p>
                         <p v-else> Has rebut l'acció de <b><i>[[action.action__name]]</i></b> del jugador/a
-                            <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]</p>
+                            <b>[[action.user_transmitter__username]]</b> el dia [[action.date]]
+                        </p>
 
                     </template>
                 </div>
@@ -242,6 +248,10 @@
     </span>
     <img src="{% static 'img/witch.gif' %}" alt="Bruixa terrorifica" class="wizardShowLeft">
     <div id="app3" class="flex justify-center items-center max-w-5xl m-auto">
+        <div v-if="loading" id="spinner"
+            class="animationContainer fixed w-screen h-screen z-10 top-0 left-0 bottom-o right-0 flex items-center justify-center">
+            <img id="imgSpinner" class="scale-50" src="/static/images/spinner.gif" alt="spinner image">
+        </div>
         <div class="backgroundLightGrey px-8 pt-8 pb-8">
 
             <div class="mb-6">
@@ -343,6 +353,32 @@
             else elem2.classList.replace("fa-angle-down", "fa-angle-up")
             if (elem3.style.display == "none") elem3.style.display = ""
             else elem3.style.display = "none"
+
+            // is Resizable
+            if ($(elem).hasClass("allLogs")) {
+                $(elem).resizable({
+                    handles: "n, w, nw",
+                    maxHeight: 700,
+                    maxWidth: 1200,
+                    minWidth: 300,
+                    minHeight: 48,
+                });
+            }
+            else {
+                $(elem).resizable({
+                    handles: "w",
+                    maxHeight: 700,
+                    maxWidth: 1200,
+                    minWidth: 300,
+                    minHeight: 48,
+                });
+
+                $(elem).css("top", "auto");
+                $(elem).css("rigth", "1%");
+                $(elem).css("min-width", "300px");
+                $(elem).css("max-heigth", "48px");
+
+            }
         }
 
     </script>

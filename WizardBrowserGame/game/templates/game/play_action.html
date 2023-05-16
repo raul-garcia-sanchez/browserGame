@@ -11,6 +11,8 @@
     <script src="https://kit.fontawesome.com/277f72a273.js" crossorigin="anonymous"></script>
     <script src="{% static 'resources/jquery.min.js' %}"></script>
     <script src="{% static 'resources/jquery.cookie.js' %}"></script>
+    <script src="{% static 'resources/jquery-ui.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'resources/jquery-ui.min.css' %}">
 
     <title>Àrea d'encanteris | WizardGame</title>
 </head>
@@ -76,7 +78,8 @@
                 <label class="block text-gray-700 font-bold mb-2" for="spell">Tria un encanteri</label>
                 <select name="spell" id="spell" class="text-center text-lg italic w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-md shadow-sm 
                 focus:outline-none focus:ring-2 focus:ring-red-100 focus:border-red-500">
-                    <option class="bg-white text-gray-700" disabled selected value="null"> -- Selecciona encanteri -- </option>
+                    <option class="bg-white text-gray-700" disabled selected value="null"> -- Selecciona encanteri --
+                    </option>
 
                     <optgroup class="bg-red-300 text-gray-700" label="Atac">
                         {% for i in list_actions %}{% if i.action_type == 1 %}
@@ -111,14 +114,14 @@
                 <label class="block text-gray-700 font-bold mb-2" for="user_receiver">Tria un objectiu</label>
                 <select name="user_receiver" id="user_receiver" class="text-center w-full px-4 py-2 text-gray-700 bg-white border border-gray-400 rounded-md shadow-sm 
                 focus:outline-none focus:ring-2 focus:ring-red-100 focus:border-red-500">
-                {% if list_users %}
+                    {% if list_users %}
                     <option disabled selected value="null"> -- Selecciona objectiu -- </option>
                     {% for i in list_users %}
                     <option value="{{i.id}}">{{ i.username}}</option>
                     {% endfor %}
-                {% else %}
+                    {% else %}
                     <option disabled selected value="null"> -- No hi ha objectius -- </option>
-                {% endif %}
+                    {% endif %}
                 </select>
             </div>
 
@@ -129,7 +132,8 @@
                 </a>
 
                 <button disabled id="btnConfirmAction" type="button"
-                class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50" v-on:click="getStatistics2">
+                    class="backgroundStrongGarnet text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+                    v-on:click="getStatistics2">
                     Confirma acció
                 </button>
 
@@ -137,9 +141,11 @@
         </form>
 
         <div id="divLogs" class="logs backgroundLightGrey">
-            <div id="openCloseLogs" onclick="changeClass()" style="height: 48px;" class="headerLogs flex justify-around align-center">
+            <div id="openCloseLogs" onclick="changeClass()" style="height: 48px;"
+                class="headerLogs flex justify-around align-center">
                 <p class="firstViewLog text-gray-700 font-bold">Els meus intents del joc</p>
-                <i id="arrow" class="firstViewLog fa fa-angle-up text-gray-700 font-bold hover:text-xl" aria-hidden="true"></i>
+                <i id="arrow" class="firstViewLog fa fa-angle-up text-gray-700 font-bold hover:text-xl"
+                    aria-hidden="true"></i>
             </div>
             <div id="divContainsLogs" style="display: none; width: 100% !important">
                 <ul v-for="item in statistics" class="defaultUl">
@@ -148,26 +154,28 @@
                     <li class="defaultLi">Acció: <strong><i>[[item.action__name]]</i></strong></li>
                     <li class="defaultLi">Percentatge d'exit: [[item.success_rate]] %</li>
                     <li class="defaultLi">Tirada real: [[item.actual_roll]] %</li>
-                    <li class="defaultLi" v-if="item.success == true">Exit: <i class="ml-2 fa fa-check-circle-o text-green-600" aria-hidden="true"></i></li>
-                    <li class="defaultLi" v-if="item.success == false">Exit: <i class="ml-2 fa fa-times-circle-o text-red-600" aria-hidden="true"></i></li>
+                    <li class="defaultLi" v-if="item.success == true">Exit: <i
+                            class="ml-2 fa fa-check-circle-o text-green-600" aria-hidden="true"></i></li>
+                    <li class="defaultLi" v-if="item.success == false">Exit: <i
+                            class="ml-2 fa fa-times-circle-o text-red-600" aria-hidden="true"></i></li>
                 </ul>
-            
+
             </div>
         </div>
 
 
     </div>
-    
+
     {% render_bundle 'main' %}
     <script src="{% static 'actionScripts/callsToApi.js' %}"></script>
     <script src="{% static 'actionScripts/play_action.js' %}"></script>
     <script>
-        function openNav(){
-	        document.getElementById('mySidenav').style.width="250px";
+        function openNav() {
+            document.getElementById('mySidenav').style.width = "250px";
         }
 
-        function closeNav(){
-            document.getElementById("mySidenav").style.width="0px";
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0px";
 
         }
 
@@ -179,21 +187,45 @@
             }
         });
 
-        function changeClass(){
+        function changeClass() {
             var elem = document.getElementById("divLogs")
             var elem2 = document.getElementById("arrow")
             var elem3 = document.getElementById("divContainsLogs")
             elem.classList.toggle("allLogs")
-            if(elem2.classList.contains("fa-angle-up")) elem2.classList.replace("fa-angle-up", "fa-angle-down")
+            if (elem2.classList.contains("fa-angle-up")) elem2.classList.replace("fa-angle-up", "fa-angle-down")
             else elem2.classList.replace("fa-angle-down", "fa-angle-up")
-            if(elem3.style.display == "none") elem3.style.display = ""
+            if (elem3.style.display == "none") elem3.style.display = ""
             else elem3.style.display = "none"
 
-            
+            // is Resizable
+            if ($(elem).hasClass("allLogs")) {
+                $(elem).resizable({
+                    handles: "n, w, nw",
+                    maxHeight: 700,
+                    maxWidth: 1200,
+                    minWidth: 300,
+                    minHeight: 48,
+                });
+            }
+            else {
+                $(elem).resizable({
+                    handles: "w",
+                    maxHeight: 700,
+                    maxWidth: 1200,
+                    minWidth: 300,
+                    minHeight: 48,
+                });
+
+                $(elem).css("top", "auto");
+                $(elem).css("rigth", "1%");
+                $(elem).css("min-width", "300px");
+                $(elem).css("max-heigth", "48px");
+
+            }
         }
 
     </script>
-    
+
 </body>
 
 </html>
