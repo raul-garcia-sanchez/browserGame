@@ -1,0 +1,1 @@
+web : gunciorn 'WizardBrowserGame.WizardBrowserGame.wsgi

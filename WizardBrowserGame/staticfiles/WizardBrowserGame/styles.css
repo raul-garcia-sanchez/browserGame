@@ -1,0 +1,921 @@
+/*COLOR VARIABLES*/
+
+:root {
+    --purple: #800f85;
+    --grey: #595959;
+    --garnet: #6B0F1A;
+    --strongGarnet: #31081F;
+    --lightGrey: #DCE0D9;
+}
+
+/* BACKGROUND CLASES*/
+
+.backgroundPurple {
+    background-color: var(--purple);
+}
+
+.backgroundGrey {
+    background-color: var(--grey);
+}
+
+.backgroundGarnet {
+    background-color: var(--garnet);
+    overflow-x: hidden;
+}
+
+.backgroundGarnet2 {
+    background-color: var(--garnet);
+    overflow-y: hidden;
+}
+.backgroundStrongGarnet {
+    background-color: var(--strongGarnet) !important;
+}
+
+.backgroundLightGrey {
+    background-color: var(--lightGrey);
+}
+
+/* COLOR VARIABLES*/
+
+.colorPurple {
+    color: var(--purple);
+}
+
+.colorGrey {
+    color: var(--grey);
+}
+
+.colorGarnet {
+    color: var(--garnet);
+}
+
+.colorStrongGarnet {
+    color: var(--strongGarnet);
+}
+
+.colorLightGrey {
+    color: var(--lightGrey);
+}
+
+
+.active{
+    background-color: #DCE0D9;
+}
+
+.imageContainer{
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: scale(0.75);
+
+}
+
+/* CHANGE PASSWORD */
+
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+}
+
+.active {
+    background-color: #DCE0D9;
+}
+
+/* SIDEBAR */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.5s;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+
+}
+
+.activeLink{
+    font-weight: bold;
+    color: white !important;
+}
+
+
+@media screen and (max-height:450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+.formAction{
+    min-width: 50%;
+}
+
+.attackSelect{
+    background-color: rgb(252 165 165 / var(--tw-bg-opacity) ) !important;
+    color: #6B0F1A !important;
+    font-weight: bold;
+}
+
+.defendSelect{
+    background-color: rgb(220 252 231 / var(--tw-bg-opacity))!important;
+    color: green !important;
+    font-weight: bold;
+}
+
+.neutralSelect{
+    background-color: rgb(219 234 254 / var(--tw-bg-opacity)) !important;
+    color: blue !important;
+    font-weight: bold;
+}
+
+/* ALERTS */
+#mensajes{
+    position: fixed;
+    top: 55px;
+    right: 2px;
+    z-index: 1;
+}
+
+#mensajes div{
+    border-left-width: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    animation: cascade 1.2s ease-in-out forwards;
+}
+#mensajes div.error{
+    background-color: #FEE2E2;
+    border-color: rgb(239 68 68);
+    color: rgb(185 28 28);
+}
+#mensajes div.info{
+    background-color: rgb(219 234 254);
+    border-color: rgb(29 78 216);
+    color: rgb(59 130 246);
+}
+#mensajes div.success{
+    background-color: rgb(220 252 231);
+    border-color: rgb(21 128 61);
+    color: rgb(34 197 94);
+}
+
+#mensajes div ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#mensajes div ul li{
+    list-style: none;
+}
+
+.closebtn {
+    margin-left: 10px;
+    color: black;
+    font-size: 20px;
+    transition: 0.3s;
+}
+.closebtn:hover {
+    cursor: pointer;
+}
+
+@keyframes cascade {
+    0% {
+      opacity: 0;
+      transform: translateY(-200%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+
+/* LANDING */
+
+ /* Aplica la animación */
+ .wizardShowLeft {
+    bottom: 5%;
+    position: absolute;
+    width: 300px;
+    animation: move-left-right 6s ease-in-out infinite;
+  }
+
+  @keyframes move-left-right {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(700%);
+    }
+  }
+  
+ /* ANIMATIONS OF ACTIONS */
+
+
+.animationContainer {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* GLACIUS ANIMATION */
+
+#glacius #glaciusImg {
+    position: absolute;
+    top: 60vh;
+    left: 0vw;
+    animation: glacius 1s linear forwards;
+    z-index: 1;
+
+}
+
+#glacius #wizard_stand {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    animation: standMan 1s linear forwards;
+}
+
+#glacius #wizard_stand_freeze {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    animation: appearfreezed 2s linear forwards;
+}
+
+#glacius #ice_cube{
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    opacity: 0.6;
+    animation: iceAnimation 2s linear forwards;
+}
+
+@keyframes iceAnimation {
+    0% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 1;
+    }
+
+    51% {
+        opacity: 0;
+    }
+    60%{
+        opacity: 1;
+    }
+    70%{
+        opacity: 0;
+    }
+    80%{
+        opacity: 1;
+    }
+    90%{
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes appearfreezed {
+    0% {
+        opacity: 0;
+    }
+    50%{
+        opacity: 0;
+    }
+    51%{
+        opacity: 1;
+    }
+}
+
+@keyframes glacius {
+    0% {
+        transform: translateX(-50vw);
+    }
+    40% {
+        transform: translateX(20vw);
+        opacity: 1;
+    }
+    41%{
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+
+    60%{
+        opacity: 0;
+    }
+    70%{
+        opacity: 1;
+    }
+    80%{
+        opacity: 0;
+    }
+    90%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(20vw);
+    }
+}
+
+/* CONFRINGO ANIMATION */
+#fireballImg {
+    z-index: 1;
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    animation: fireball 1s linear forwards;
+}
+
+#burntPlayer {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    animation: burntMan 2s linear forwards;
+}
+#explosion {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 38vw;
+    animation: explosion 2s linear forwards;
+}
+#confringo #wizard_stand{
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+    animation: standMan 1s linear forwards;
+}
+
+
+@keyframes standMan {
+    0% {
+        opacity: 1;
+    }
+    99% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fireball {
+    0% {
+        transform: translateX(-50vw) translateY(-50vh) rotate(45deg);
+    }
+    99%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(40vw) translateY(50vh) rotate(45deg);
+    }
+}
+
+@keyframes burntMan {
+    0% {
+        opacity: 0;
+    }
+    95% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes explosion {
+    0% {
+        opacity: 0;
+    }
+    45% {
+        opacity: 0;
+    }
+    99% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* CRUCIO ANIMATION */
+
+#crucio #wizard_stand {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+}
+
+#crucio #crucioImg {
+    position: absolute;
+    top: 60vh;
+    left: 0vw;
+    animation: crucio 2s linear forwards;
+    z-index: 10;
+}
+
+#crucio #heart_death{
+    position: absolute;
+    top: 30vh;
+    left: 45vw;
+    animation: heart_death 2s linear forwards;
+}
+
+@keyframes crucio {
+    0% {
+        transform: translateX(-50vw)  rotate(180deg);
+    }
+
+    20% {
+        transform: translateX(30vw) rotate(180deg);
+        opacity: 1;
+    }
+
+    41% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 0;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(30vw) rotate(180deg);
+    }
+}
+@keyframes heart_death {
+    0%{
+        opacity: 0;
+    }
+    14%{
+        opacity: 0;
+    }
+    15%{
+        opacity: 1;
+    }
+    99%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+/* AVADA KEDAVRA ANIMATION */
+#avadaKedabra #wizard_stand {
+    transform: scale(0.5);
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+}
+
+#avadaKedabra #avadaKedabraImg {
+    position: absolute;
+    opacity: 0;
+    top: 45vh;
+    left: 40vw;
+    animation: avada 1.35s linear forwards;
+
+}
+
+#avadaKedabra #skull {
+    position: absolute;
+    top: 30vh;
+    left: 45vw;
+    opacity: 0;
+    animation: skull 3s linear forwards;
+}
+
+@keyframes avada {
+    0% {
+        opacity: 1;
+        transform: translateX(-50vw);
+    }
+
+    99% {
+        transform: translateX(0vw);
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+@keyframes skull {
+    50% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    99% {
+        transform: scale(3);
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+/* PROTEGO ANIMATION */
+
+#protego #wizard_spell {
+    transform: scale(0.5);
+    opacity: 1;
+    position: absolute;
+    top: 45vh;
+    left: 36vw;
+    animation: spellWizardAnimation 3.5s linear forwards;
+}
+
+#protego #protegoImg {
+    opacity: 0;
+    position: absolute;
+    top: 45vh;
+    left: 35vw;
+    animation: protego 3.5s linear forwards;
+}
+
+@keyframes spellWizardAnimation {
+    0% {
+        opacity: 1;
+    }
+    99% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes protego {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+    }
+    51% {
+        opacity: 1;
+    }
+
+    99% {
+        opacity: 1;
+    }            
+    100% {
+        opacity: 0;
+    }
+}
+
+/* PATRONUS ANIMATION */
+
+#patronus #wizard_spell {
+    transform: scale(0.5);
+    opacity: 1;
+    position: absolute;
+    top: 45vh;
+    left: 35vw;
+    z-index: 1;
+}
+
+#patronus #greenBall {
+    transform: scale(0.1);
+    opacity: 0;
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    animation: lifeBall 3.5s linear forwards;
+
+}
+
+#patronus #patronusImg {
+    opacity: 1;
+    position: absolute;
+    top: 35vh;
+    left: 40vw;
+    animation: patronus 2.5s linear forwards;
+}
+
+@keyframes patronus {
+    0% {
+        opacity: 0;
+    }
+    45% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes lifeBall {
+    0% {
+        opacity: 0;
+    }
+    45% {
+        opacity: 0;
+        transform: translatex(0) translatey(0) scale(0.1);
+    }
+    50% {
+        transform: translatex(-5vw) translatey(-5vh) scale(0.1);
+    }
+    60% {
+        transform: translatex(-10vw) translatey(-10vh) scale(0.1);
+    }
+    70% {
+        transform: translatex(-5vw) translatey(-15vh) scale(0.1);
+    }
+    85% {
+        transform: translatex(0vw) translatey(-10vh) scale(0.1);
+        opacity: 1;
+    }
+    99%{
+        transform: translatex(-8vw) translatey(0vh) scale(0.1);
+        opacity: 1;
+    }
+    100% {
+        transform: translatex(-8vw) translatey(0vh) scale(0.1);
+        opacity: 0;
+    }
+}
+/* AGUAMENTI ANIMATION */
+
+#aguamenti #wizard_stand {
+    transform: scale(0.5);
+    opacity: 1;
+    position: absolute;
+    top: 45vh;
+    left: 35vw;
+    z-index: 1;
+}
+
+#aguamenti #aguamentiImg {
+    opacity: 1;
+    position: absolute;
+    top: 35vh;
+    left: 40vw;
+}
+
+#aguamenti #exp {
+    transform: scale(0.75);
+    opacity: 1;
+    position: absolute;
+    top: 35vh;
+    left: 20vw;
+    animation: exp 3.5s linear forwards;
+
+}
+
+@keyframes exp {
+    0% {
+        opacity: 0;
+    }
+
+    65% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* KILL ANIMATION */
+
+#death #wizard_death {
+    transform: scale(0.5);
+    opacity: 1;
+    position: absolute;
+    top: 45vh;
+    left: 35vw;
+    z-index: 1;
+}
+
+#death #soul {
+    transform: scale(0.5) rotate(90deg);
+    opacity: 1;
+    position: absolute;
+    top: 65vh;
+    left: 38vw;
+    z-index: 1;
+    animation: soul 3.5s linear forwards;
+}
+
+@keyframes soul {
+    0% {
+        opacity: 0;
+    }
+
+    60% {
+        opacity: 0;
+    }
+    61% {
+        transform: translateY(0vh) rotate(90deg) scale(0.5);
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50vh) rotate(90deg) scale(0.5);
+    }
+}
+
+/* LEVEL UP ANIMATION */
+
+#levelup #wizard_gesture {
+    transform: scale(0.5);
+    opacity: 1;
+    position: absolute;
+    top: 45vh;
+    left: 35vw;
+    z-index: 1;
+}
+
+#levelup #levelUpImg {
+    transform: scale(0.65);
+    opacity: 1;
+    position: absolute;
+    top: -20vh;
+    left: 20vw;
+    z-index: 1;
+    animation: levelUp 3.5s linear forwards;
+}
+
+@keyframes levelUp {
+    0% {
+        transform: scale(0);
+    }
+
+    61% {
+        transform: scale(0);
+    }
+
+    80% {
+        transform: scale(0.65);
+    }
+}
+
+/* FIELD TYPE OF ACTIONS */
+
+.type{
+    border-left-width: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.typeAttack {
+    background-color: #FEE2E2;
+    border-color: #FEE2E2;
+    color: rgb(185 28 28);
+}
+
+.typeDeffense {
+    background-color: rgb(220 252 231);
+    border-color: rgb(220 252 231);
+    color: rgb(34 197 94);
+}
+
+.typeNeutral {
+    background-color: rgb(219 234 254);
+    border-color: rgb(219 234 254);
+    color: rgb(59 130 246);
+}
+
+/* ICONS TABLE ACTIONS */
+
+.iconMana{
+    color: rgb(59 130 246);
+}
+
+.iconDamage{
+    color: rgb(185 28 28);
+}
+
+/* LOGS */
+
+/* When its collapsed */
+.logs:not(.allLogs){
+    position: fixed;
+    bottom: 0;
+    right: 1%;
+    width: 300px;
+    
+    max-height: 48px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-top: 10px;
+    z-index: 10;
+    background-color: black;
+}
+
+/* When its expanded */
+.logs.allLogs{
+    position: fixed;
+    bottom: 0;
+    right: 1%;
+    width: 300px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-top: 10px;
+    z-index: 10;
+    background-color: black;
+    overflow-y: scroll;
+    max-height: 700px;
+}
+
+.headerLogs{
+    background-color: #d7d4d4;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    cursor: pointer;
+    max-height: 48px;
+    min-height: 48px;
+}
+
+.firstViewLog{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.defaultUl{
+    padding: 10px;
+    margin: 0px;
+    background-color: black;
+    border-bottom: 2px white dashed;
+}
+
+.defaultUl:last-child{
+    padding: 10px;
+    margin: 0px;
+    background-color: black;
+    border-bottom: none;
+}
+
+
+.defaultLi{
+    background-color: black;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 16px;
+    color: white;
+}
