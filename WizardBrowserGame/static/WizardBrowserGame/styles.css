@@ -851,30 +851,42 @@
 }
 
 /* LOGS */
-.logs{
+
+/* When its collapsed */
+.logs:not(.allLogs){
     position: fixed;
     bottom: 0;
-    right: 1%;
+    left: 1%;
     width: 300px;
-    height: 48px;
+    max-height: 48px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-top: 10px;
     z-index: 10;
+    background-color: black;
+    resize: none;
 }
 
-.allLogs{
+/* When its expanded */
+.logs.allLogs{
     position: fixed;
     bottom: 0;
-    right: 1%;
+    left: 1%;
+
     width: 300px;
+    min-width: 300px;
     height: auto;
-    max-height: 45%;
+    min-height: 48px;
+    max-height: 100vh;
+
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-top: 10px;
-    overflow-y: auto;
     z-index: 10;
+    background-color: black;
+
+    resize: both;
+    overflow: auto;
 }
 
 .headerLogs{
@@ -882,6 +894,8 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     cursor: pointer;
+    max-height: 48px;
+    min-height: 48px;
 }
 
 .firstViewLog{
