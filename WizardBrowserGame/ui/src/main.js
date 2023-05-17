@@ -236,9 +236,6 @@ var app2 = createApp({
                     containerAnimation.innerHTML = "";
                 }
             }
-
-
-
             this.resetParamters();
         },
         getStatistics: async function () {
